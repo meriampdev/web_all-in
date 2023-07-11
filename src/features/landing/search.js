@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { Search2Icon } from '@chakra-ui/icons'
 import { WP_ADMIN_ID } from '@/constants'
+import { isReservedKeyword } from '@/utils'
 
 export const Search = () => {
   const [list, setList] = useState([])
@@ -22,9 +23,9 @@ export const Search = () => {
 
   useEffect(() => {
     axios
-      .get(`https://public-api.wordpress.com/rest/v1.1/sites/${WP_ADMIN_ID}/categories`)
+      .get(`https://public-api.wordpress.com/rest/v1.1/sites/${WP_ADMIN_ID}/tags`)
       .then((response) => {
-        setList(response?.data?.categories)
+        setList(response?.data?.tags)
       }).catch((err) => {
         console.err('err', err)
       })
@@ -87,7 +88,7 @@ export const Search = () => {
           <DrawerCloseButton margin='15px' fontSize='30px' />
           <DrawerBody
             py={{base: '', md: '73px'}}
-            px={{base: '', md: '168px'}}
+            px={{base: '', md: '150px'}}
           >
             <Center flexDirection='column'>
               <Center
@@ -107,14 +108,16 @@ export const Search = () => {
                 gridGap={{base: '', md: '17px'}}
               >
                 {list?.map((category) => {
-                  if(!category?.description) return null
+                  if(!category?.description || isReservedKeyword(category?.slug)) return null
                   return (
                     <Center
+                      key={`cat-${category?.id}`}
                       borderRadius='full'
                       border='1px solid white'
                       lineHeight='normal'
+                      px={4}
                       fontSize={{base: '', md: '18px'}}
-                      width={{base: '', md: '129px'}}
+                      minWidth={{base: '', md: '129px'}}
                       height={{base: '', md: '38px'}}
                     >
                       #{category?.description}

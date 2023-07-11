@@ -1,3 +1,4 @@
+import { isReservedKeyword } from '@/utils'
 import { Box, Center, Flex, Image, Link, VStack } from '@chakra-ui/react'
 
 export const Article = ({ article }) => {
@@ -35,16 +36,17 @@ export const Article = ({ article }) => {
           }}
           css={{
             'display': '-webkit-box',
-            '-webkit-line-clamp': '3',
-            '-webkit-box-orient': 'vertical',
+            'WebkitLineClamp': '3',
+            'WebkitBoxOrient': 'vertical',
             overflow: 'hidden'
           }}
         />
         <Flex flexWrap='wrap' gridGap='5px'>
         {Object.keys(article?.tags).map((tag) => {
-          if(!article?.tags[tag]?.description) return null
+          if(!article?.tags[tag]?.description || isReservedKeyword(tag)) return null
           return (
             <Center
+              key={`${article?.ID}-${tag}`}
               height={{base: '', md: '30px'}}
               px={{base: '', md: '18px'}}
               fontSize={{base: '', md: '14px'}}
@@ -60,7 +62,8 @@ export const Article = ({ article }) => {
         <Box 
           position='absolute'
           bottom='-30px'
-          right='0'
+          right='20px'
+          zIndex='10'
           boxSize={{base: '', md: '30px'}}
           css={{
             '.path': {

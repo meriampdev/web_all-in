@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import useEmblaCarousel from 'embla-carousel-react'
 import { Box, Image } from '@chakra-ui/react'
-import { Object } from 'globalthis/implementation'
 import { WP_ADMIN_ID } from '@/constants'
 
 export const TopTen = () => {
@@ -24,11 +23,13 @@ export const TopTen = () => {
           Object.keys(a?.tags).map((tag) => {
             if(tag.includes('t10-order')) {
               ao = tag.replace(`t10-order-`, '')
+              a['order'] = ao
             }
           })
           Object.keys(b?.tags).map((tag) => {
             if(tag.includes('t10-order')) {
               bo = tag.replace(`t10-order-`, '')
+              b['order'] = bo
             }
           })
           return ao - bo
@@ -77,10 +78,9 @@ export const TopTen = () => {
                     left='3px'
                     fontSize={{base: '', md: '50px'}}
                     lineHeight='normal'
-                    dangerouslySetInnerHTML={{
-                      __html: item?.excerpt
-                    }}
-                  />
+                  >
+                    {item?.order}
+                  </Box>
                   <Image 
                     src={item?.featured_image}
                     borderRadius='10px'

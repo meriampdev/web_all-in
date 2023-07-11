@@ -5,7 +5,7 @@ export const Container = ({ children, ...rest }) => {
     <Box 
       margin='0 auto'
       width='100%' 
-      maxWidth={{ base: '100vw', xl: '1280px' }} 
+      // maxWidth={{ base: '100vw', xl: '1280px' }} 
       {...rest}
     >
       {children}

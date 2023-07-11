@@ -34,11 +34,11 @@ export const AllStories = () => {
       </Box>
       <Flex 
         flexWrap='wrap'
-        gridGap={{base: '', md: '70px'}}
+        gridGap={{base: '', md: '68px'}}
       >
         {list.map((article) => {
           return (
-            <Article article={article} />
+            <Article key={`story-${article?.ID}`} article={article} />
           )
         })}
       </Flex>

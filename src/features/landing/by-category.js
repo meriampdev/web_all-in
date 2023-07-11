@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
-import { Article } from './article'
+import { Article } from '@/features/landing/article'
 import { WP_ADMIN_ID } from '@/constants'
 
 
@@ -16,7 +16,7 @@ export const ByCategory = ({ slug, ...rest }) => {
       .then((response) => {
         setCategory(response?.data)
       }).catch((err) => {
-        console.err('err', err)
+        console.error('err', err)
       })
 
     axios
@@ -24,7 +24,7 @@ export const ByCategory = ({ slug, ...rest }) => {
       .then((response) => {
         setList(response?.data?.posts)
       }).catch((err) => {
-        console.err('err', err)
+        console.error('err', err)
       })
   }, [])
 
@@ -44,11 +44,11 @@ export const ByCategory = ({ slug, ...rest }) => {
       </Box>
       <Flex 
         flexWrap='wrap'
-        gridGap={{base: '', md: '70px'}}
+        gridGap={{base: '', md: '68px'}}
       >
         {list.map((article) => {
           return (
-            <Article article={article} />
+            <Article key={article?.ID} article={article} />
           )
         })}
       </Flex>
