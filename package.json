@@ -9,10 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.19",
+    "@chakra-ui/next-js": "^2.1.4",
+    "@chakra-ui/react": "^2.7.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "axios": "^1.4.0",
+    "embla-carousel-react": "^8.0.0-rc07",
+    "embla-carousel-wheel-gestures": "^8.0.0-rc04",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
+    "framer-motion": "^10.12.18",
     "next": "13.4.9",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-slick": "^0.29.0",
+    "slick-carousel": "^1.8.1"
   }
 }
