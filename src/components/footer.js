@@ -1,3 +1,4 @@
+import { Container } from '@/components/container'
 import { Box, Button, Center, Flex, HStack, Link, Image, Text, Icon } from '@chakra-ui/react'
 import Logo from '@/assets/images/logo.png'
 import { TwitterIcon } from '@/components/icons/TwitterIcon'
@@ -6,7 +7,7 @@ import { InstagramIcon } from '@/components/icons/InstagramIcon'
 
 export const Footer = () => {
   return (
-    <Box
+    <Container
       paddingTop={{base: '', md: '153px'}}
       paddingLeft={{base: '', md: '132px'}}
       paddingRight={{base: '', md: '128px'}}
@@ -110,6 +111,6 @@ export const Footer = () => {
         © ALL-IN CO.,LTD. 2023
         </Text>
       </Center>
-    </Box>
+    </Container>
   )
 }

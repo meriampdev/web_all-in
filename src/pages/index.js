@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { Container } from '@/components/container'
-import { Box, Center, Text } from '@chakra-ui/react'
+import { Box, Center } from '@chakra-ui/react'
 import { MainMv } from '@/features/landing/main-mv'
 import { Header } from '@/components/header'
 import { TopTen } from '@/features/landing/top-ten'
@@ -20,7 +20,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container>
+      <Box margin='0 auto' width='100%' >
         <Box 
           position='relative' 
           width='100%' 
@@ -56,40 +56,40 @@ export default function Home() {
         </Box>
         <Box position='relative' height='100%'>
           <Search />
-          <Box 
+          <Container 
             paddingLeft={{base: '', md: '132px'}}
             paddingRight={{base: '', md: '128px'}}
-            borderRight='7px solid #707070'
+            // borderRight='7px solid #707070'
           >
             
             <AllStories />
             <ByCategory slug='emotion' marginTop={{base: '', md: '90px'}} />
-          </Box>
+          </Container>
 
           <Featured />
 
-          <Box 
+          <Container 
             paddingLeft={{base: '', md: '132px'}}
             paddingRight={{base: '', md: '128px'}}
-            borderRight='7px solid #707070'
+            // borderRight='7px solid #707070'
           >
             <ByCategory slug='area' marginTop={{base: '', md: '90px'}} />
             <ByCategory slug='job-type' marginTop={{base: '', md: '90px'}} />
-          </Box>
+          </Container>
 
           <Selection />
 
-          <Box 
+          <Container 
             paddingLeft={{base: '', md: '132px'}}
             paddingRight={{base: '', md: '128px'}}
-            borderRight='7px solid #707070'
+            // borderRight='7px solid #707070'
           >
             <ByCategory slug='emotion' marginTop={{base: '', md: '90px'}} />
             <ByCategory slug='emotion' marginTop={{base: '', md: '90px'}} />
-          </Box>
+          </Container>
         </Box>
         <Footer />
-      </Container>
+      </Box>
     </>
   )
 }

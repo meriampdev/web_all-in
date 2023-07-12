@@ -4,6 +4,7 @@ import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Article } from './article'
 import { WP_ADMIN_ID } from '@/constants'
+import { Container } from '@/components/container'
 
 export const AllStories = () => {
   const [list, setList] = useState([])
