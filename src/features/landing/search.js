@@ -38,6 +38,8 @@ export const Search = () => {
         cursor='pointer'
         position='sticky'
         top={{base: '', md: '30px'}}
+        marginTop={{base: '', md: '119px'}}
+        marginRight={{base: '', md: '128px'}}
         marginLeft='auto'
         zIndex='1000'
         borderRadius='full'
