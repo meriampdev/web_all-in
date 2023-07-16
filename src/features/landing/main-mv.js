@@ -6,6 +6,7 @@ import Slider from "react-slick";
 import { Box, Button, Center } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { CenterPulse } from '@/features/landing/center-pulse'
+import { isMobile } from '@/utils/screen';
 
 export const MainMv = () => {
   const [list, setList] = useState([])
@@ -18,7 +19,7 @@ export const MainMv = () => {
     className: "center",
     centerMode: true,
     centerPadding: "60px",
-    slidesToShow: 3,
+    slidesToShow: isMobile() ? 1 : 3,
     arrows: true,
     nextArrow: <ChevronRightIcon color='white' width='40px' height='auto' />,
     prevArrow: <ChevronLeftIcon color='white' width='40px' height='auto' />,
@@ -44,7 +45,7 @@ export const MainMv = () => {
       backgroundImage={`url("${list[active]?.featured_image}")`}
       backgroundSize='cover'
       backgroundRepeat='no-repeat'
-      height={{base: '', xl: '690px'}}
+      height={{base: '700px', xl: '690px'}}
       width='100%'
       transition='background 0.4s linear'
     >
@@ -52,7 +53,7 @@ export const MainMv = () => {
         width='100%' 
         position='absolute'
         zIndex='7'
-        top='119px'
+        top={{ base: '162px', md: '119px'}}
         fontSize={{base: '', md: '25px'}}
       >
         HOT TAG
@@ -95,23 +96,23 @@ export const MainMv = () => {
                 zIndex='5'
                 position="relative"
                 width='100%' 
-                height={{base: '', xl: '690px'}}
+                height={{base: '700px', xl: '690px'}}
               >
                 <Center 
                   position='absolute'
                   flexDirection='column'
-                  top='17px'
+                  top={{ base: '209px', md: '17px'}}
                   left='0'
                   zIndex='4'
                   width='100%'
-                  height={{base: '', lg: '567px'}}
+                  height={{base: '260px', lg: '567px'}}
                 >
                   <Center
                     className='tag'
                     borderRadius='full'
-                    width={{base: '', lg: '285px'}}
-                    height={{base: '', lg: '285px'}}
-                    fontSize={{base: '', md: '17px'}}
+                    width={{base: '260px', lg: '285px'}}
+                    height={{base: '260px', lg: '285px'}}
+                    fontSize={{base: '20px', md: '17px'}}
                   >
                     # {item?.title}
                   </Center>
@@ -134,16 +135,17 @@ export const MainMv = () => {
       />
       <Center 
         width='100%' 
-        height={{base: '', md: '48px'}}
+        height={{base: '42px', md: '48px'}}
         position='absolute'
         zIndex='7'
         bottom='175px'
       >
         <Button
           borderRadius='full'
-          width={{base: '', md: '158px'}}
-          height={{base: '', md: '48px'}}
-          fontSize={{base: '', md: '20px'}}
+          lineHeight='normal'
+          width={{base: '134px', md: '158px'}}
+          height={{base: '42px', md: '48px'}}
+          fontSize={{base: '18px', md: '20px'}}
         >
           WATCH
         </Button>

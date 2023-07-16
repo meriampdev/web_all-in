@@ -8,20 +8,25 @@ import { InstagramIcon } from '@/components/icons/InstagramIcon'
 export const Footer = () => {
   return (
     <Container
-      paddingTop={{base: '', md: '153px'}}
+      paddingTop={{base: '115px', md: '153px'}}
       paddingLeft={{base: '', md: '132px'}}
       paddingRight={{base: '', md: '128px'}}
     >
-      <Flex justifyContent='space-between'>
+      <Flex 
+        width='100%' 
+        justifyContent='space-between' 
+        flexDirection={{ base: 'column', md: 'row'}}
+      >
         <Box
           display='flex'
-          flexDirection='row'
+          flexDirection={{ base: 'column', md: 'row'}}
           alignItems='center'
-          gridGap={{base: '', md: '18px'}}
+          gridGap={{base: '17px', md: '18px'}}
+          marginBottom={{base: '17px', md: 'unset'}}
         >
           <Box
-            width={{base: '', md: '34px'}}
-            height={{base: '', md: '64px'}}
+            width={{base: '46px', md: '34px'}}
+            height={{base: 'auto', md: '64px'}}
           >
             <Image 
               src={Logo?.src}
@@ -30,32 +35,32 @@ export const Footer = () => {
               width='100%'
             />
           </Box>
-          <Box>
+          <Box textAlign={{base: 'center', md: 'unset'}}>
             <Box
-              fontSize={{base: '', md: '16px'}}
-              lineHeight={{base: '', md: '27px'}}
+              fontSize={{base: '15px', md: '16px'}}
+              lineHeight={{base: '26px', md: '27px'}}
             >
               わたしたちは知らない仕事のほうが多い
             </Box>
             <Box
-              fontSize={{base: '', md: '10px'}}
-              lineHeight={{base: '', md: '17px'}}
+              fontSize={{base: '11px', md: '10px'}}
+              lineHeight={{base: '19px', md: '17px'}}
             >
               ー感情に合わせて求人が見つかるメディアー
             </Box>
           </Box>
         </Box>
-        <HStack spacing={{base: '', md: '30px'}}>
+        <HStack spacing={{base: '20px', md: '30px'}} justifyContent='center'>
           <Button
-            height={{base: '', md: '43px'}}
-            width={{base: '', md: '164px'}}
+            height={{base: '43px', md: '43px'}}
+            width={{base: '144px', md: '164px'}}
             borderRadius='full'
           >
             SIGN UP
           </Button>
           <Button
-            height={{base: '', md: '43px'}}
-            width={{base: '', md: '164px'}}
+            height={{base: '43px', md: '43px'}}
+            width={{base: '144px', md: '164px'}}
             borderRadius='full'
           >
             CONTACT
@@ -64,15 +69,22 @@ export const Footer = () => {
       </Flex>
       <Box 
         width='100%'
-        height='0'
-        border='0.25px solid #969696'
+        height='1px'
+        background='#969696'
         marginTop='20px'
         marginBottom='15px'
+        display={{base: 'none', md: 'block'}}
       />
-      <Flex justifyContent='space-between'>
+      <Flex 
+        marginTop={{base: '20px', md: 'unset'}}
+        justifyContent={{ base: 'center', md: 'space-between'}} 
+        flexDirection={{base: 'column-reverse', md: 'row'}}
+      >
         <Flex 
-          gridGap={{base: '', md: '50px'}}
-          fontSize={{base: '', md: '13px'}}
+          flexWrap='wrap'
+          justifyContent={'center'}
+          gridGap={{base: '30px', md: '50px'}}
+          fontSize={{base: '13px', md: '13px'}}
         >
           <Link href='#'>
             このサイトについて
@@ -87,7 +99,15 @@ export const Footer = () => {
             プラポリ
           </Link>
         </Flex>
-        <Flex gridGap={{base: '', md: '17px'}}>
+        <Box 
+          width='100%'
+          height='1px'
+          background='#969696'
+          marginTop='20px'
+          marginBottom='15px'
+          display={{base: 'block', md: 'none'}}
+        />
+        <Flex justifyContent='center' gridGap={{base: '17px', md: '17px'}}>
           <Icon 
             as={TwitterIcon}
             color='white'
@@ -102,11 +122,11 @@ export const Footer = () => {
           />
         </Flex>
       </Flex>
-      <Center paddingTop={{base: '', md: '62px'}} paddingBottom='10px'> 
+      <Center paddingTop={{base: '37px', md: '62px'}} paddingBottom='10px'> 
         <Text
           color='#707070'
-          fontSize={{base: '', md: '10px'}}
-          lineHeight={{base: '', md: '17px'}}
+          fontSize={'10px'}
+          lineHeight={'17px'}
         >
         © ALL-IN CO.,LTD. 2023
         </Text>

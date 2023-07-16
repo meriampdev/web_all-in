@@ -9,14 +9,14 @@ export const Article = ({ article }) => {
       paddingBottom='30px'
     >
       <VStack
-        width={{base: '', md: '292px'}}
+        width={{base: '230px', md: '292px'}}
         alignItems='flex-start'
         spacing='20px'
         position='relative'
       >
         <Box
           width='100%'
-          height={{base: '', md: '209px'}}
+          height={{base: '152px', md: '209px'}}
           borderRadius='10px'
         >
           <Image 
@@ -28,8 +28,8 @@ export const Article = ({ article }) => {
           />
         </Box>
         <Box
-          fontSize={{base: '', md: '16px'}}
-          lineHeight={{base: '', md: '24px'}}
+          fontSize={{base: '13px', md: '16px'}}
+          lineHeight={{base: '24px', md: '24px'}}
           letterSpacing={{base: '', md: '1.28px'}}
           dangerouslySetInnerHTML={{
             __html: article?.excerpt
@@ -47,9 +47,9 @@ export const Article = ({ article }) => {
           return (
             <Center
               key={`${article?.ID}-${tag}`}
-              height={{base: '', md: '30px'}}
-              px={{base: '', md: '18px'}}
-              fontSize={{base: '', md: '14px'}}
+              height={{base: '28px', md: '30px'}}
+              px={'18px'}
+              fontSize={{base: '12px', md: '14px'}}
               background='#123E43'
               color='#39A5B2'
               borderRadius='full'

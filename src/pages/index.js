@@ -57,35 +57,41 @@ export default function Home() {
         <Box position='relative' height='100%'>
           <Search />
           <Container 
-            paddingLeft={{base: '', md: '132px'}}
+            paddingLeft={{base: '20px', md: '132px'}}
             paddingRight={{base: '', md: '128px'}}
-            // borderRight='7px solid #707070'
+            _after={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              content: "''",
+              width: '7px',
+              height: '100%',
+              background: '#707070'
+            }}
           >
             
             <AllStories />
-            <ByCategory slug='emotion' marginTop={{base: '', md: '90px'}} />
+            <ByCategory slug='emotion' marginTop={{base: '50px', md: '90px'}} />
           </Container>
 
           <Featured />
 
           <Container 
-            paddingLeft={{base: '', md: '132px'}}
-            paddingRight={{base: '', md: '128px'}}
-            // borderRight='7px solid #707070'
+            paddingLeft={{base: '16px', md: '132px'}}
+            paddingRight={{base: '16px', md: '128px'}}
           >
-            <ByCategory slug='area' marginTop={{base: '', md: '90px'}} />
-            <ByCategory slug='job-type' marginTop={{base: '', md: '90px'}} />
+            <ByCategory slug='area' marginTop={{base: '50px', md: '90px'}} />
+            <ByCategory slug='job-type' marginTop={{base: '50px', md: '90px'}} />
           </Container>
 
           <Selection />
 
           <Container 
-            paddingLeft={{base: '', md: '132px'}}
-            paddingRight={{base: '', md: '128px'}}
-            // borderRight='7px solid #707070'
+            paddingLeft={{base: '16px', md: '132px'}}
+            paddingRight={{base: '16px', md: '128px'}}
           >
-            <ByCategory slug='emotion' marginTop={{base: '', md: '90px'}} />
-            <ByCategory slug='emotion' marginTop={{base: '', md: '90px'}} />
+            <ByCategory slug='emotion' marginTop={{base: '50px', md: '90px'}} />
+            <ByCategory slug='emotion' marginTop={{base: '50px', md: '90px'}} />
           </Container>
         </Box>
         <Footer />

@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import useEmblaCarousel from 'embla-carousel-react'
+import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Article } from './article'
@@ -8,6 +10,14 @@ import { Container } from '@/components/container'
 
 export const AllStories = () => {
   const [list, setList] = useState([])
+  const [emblaRef, embla] = useEmblaCarousel({ 
+    loop: false,
+    dragFree: true,
+    inViewThreshold: 1,
+    slidesToScroll: 1,
+    align: 'start',
+    containScroll: 'trimSnaps',
+  }, [WheelGesturesPlugin()])
 
   useEffect(() => {
     axios
@@ -22,20 +32,40 @@ export const AllStories = () => {
   return (
     <Box>
       <Box
-        height={{base: '', md: '77px'}}
+        height={{base: '36px', md: '77px'}}
         borderLeft='2px solid white'
-        paddingLeft={{base: '', md: '30px'}}
-        fontSize={{base: '', md: '50px'}}
-        lineHeight={{base: '', md: '61px'}}
-        marginBottom={{base: '', md: '50px'}}
+        paddingLeft={{base: '16px', md: '30px'}}
+        fontSize={{base: '25px', md: '50px'}}
+        lineHeight={{base: 'normal', md: '61px'}}
+        marginBottom={{base: '25px', md: '50px'}}
         display='flex'
         alignItems='flex-end'
       >
         ALL STORY 
       </Box>
+      <Box className="embla" display={{base: 'block', md: 'none'}}>
+        <Box className="embla__viewport" ref={emblaRef}>
+          <Box className="embla__container">
+            {list.map((article) => (
+              <Box 
+                key={article?.global_ID}  
+                className="embla__slide"
+                pr={{base: '25px', md: '68px'}}
+              >
+                <Box 
+                  className='embla__slide__inner'
+                >
+                  <Article key={article?.ID} article={article} />
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      </Box>
       <Flex 
         flexWrap='wrap'
-        gridGap={{base: '', md: '68px'}}
+        display={{base: 'none', md: 'flex'}}
+        gridGap={{base: '25px', md: '68px'}}
       >
         {list.map((article) => {
           return (
@@ -43,7 +73,7 @@ export const AllStories = () => {
           )
         })}
       </Flex>
-      <Flex justifyContent='flex-end' marginTop={{base: '', md: '50px'}}>
+      <Flex display={{base: 'none', md: 'flex'}} justifyContent='flex-end' marginTop={{base: '', md: '50px'}}>
         <Button 
           height={{base: '', md: '43px'}}
           width={{base: '', md: '138px'}}

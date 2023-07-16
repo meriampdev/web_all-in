@@ -46,13 +46,13 @@ export const TopTen = () => {
       position='absolute'
       bottom='0'
       left='0'
-      paddingLeft='50px'
+      paddingLeft={{ base: '20px', md: '50px'}}
       zIndex='100'
       width='100%'
     >
       <Box
-        fontSize={{base: '', lg: '30px'}}
-        lineHeight={{base: '', md: '37px'}}
+        fontSize={{base: '25px', lg: '30px'}}
+        lineHeight={{base: '30px', md: '37px'}}
       >
         TOP 10
       </Box>
@@ -63,20 +63,20 @@ export const TopTen = () => {
               <Box 
                 key={item?.global_ID}  
                 className="embla__slide"
-                pr={{ base: ' ', md: '22px' }}
+                pr={{ base: '24px', md: '22px' }}
               >
                 <Box 
                   className='embla__slide__inner'
                   borderRadius='10px'
-                  width={{base: '', lg: '250px'}}
-                  height={{base: '', lg: '179px'}}
+                  width={{base: '195px', lg: '250px'}}
+                  height={{base: '140px', lg: '179px'}}
                   position='relative'
                 >
                   <Box
                     position='absolute'
                     bottom='0'
                     left='3px'
-                    fontSize={{base: '', md: '50px'}}
+                    fontSize={{base: '37px', md: '50px'}}
                     lineHeight='normal'
                   >
                     {item?.order}

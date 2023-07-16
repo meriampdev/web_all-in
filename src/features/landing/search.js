@@ -38,31 +38,31 @@ export const Search = () => {
         cursor='pointer'
         position='sticky'
         top={{base: '', md: '30px'}}
-        marginTop={{base: '', md: '119px'}}
+        marginTop={{base: '58px', md: '119px'}}
         marginRight={{base: '', md: '128px'}}
         marginLeft='auto'
         zIndex='1000'
         borderRadius='full'
         background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
-        width={{base: '', md: '224px'}}
-        height={{base: '', md: '55px'}}
+        width={{base: '157px', md: '224px'}}
+        height={{base: '44px', md: '55px'}}
       >
         <Center 
           alignItems='center' 
           height='100%' 
           py='11px'
-          gridGap={{base: '', md: '20px'}}
+          gridGap={{base: '15px', md: '20px'}}
         > 
           <VStack alignItems='flex-start' spacing='0' color='black'> 
             <Text
               lineHeight='normal'
-              fontSize={{base: '', md: '12px'}}
+              fontSize={{base: '10px', md: '12px'}}
             >
               今の気分で探せる
             </Text>
             <Text
               lineHeight='normal'
-              fontSize={{base: '', md: '18px'}}
+              fontSize={{base: '15px', md: '18px'}}
             >
               記事を探す
             </Text>

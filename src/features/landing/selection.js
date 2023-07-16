@@ -28,32 +28,33 @@ export const Selection = () => {
   return (
     <Box
       position='relative'
-      marginTop={{base: '', md: '97px'}}
+      marginTop={{base: '66px', md: '97px'}}
       height={{base: '', md: '620px'}}
-      paddingLeft={{base: '', md: '132px'}}
-      borderLeft='7px solid #707070'
+      paddingLeft={{base: '50px', md: '132px'}}
+      borderLeft={{ base: 'none', md: '7px solid #707070'}}
       display='flex'
       alignItems='center'
     >
       <Box
         position='absolute'
-        top={{base: '', md: '241px'}}
-        left={{base: '', md: '-250px'}}
+        top={{base: '100px', md: '241px'}}
+        left={{base: '-150px', md: '-250px'}}
         transform='matrix(0, 1, -1, 0, 0, 0)'
         color='#F4F4F4'
         opacity='0.2'
         letterSpacing='6px'
-        fontSize={{base: '', md: '100px'}}
+        fontSize={{base: '50px', md: '100px'}}
       >
       SELECTION
       </Box>
       <Center
         position='absolute'
-        top='0'
+        top={{ base: '-10px', md: '0'}}
+        left={{base: '40px', md: 'unset'}}
         zIndex='10'
-        width={{base: '', md: '200px'}}
-        height={{base: '', md: '44px'}}
-        fontSize={{base: '', md: '20px'}}
+        width={{base: '150px', md: '200px'}}
+        height={{base: '35px', md: '44px'}}
+        fontSize={{base: '15px', md: '20px'}}
         borderRadius='full'
         background='transparent linear-gradient(90deg, #644B93 0%, #314081 100%) 0% 0% no-repeat padding-box'
       >
@@ -62,7 +63,7 @@ export const Selection = () => {
       <Box
         width='100%'
         height={{base: '', md: '560px'}}
-        padding={{base: '', md: '90px 0 90px 90px'}}
+        padding={{base: '67px 0  67px 38px', md: '90px 0 90px 90px'}}
         borderRadius='10px 0 0 10px'
         opacity='0.8'
         background='transparent linear-gradient(105deg, #000000 0%, #336379 100%) 0% 0% no-repeat padding-box'
@@ -74,7 +75,7 @@ export const Selection = () => {
                 <Box 
                   key={item?.global_ID}  
                   className="embla__slide"
-                  pr={{ base: ' ', md: '40px' }}
+                  pr={{ base: '20px', md: '40px' }}
                 >
                   <Box className='embla__slide__inner'>
                     <Article article={item} />
