@@ -1,5 +1,6 @@
 import { Container } from '@/components/container'
 import { Box, Button, Center, Flex, HStack, Link, Image, Text, Icon } from '@chakra-ui/react'
+import NextLink from 'next/link'
 import Logo from '@/assets/images/logo.png'
 import { TwitterIcon } from '@/components/icons/TwitterIcon'
 import { FacebookIcon } from '@/components/icons/FacebookIcon'
@@ -86,16 +87,16 @@ export const Footer = () => {
           gridGap={{base: '30px', md: '50px'}}
           fontSize={{base: '13px', md: '13px'}}
         >
-          <Link href='#'>
+          <NextLink href='/about'>
             このサイトについて
-          </Link>
-          <Link href='#'>
+          </NextLink>
+          <Link href='https://allhero.co.jp/about/' isExternal>
             運営会社について
           </Link>
-          <Link href='#'>
+          <Link href='#' isExternal>
             求人掲載について
           </Link>
-          <Link href='#'>
+          <Link href='https://allhero.co.jp/privacypolicy/' isExternal>
             プラポリ
           </Link>
         </Flex>

@@ -1,7 +1,9 @@
-import { Box, Image } from '@chakra-ui/react'
+import { Box, Image, useBreakpointValue } from '@chakra-ui/react'
+import NextLink from 'next/link'
 import Logo from '@/assets/images/logo.png'
 
-export const Header = () => {
+export const Header = ({ withTextOnSp = true, ...rest }) => {
+  const isMobile = useBreakpointValue({ base: true, md: false })
   return (
     <Box
       position='absolute'
@@ -13,32 +15,37 @@ export const Header = () => {
       flexDirection='row'
       alignItems='center'
       gridGap={{base: '7px', md: '17px'}}
+      {...rest}
     >
-      <Box
-        width={{base: '34px', md: '54px'}}
-        height={{base: 'auto', md: '75px'}}
-      >
-        <Image 
-          src={Logo?.src}
-          objectFit='contain'
-          height='100%'
-          width='100%'
-        />
-      </Box>
-      <Box textAlign={{base: 'right', md: 'left'}}>
+      <NextLink href='/'>
         <Box
-          fontSize={{base: '16px', md: '20px'}}
-          lineHeight={{base: '27px', md: '34px'}}
+          width={{base: '34px', md: '54px'}}
+          height={{base: 'auto', md: '75px'}}
         >
-          わたしたちは知らない仕事のほうが多い
+          <Image 
+            src={Logo?.src}
+            objectFit='contain'
+            height='100%'
+            width='100%'
+          />
         </Box>
-        <Box
-          fontSize={{base: '13px', md: '14px'}}
-          lineHeight={{base: '23px', md: '24px'}}
-        >
-          ー感情に合わせて求人が見つかるメディアー
+      </NextLink>
+      {(isMobile && withTextOnSp) && (
+        <Box textAlign={{base: 'right', md: 'left'}}>
+          <Box
+            fontSize={{base: '16px', md: '20px'}}
+            lineHeight={{base: '27px', md: '34px'}}
+          >
+            わたしたちは知らない仕事のほうが多い
+          </Box>
+          <Box
+            fontSize={{base: '13px', md: '14px'}}
+            lineHeight={{base: '23px', md: '24px'}}
+          >
+            ー感情に合わせて求人が見つかるメディアー
+          </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   )
 }

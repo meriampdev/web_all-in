@@ -17,7 +17,7 @@ import { Search2Icon } from '@chakra-ui/icons'
 import { WP_ADMIN_ID } from '@/constants'
 import { isReservedKeyword } from '@/utils'
 
-export const Search = () => {
+export const Search = ({ ...rest }) => {
   const [list, setList] = useState([])
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -46,6 +46,7 @@ export const Search = () => {
         background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
         width={{base: '157px', md: '224px'}}
         height={{base: '44px', md: '55px'}}
+        {...rest}
       >
         <Center 
           alignItems='center' 
