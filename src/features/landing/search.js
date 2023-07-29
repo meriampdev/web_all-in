@@ -14,7 +14,7 @@ import {
   Flex
 } from '@chakra-ui/react'
 import { Search2Icon } from '@chakra-ui/icons'
-import { WP_ADMIN_ID } from '@/constants'
+import { WP_REST_API } from '@/constants'
 import { isReservedKeyword } from '@/utils'
 
 export const Search = ({ ...rest }) => {
@@ -23,11 +23,13 @@ export const Search = ({ ...rest }) => {
 
   useEffect(() => {
     axios
-      .get(`https://public-api.wordpress.com/rest/v1.1/sites/${WP_ADMIN_ID}/tags`)
+      .get(`${WP_REST_API}/wp-json/wp/v2/tags`)
       .then((response) => {
-        setList(response?.data?.tags)
+        if(response?.data?.length > 0) {
+          setList(response.data)
+        }
       }).catch((err) => {
-        console.err('err', err)
+        console.log('err', err)
       })
   }, [])
 
@@ -110,11 +112,11 @@ export const Search = ({ ...rest }) => {
                 justifyContent='space-between'
                 gridGap={{base: '', md: '17px'}}
               >
-                {list?.map((category) => {
-                  if(!category?.description || isReservedKeyword(category?.slug)) return null
+                {list?.map((tag, i) => {
+                  if(isReservedKeyword(tag?.slug)) return null 
                   return (
                     <Center
-                      key={`cat-${category?.id}`}
+                      key={`tag-${i}`}
                       borderRadius='full'
                       border='1px solid white'
                       lineHeight='normal'
@@ -123,7 +125,7 @@ export const Search = ({ ...rest }) => {
                       minWidth={{base: '', md: '129px'}}
                       height={{base: '', md: '38px'}}
                     >
-                      #{category?.description}
+                      #{tag?.name}
                     </Center>
                   )
                 })}

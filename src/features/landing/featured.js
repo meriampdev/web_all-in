@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import { Box, Button, Center, Flex, Image, VStack } from '@chakra-ui/react'
-import { WP_ADMIN_ID } from '@/constants'
+import { WP_REST_API } from '@/constants'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
 export const Featured = () => {
@@ -21,9 +21,9 @@ export const Featured = () => {
 
   useEffect(() => {
     axios
-      .get(`https://public-api.wordpress.com/rest/v1.1/sites/${WP_ADMIN_ID}/posts?pretty=true&tag=featured&number=5`)
+      .get(`${WP_REST_API}/wp-json/api/v1/articles-featured`)
       .then((response) => {
-        setList(response?.data?.posts)
+        setList(response?.data)
       }).catch((err) => {
         console.error('err', err)
       })
@@ -151,7 +151,7 @@ export const Featured = () => {
             <Box className="embla__container">
               {list.map((item) => (
                 <Box 
-                  key={`featured-${item?.global_ID}`}  
+                  key={`featured-${item?.ID}`}  
                   className="embla__slide"
                 >
                   <Box className='embla__slide__inner'>
@@ -191,14 +191,14 @@ export const Featured = () => {
                           borderBottomLeftRadius={{ base: '10px', md: 0}}
                         >
                           <Box fontSize={{base: '18px', md: '25px'}}>
-                            {item?.title}
+                            {item?.title || item?.post_title}
                           </Box>
                           <Box
                             maxWidth={{base: '', md: '300px'}}
                             fontSize={{base: '12px', md: '16px'}}
                             lineHeight={{base: '15px', md: '30px'}}
                             dangerouslySetInnerHTML={{
-                              __html: item?.excerpt
+                              __html: item?.excerpt || item?.post_excerpt
                             }}
                             css={{
                               'display': '-webkit-box',

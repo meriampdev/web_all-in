@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import useEmblaCarousel from 'embla-carousel-react'
 import { Box, Image } from '@chakra-ui/react'
-import { WP_ADMIN_ID } from '@/constants'
+import { WP_REST_API } from '@/constants'
 
 export const TopTen = () => {
   const [emblaRef] = useEmblaCarousel({ 
@@ -16,28 +16,28 @@ export const TopTen = () => {
 
   useEffect(() => {
     axios
-      .get(`https://public-api.wordpress.com/rest/v1.1/sites/${WP_ADMIN_ID}/posts?pretty=true&tag=top-ten`)
+      .get(`${WP_REST_API}/wp-json/api/v1/articles-by-tag/top10`)
       .then((response) => {
-        let sorted = response?.data?.posts.sort(function (a, b) {
-          let ao = 0, bo = 0
-          Object.keys(a?.tags).map((tag) => {
-            if(tag.includes('t10-order')) {
-              ao = tag.replace(`t10-order-`, '')
-              a['order'] = ao
-            }
-          })
-          Object.keys(b?.tags).map((tag) => {
-            if(tag.includes('t10-order')) {
-              bo = tag.replace(`t10-order-`, '')
-              b['order'] = bo
-            }
-          })
-          return ao - bo
-        })
-        setList(sorted)
+        // let sorted = response?.data?.posts.sort(function (a, b) {
+        //   let ao = 0, bo = 0
+        //   Object.keys(a?.tags).map((tag) => {
+        //     if(tag.includes('t10-order')) {
+        //       ao = tag.replace(`t10-order-`, '')
+        //       a['order'] = ao
+        //     }
+        //   })
+        //   Object.keys(b?.tags).map((tag) => {
+        //     if(tag.includes('t10-order')) {
+        //       bo = tag.replace(`t10-order-`, '')
+        //       b['order'] = bo
+        //     }
+        //   })
+        //   return ao - bo
+        // })
+        setList(response?.data)
       })
       .catch((err) => {
-        console.err('error', err)
+        console.log('error', err)
       })
   }, [])
 
@@ -79,7 +79,7 @@ export const TopTen = () => {
                     fontSize={{base: '37px', md: '50px'}}
                     lineHeight='normal'
                   >
-                    {item?.order}
+                    {item?.post_acfs?.order}
                   </Box>
                   <Image 
                     src={item?.featured_image}

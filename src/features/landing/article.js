@@ -2,9 +2,10 @@ import { isReservedKeyword } from '@/utils'
 import { Box, Center, Flex, Image, Link, VStack } from '@chakra-ui/react'
 
 export const Article = ({ article }) => {
+
   return (
     <Link 
-      href={article?.URL} isExternal 
+      href={`/story/${article?.post_name || article?.slug}`} 
       _hover={{textDecoration: 'none'}} 
       paddingBottom='30px'
     >
@@ -20,7 +21,7 @@ export const Article = ({ article }) => {
           borderRadius='10px'
         >
           <Image 
-            src={article?.post_thumbnail?.URL} 
+            src={article?.featured_image_src || article?.featured_image} 
             width='100%'
             height='100%'
             objectFit='cover'
@@ -32,7 +33,7 @@ export const Article = ({ article }) => {
           lineHeight={{base: '24px', md: '24px'}}
           letterSpacing={{base: '', md: '1.28px'}}
           dangerouslySetInnerHTML={{
-            __html: article?.excerpt
+            __html: article?.excerpt?.rendered || article?.post_excerpt
           }}
           css={{
             'display': '-webkit-box',
@@ -42,11 +43,11 @@ export const Article = ({ article }) => {
           }}
         />
         <Flex flexWrap='wrap' gridGap='5px'>
-        {Object.keys(article?.tags).map((tag) => {
-          if(!article?.tags[tag]?.description || isReservedKeyword(tag)) return null
+        {article?.article_tags?.map((tag) => {
+          if(isReservedKeyword(tag?.slug)) return null 
           return (
             <Center
-              key={`${article?.ID}-${tag}`}
+              key={`tag-${tag?.term_id}`}
               height={{base: '28px', md: '30px'}}
               px={'18px'}
               fontSize={{base: '12px', md: '14px'}}
@@ -54,7 +55,7 @@ export const Article = ({ article }) => {
               color='#39A5B2'
               borderRadius='full'
             >
-              #{article?.tags[tag]?.description}
+              #{tag?.name}
             </Center>
           )
         })}

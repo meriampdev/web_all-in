@@ -7,6 +7,7 @@ import { Box, Button, Center } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { CenterPulse } from '@/features/landing/center-pulse'
 import { isMobile } from '@/utils/screen';
+import { WP_REST_API } from '@/constants'
 
 export const MainMv = () => {
   const [list, setList] = useState([])
@@ -28,11 +29,11 @@ export const MainMv = () => {
 
   useEffect(() => {
     axios
-      .get('https://public-api.wordpress.com/rest/v1.1/read/tags/hot-tag/posts?pretty=true')
+      .get(`${WP_REST_API}/wp-json/api/v1/get-hot-tags`)
       .then((response) => {
-        setList(response?.data?.posts)
+        setList(response?.data)
       }).catch((err) => {
-        console.err('err', err)
+        console.log('err', err)
       })
   }, [])
 
@@ -42,7 +43,7 @@ export const MainMv = () => {
       top='0'
       left='0'
       zIndex='4'
-      backgroundImage={`url("${list[active]?.featured_image}")`}
+      backgroundImage={`url("${list?.length > 0 ? list[active]?.tagImageSrc : ''}")`}
       backgroundSize='cover'
       backgroundRepeat='no-repeat'
       height={{base: '700px', xl: '690px'}}
@@ -92,7 +93,7 @@ export const MainMv = () => {
           {list.map((item) => {
             return (
               <Box 
-                key={item?.global_ID} 
+                key={item?.slug} 
                 zIndex='5'
                 position="relative"
                 width='100%' 
@@ -114,7 +115,7 @@ export const MainMv = () => {
                     height={{base: '260px', lg: '285px'}}
                     fontSize={{base: '20px', md: '17px'}}
                   >
-                    # {item?.title}
+                    # {item?.name}
                   </Center>
                 </Center>
               </Box>

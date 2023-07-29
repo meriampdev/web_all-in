@@ -5,7 +5,7 @@ import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Article } from '@/features/landing/article'
-import { WP_ADMIN_ID } from '@/constants'
+import { WP_REST_API } from '@/constants'
 
 
 export const ByCategory = ({ slug, ...rest }) => {
@@ -22,7 +22,7 @@ export const ByCategory = ({ slug, ...rest }) => {
 
   useEffect(() => {
     axios
-      .get(`https://public-api.wordpress.com/rest/v1.1/sites/${WP_ADMIN_ID}/categories/slug:${slug}`)
+      .get(`${WP_REST_API}/wp-json/api/v1/term/category/${slug}`)
       .then((response) => {
         setCategory(response?.data)
       }).catch((err) => {
@@ -30,9 +30,9 @@ export const ByCategory = ({ slug, ...rest }) => {
       })
 
     axios
-      .get(`https://public-api.wordpress.com/rest/v1.1/sites/${WP_ADMIN_ID}/posts?pretty=true&category=${slug}&number=3`)
+      .get(`${WP_REST_API}/wp-json/api/v1/articles-by-category/${slug}`)
       .then((response) => {
-        setList(response?.data?.posts)
+        setList(response?.data)
       }).catch((err) => {
         console.error('err', err)
       })
@@ -50,14 +50,14 @@ export const ByCategory = ({ slug, ...rest }) => {
         display='flex'
         alignItems='flex-end'
       >
-        #{category?.description}
+        #{category?.name}
       </Box>
       <Box className="embla">
         <Box className="embla__viewport" ref={emblaRef}>
           <Box className="embla__container">
             {list.map((article) => (
               <Box 
-                key={article?.global_ID}  
+                key={article?.ID}  
                 className="embla__slide"
                 pr={{base: '25px', md: '68px'}}
               >

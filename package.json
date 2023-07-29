@@ -15,6 +15,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "axios": "^1.4.0",
+    "date-fns": "^2.30.0",
     "embla-carousel-react": "^8.0.0-rc07",
     "embla-carousel-wheel-gestures": "^8.0.0-rc04",
     "eslint": "8.44.0",

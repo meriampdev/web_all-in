@@ -4,10 +4,11 @@ import useEmblaCarousel from 'embla-carousel-react'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
-import { Article } from './article'
+import { Article } from '@/features/landing/article'
 import { WP_REST_API } from '@/constants'
 
-export const AllStories = () => {
+
+export const Recommended = ({ slug, ...rest }) => {
   const [list, setList] = useState([])
   const [emblaRef, embla] = useEmblaCarousel({ 
     loop: false,
@@ -20,73 +21,47 @@ export const AllStories = () => {
 
   useEffect(() => {
     axios
-      .get(`${WP_REST_API}/wp-json/wp/v2/articles?per_page=6`)
+      .get(`${WP_REST_API}/wp-json/api/v1/articles-selection`)
       .then((response) => {
-        if(response?.data?.length > 0) {
-          setList(response?.data)
-        }
+        setList(response?.data)
       }).catch((err) => {
-        console.log('err', err)
+        console.error('err', err)
       })
   }, [])
 
   return (
-    <Box>
+    <Box {...rest}>
       <Box
         height={{base: '36px', md: '77px'}}
         borderLeft='2px solid white'
         paddingLeft={{base: '16px', md: '30px'}}
-        fontSize={{base: '25px', md: '50px'}}
-        lineHeight={{base: 'normal', md: '61px'}}
+        fontSize={{base: '22px', md: '45px'}}
+        lineHeight={{base: '27px', md: '55px'}}
         marginBottom={{base: '25px', md: '50px'}}
         display='flex'
         alignItems='flex-end'
       >
-        ALL STORY 
+       おすすめ記事
       </Box>
-      <Box className="embla" display={{base: 'block', md: 'none'}}>
+      <Box className="embla">
         <Box className="embla__viewport" ref={emblaRef}>
           <Box className="embla__container">
             {list.map((article) => (
               <Box 
-                key={article?.slug}  
+                key={article?.ID}  
                 className="embla__slide"
                 pr={{base: '25px', md: '68px'}}
               >
                 <Box 
                   className='embla__slide__inner'
                 >
-                  <Article key={article?.slug} article={article} />
+                  <Article key={article?.ID} article={article} />
                 </Box>
               </Box>
             ))}
           </Box>
         </Box>
       </Box>
-      <Flex 
-        flexWrap='wrap'
-        display={{base: 'none', md: 'flex'}}
-        gridGap={{base: '25px', md: '68px'}}
-      >
-        {list.map((article) => {
-          return (
-            <Article key={article?.slug} article={article} />
-          )
-        })}
-      </Flex>
-      <Flex display={{base: 'none', md: 'flex'}} justifyContent='flex-end' marginTop={{base: '', md: '50px'}}>
-        <Button 
-          height={{base: '', md: '43px'}}
-          width={{base: '', md: '138px'}}
-          borderRadius='full'
-          bg='white'
-        >
-          <HStack width='100%' justifyContent='center'>
-            <Text>MORE</Text>
-            <ChevronRightIcon fontSize='20px' />
-          </HStack>
-        </Button>
-      </Flex>
     </Box>
   )
 }

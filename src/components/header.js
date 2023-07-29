@@ -30,7 +30,7 @@ export const Header = ({ withTextOnSp = true, ...rest }) => {
           />
         </Box>
       </NextLink>
-      {(isMobile && withTextOnSp) && (
+      {(!isMobile || (isMobile && withTextOnSp)) && (
         <Box textAlign={{base: 'right', md: 'left'}}>
           <Box
             fontSize={{base: '16px', md: '20px'}}

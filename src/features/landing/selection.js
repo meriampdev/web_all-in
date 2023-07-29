@@ -4,7 +4,7 @@ import useEmblaCarousel from 'embla-carousel-react'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import { Box, Center } from '@chakra-ui/react'
 import { Article } from '@/features/landing/article'
-import { WP_ADMIN_ID } from '@/constants'
+import { WP_REST_API } from '@/constants'
 
 export const Selection = () => {
   const [emblaRef] = useEmblaCarousel({ 
@@ -17,9 +17,9 @@ export const Selection = () => {
 
   useEffect(() => {
     axios
-      .get(`https://public-api.wordpress.com/rest/v1.1/sites/${WP_ADMIN_ID}/posts?pretty=true&tag=selected&number=10`)
+      .get(`${WP_REST_API}/wp-json/api/v1/articles-selection`)
       .then((response) => {
-        setList(response?.data?.posts)
+        setList(response?.data)
       }).catch((err) => {
         console.error('err', err)
       })
@@ -73,7 +73,7 @@ export const Selection = () => {
             <Box className="embla__container">
               {list.map((item) => (
                 <Box 
-                  key={item?.global_ID}  
+                  key={item?.ID}  
                   className="embla__slide"
                   pr={{ base: '20px', md: '40px' }}
                 >

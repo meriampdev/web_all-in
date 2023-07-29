@@ -4,11 +4,11 @@ import { Box, Center, Flex, Image, Link, Text } from '@chakra-ui/react'
 import { Header } from '@/components/header'
 import { Search } from '@/features/landing/search'
 import { Footer } from '@/components/footer'
-import AboutImage from '@/assets/images/about.png'
+import JobBoardImage from '@/assets/images/job-board.png'
 import GradientBubble from '@/assets/images/gradient-bubble1.png'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 
-export default function About() {
+export default function JobBoard() {
   return (
     <>
       <Head>
@@ -34,14 +34,14 @@ export default function About() {
             />
           </Flex>
         </Box>
-        <Flex zIndex='1' mt={{base: '', md: '77px'}} flexDirection={{base: 'column', md: 'row'}}>
+        <Flex zIndex='2' mt={{base: '129px', md: '77px'}} flexDirection={{base: 'column', md: 'row'}}>
           <Box flex={{base: '1', md: '50%'}} position='relative'>
             <Box
               width={{base: '375px', md: '558px'}}
-              height={{base: '418px', md: '623px'}}
+              height={{base: '419px', md: '623px'}}
             >
               <Image 
-                src={AboutImage?.src}
+                src={JobBoardImage?.src}
                 objectFit='contain'
                 height='100%'
                 width='100%'
@@ -51,21 +51,21 @@ export default function About() {
               position='absolute'
               right={{ base: 'unset', md: '0'}}
               top={{ base: 'unset', md: '0'}}
-              bottom={{ base: '-257px', md: 'unset'}}
+              bottom={{ base: '-420px', md: 'unset'}}
               left={{ base: '-20px', md: 'unset'}}
               fontSize={{base: '60px', md: '100px'}}
-              letterSpacing='6px'
+              letterSpacing={{base: '3px', md: '6px'}}
               color='#F4F4F4'
               opacity='0.2'
               css={{
                 'writing-mode': 'vertical-lr'
               }}
             >
-              ABOUT
+              JOB BOARD
             </Text>
           </Box>
           <Box 
-            flex={{base: '1', md: '50%'}}
+            flex={{base: '1', md: '50%'}} 
             px={{base: '25px', md: 0}}
           >
             <Text
@@ -73,7 +73,7 @@ export default function About() {
               fontSize={{base: '25px', md: '28px'}}
               lineHeight={{base: '43px', md: '44px'}}
             >
-            このサイトについて
+            求人掲載について
             </Text>
             <Box 
               mt={{ base: '20px', md: '30px'}}
