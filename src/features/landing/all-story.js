@@ -1,14 +1,12 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useAxios } from '@/hooks/useAxios'
 import useEmblaCarousel from 'embla-carousel-react'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Article } from './article'
-import { WP_REST_API } from '@/constants'
 
 export const AllStories = () => {
-  const [list, setList] = useState([])
+  const { data, loading } = useAxios('/wp-json/wp/v2/articles?per_page=6')
   const [emblaRef, embla] = useEmblaCarousel({ 
     loop: false,
     dragFree: true,
@@ -17,18 +15,6 @@ export const AllStories = () => {
     align: 'start',
     containScroll: 'trimSnaps',
   }, [WheelGesturesPlugin()])
-
-  useEffect(() => {
-    axios
-      .get(`${WP_REST_API}/wp-json/wp/v2/articles?per_page=6`)
-      .then((response) => {
-        if(response?.data?.length > 0) {
-          setList(response?.data)
-        }
-      }).catch((err) => {
-        console.log('err', err)
-      })
-  }, [])
 
   return (
     <Box>
@@ -47,16 +33,24 @@ export const AllStories = () => {
       <Box className="embla" display={{base: 'block', md: 'none'}}>
         <Box className="embla__viewport" ref={emblaRef}>
           <Box className="embla__container">
-            {list.map((article) => (
+            {[...(
+              data?.length > 0 ? 
+                data 
+              : 
+                [{ id: 1 }, { id: 2 }, { id: 3 },
+                  { id: 1 }, { id: 2 }, { id: 3 }]
+              )]?.map((article) => (
               <Box 
                 key={article?.slug}  
                 className="embla__slide"
                 pr={{base: '25px', md: '68px'}}
               >
-                <Box 
-                  className='embla__slide__inner'
-                >
-                  <Article key={article?.slug} article={article} />
+                <Box className='embla__slide__inner'>
+                  <Article 
+                    key={article?.slug} 
+                    article={article} 
+                    isLoading={loading}
+                  />
                 </Box>
               </Box>
             ))}
@@ -68,9 +62,19 @@ export const AllStories = () => {
         display={{base: 'none', md: 'flex'}}
         gridGap={{base: '25px', md: '68px'}}
       >
-        {list.map((article) => {
+        {[...(
+          data?.length > 0 ? 
+            data 
+          : 
+            [{ id: 1 }, { id: 2 }, { id: 3 },
+              { id: 1 }, { id: 2 }, { id: 3 }]
+          )]?.map((article) => {
           return (
-            <Article key={article?.slug} article={article} />
+            <Article 
+              key={article?.slug} 
+              article={article} 
+              isLoading={loading}
+            />
           )
         })}
       </Flex>

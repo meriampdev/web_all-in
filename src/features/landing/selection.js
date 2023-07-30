@@ -1,10 +1,8 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useAxios } from '@/hooks/useAxios'
 import useEmblaCarousel from 'embla-carousel-react'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import { Box, Center } from '@chakra-ui/react'
 import { Article } from '@/features/landing/article'
-import { WP_REST_API } from '@/constants'
 
 export const Selection = () => {
   const [emblaRef] = useEmblaCarousel({ 
@@ -13,17 +11,7 @@ export const Selection = () => {
     inViewThreshold: 0.5,
     containScroll: 'keepSnaps',
   }, [WheelGesturesPlugin()])
-  const [list, setList] = useState([])
-
-  useEffect(() => {
-    axios
-      .get(`${WP_REST_API}/wp-json/api/v1/articles-selection`)
-      .then((response) => {
-        setList(response?.data)
-      }).catch((err) => {
-        console.error('err', err)
-      })
-  }, [])
+  const { data, loading } = useAxios(`/wp-json/api/v1/articles-selection`)
 
   return (
     <Box
@@ -71,14 +59,14 @@ export const Selection = () => {
         <Box className="embla">
           <Box className="embla__viewport" ref={emblaRef}>
             <Box className="embla__container">
-              {list.map((item) => (
+              {[...(data?.length > 0 ? data : [{ id: 1 }, { id: 2 }, { id: 3 }])].map((item, i) => (
                 <Box 
-                  key={item?.ID}  
+                  key={`selection-${i}`}  
                   className="embla__slide"
                   pr={{ base: '20px', md: '40px' }}
                 >
                   <Box className='embla__slide__inner'>
-                    <Article article={item} />
+                    <Article article={item} isLoading={loading} />
                   </Box>
                 </Box>
               ))}

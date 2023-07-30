@@ -1,16 +1,14 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useAxios } from '@/hooks/useAxios'
 import useEmblaCarousel from 'embla-carousel-react'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
-import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, HStack, SkeletonText, Text } from '@chakra-ui/react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Article } from '@/features/landing/article'
-import { WP_REST_API } from '@/constants'
 
 
 export const ByCategory = ({ slug, ...rest }) => {
-  const [list, setList] = useState([])
-  const [category, setCategory] = useState(null)
+  const { data, loading } = useAxios(`/wp-json/api/v1/articles-by-category/${slug}`)
+  const { data: category, loading: loadingCatData } = useAxios(`/wp-json/api/v1/term/category/${slug}`)
   const [emblaRef, embla] = useEmblaCarousel({ 
     loop: false,
     dragFree: true,
@@ -20,51 +18,44 @@ export const ByCategory = ({ slug, ...rest }) => {
     containScroll: 'trimSnaps',
   }, [WheelGesturesPlugin()])
 
-  useEffect(() => {
-    axios
-      .get(`${WP_REST_API}/wp-json/api/v1/term/category/${slug}`)
-      .then((response) => {
-        setCategory(response?.data)
-      }).catch((err) => {
-        console.error('err', err)
-      })
-
-    axios
-      .get(`${WP_REST_API}/wp-json/api/v1/articles-by-category/${slug}`)
-      .then((response) => {
-        setList(response?.data)
-      }).catch((err) => {
-        console.error('err', err)
-      })
-  }, [])
-
   return (
     <Box {...rest}>
-      <Box
-        height={{base: '36px', md: '77px'}}
-        borderLeft='2px solid white'
-        paddingLeft={{base: '16px', md: '30px'}}
-        fontSize={{base: '22px', md: '45px'}}
-        lineHeight={{base: '27px', md: '55px'}}
+      <SkeletonText 
+        noOfLines={1} 
+        width={loadingCatData ? '120px' : 'fit-content'}
+        skeletonHeight={{base: '22px', md: '45px'}}
         marginBottom={{base: '25px', md: '50px'}}
-        display='flex'
-        alignItems='flex-end'
+        isLoaded={loadingCatData === false}
       >
-        #{category?.name}
-      </Box>
+        <Box
+          height={{base: '36px', md: '77px'}}
+          borderLeft='2px solid white'
+          paddingLeft={{base: '16px', md: '30px'}}
+          fontSize={{base: '22px', md: '45px'}}
+          lineHeight={{base: '27px', md: '55px'}}
+          marginBottom={{base: '25px', md: '50px'}}
+          display='flex'
+          alignItems='flex-end'
+        >
+          #{category?.name}
+        </Box>
+      </SkeletonText>
       <Box className="embla">
         <Box className="embla__viewport" ref={emblaRef}>
           <Box className="embla__container">
-            {list.map((article) => (
+            {[...(data?.length > 0 ? data : [{ id: 1 }, { id: 2 }, { id: 3 }])]?.map((article, i) => (
               <Box 
-                key={article?.ID}  
+                key={`article-${i}`}  
                 className="embla__slide"
                 pr={{base: '25px', md: '68px'}}
               >
                 <Box 
                   className='embla__slide__inner'
                 >
-                  <Article key={article?.ID} article={article} />
+                  <Article 
+                    article={article} 
+                    isLoading={loading}
+                  />
                 </Box>
               </Box>
             ))}

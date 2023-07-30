@@ -1,7 +1,7 @@
 import { isReservedKeyword } from '@/utils'
-import { Box, Center, Flex, Image, Link, VStack } from '@chakra-ui/react'
+import { Box, Center, Flex, Image, Link, Skeleton, SkeletonText, VStack } from '@chakra-ui/react'
 
-export const Article = ({ article }) => {
+export const Article = ({ article, isLoading }) => {
 
   return (
     <Link 
@@ -15,39 +15,52 @@ export const Article = ({ article }) => {
         spacing='20px'
         position='relative'
       >
-        <Box
+        <Skeleton
           width='100%'
           height={{base: '152px', md: '209px'}}
-          borderRadius='10px'
+          isLoaded={isLoading === false}
         >
-          <Image 
-            src={article?.featured_image_src || article?.featured_image} 
+          <Box
             width='100%'
-            height='100%'
-            objectFit='cover'
+            height={{base: '152px', md: '209px'}}
             borderRadius='10px'
+          >
+            <Image 
+              src={article?.featured_image_src || article?.featured_image} 
+              width='100%'
+              height='100%'
+              objectFit='cover'
+              borderRadius='10px'
+            />
+          </Box>
+        </Skeleton>
+        <SkeletonText 
+          noOfLines={3} 
+          width='100%'
+          skeletonHeight={'2'}
+          isLoaded={isLoading === false}
+        >
+          <Box
+            fontSize={{base: '13px', md: '16px'}}
+            lineHeight={{base: '24px', md: '24px'}}
+            letterSpacing={{base: '', md: '1.28px'}}
+            dangerouslySetInnerHTML={{
+              __html: article?.excerpt?.rendered || article?.post_excerpt
+            }}
+            css={{
+              'display': '-webkit-box',
+              'WebkitLineClamp': '3',
+              'WebkitBoxOrient': 'vertical',
+              overflow: 'hidden'
+            }}
           />
-        </Box>
-        <Box
-          fontSize={{base: '13px', md: '16px'}}
-          lineHeight={{base: '24px', md: '24px'}}
-          letterSpacing={{base: '', md: '1.28px'}}
-          dangerouslySetInnerHTML={{
-            __html: article?.excerpt?.rendered || article?.post_excerpt
-          }}
-          css={{
-            'display': '-webkit-box',
-            'WebkitLineClamp': '3',
-            'WebkitBoxOrient': 'vertical',
-            overflow: 'hidden'
-          }}
-        />
+        </SkeletonText>
         <Flex flexWrap='wrap' gridGap='5px'>
-        {article?.article_tags?.map((tag) => {
+        {article?.article_tags?.map((tag, i) => {
           if(isReservedKeyword(tag?.slug)) return null 
           return (
             <Center
-              key={`tag-${tag?.term_id}`}
+              key={`tag-${i}`}
               height={{base: '28px', md: '30px'}}
               px={'18px'}
               fontSize={{base: '12px', md: '14px'}}
