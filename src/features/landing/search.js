@@ -92,25 +92,25 @@ export const Search = ({ ...rest }) => {
         >
           <DrawerCloseButton margin='15px' fontSize='30px' />
           <DrawerBody
-            py={{base: '', md: '73px'}}
-            px={{base: '', md: '150px'}}
+            py={{base: '80px', md: '73px'}}
+            px={{base: '30px', md: '150px'}}
           >
             <Center flexDirection='column'>
               <Center
                 borderRadius='full'
                 background='#717171'
                 lineHeight='normal'
-                fontSize={{base: '', md: '15px'}}
-                width={{base: '', md: '143px'}}
-                height={{base: '', md: '32px'}}
+                fontSize={{base: '15px', md: '15px'}}
+                width={{base: '143px', md: '143px'}}
+                height={{base: '32px', md: '32px'}}
               >
                 気分で探す
               </Center>
               <Flex 
-                marginTop={{base: '', md: '58px'}}
+                marginTop={{base: '58px', md: '58px'}}
                 flexWrap='wrap'
                 justifyContent='space-between'
-                gridGap={{base: '', md: '17px'}}
+                gridGap={{base: '15px', md: '17px'}}
               >
                 {list?.map((tag, i) => {
                   if(isReservedKeyword(tag?.slug)) return null 
@@ -121,9 +121,9 @@ export const Search = ({ ...rest }) => {
                       border='1px solid white'
                       lineHeight='normal'
                       px={4}
-                      fontSize={{base: '', md: '18px'}}
-                      minWidth={{base: '', md: '129px'}}
-                      height={{base: '', md: '38px'}}
+                      fontSize={{base: '18px', md: '18px'}}
+                      minWidth={{base: '129px', md: '129px'}}
+                      height={{base: '38px', md: '38px'}}
                     >
                       #{tag?.name}
                     </Center>
@@ -132,7 +132,6 @@ export const Search = ({ ...rest }) => {
               </Flex>
             </Center>
           </DrawerBody>
-
         </DrawerContent>
       </Drawer>
     </>

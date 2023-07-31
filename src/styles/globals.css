@@ -70,6 +70,17 @@ a {
   height: 100%;
 }
 
+@media only screen and (max-width: 500px) {
+  .pc {
+    display: none !important;
+  }
+}
+
+@media only screen and (min-width: 500px) {
+  .sp {
+    display: none !important;
+  }
+}
 
 @keyframes mv-pulse {
   0% {

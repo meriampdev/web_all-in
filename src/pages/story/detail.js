@@ -5,7 +5,7 @@ import { isReservedKeyword } from '@/utils'
 import { format } from 'date-fns'
 import Head from 'next/head'
 import { Container } from '@/components/container'
-import { Box, Button, Center, Flex, HStack, Icon, Text } from '@chakra-ui/react'
+import { Box, Button, Center, Flex, HStack, Link, Image, Icon, Text, VStack } from '@chakra-ui/react'
 import { Header } from '@/components/header'
 import { Search } from '@/features/landing/search'
 import { Footer } from '@/components/footer'
@@ -15,10 +15,12 @@ import { LineIcon } from '@/components/icons/LineIcon'
 import { BIcon } from '@/components/icons/BIcon'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { Recommended } from '@/features/landing/recommended'
+import { FullPageLoader } from '@/components/loader';
 import { WP_REST_API } from '@/constants'
 
 export default function ArticleDetail() {
   const router = useRouter()
+  const [loading, setLoading] = useState(true)
   const [article, setArticle] = useState(null)
   const [tags, setTagList] = useState([])
 
@@ -35,19 +37,22 @@ export default function ArticleDetail() {
   }, [])
 
   useEffect(() => {
+    setLoading(true)
     axios
       .get(`${WP_REST_API}/wp-json/wp/v2/articles?slug=${router?.query?.slug}`)
       .then((response) => {
+        setLoading(false)
         if(response?.data?.length > 0) {
           setArticle(response.data[0])
         }
       }).catch((err) => {
         console.log('err', err)
+        setLoading(false)
       })
   }, [router?.query?.slug])
 
   const renderSnsIcons = () => (
-    <Flex gridGap='17px'>
+    <Flex gridGap='17px' alignSelf={{base: 'center', md: 'unset'}}>
       <Icon as={TwitterIcon} />
       <Icon as={FacebookIcon2} />
       <Icon as={LineIcon} />
@@ -63,22 +68,27 @@ export default function ArticleDetail() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {loading && <FullPageLoader />}
       <Box margin='0 auto' width='100%'>
         <Box position='relative' height='100%'>
           <Flex justifyContent='space-between'>
-            <Header />
+            <Header 
+              withTextOnSp={false} 
+              left={{ base: '14px', md: '38px'}}
+              right={'unset'}
+            />
             <Search 
-              top={{base: '', md: '0'}}
-              right={{base: '', md: '0'}}
-              marginTop={{ base: '', md: '41px' }}
-              marginRight={{base: '', md: '55px'}}
+              top={{base: '33px', md: '0'}}
+              right={{base: '23px', md: '0'}}
+              marginTop={{ base: '33px', md: '41px' }}
+              marginRight={{base: '23px', md: '55px'}}
               marginLeft='auto'
             />
           </Flex>
         </Box>
         <Container 
-          paddingLeft={{base: '20px', md: '132px'}}
-          paddingRight={{base: '', md: '128px'}}
+          paddingLeft={{base: '25px', md: '132px'}}
+          paddingRight={{base: '25px', md: '128px'}}
           _after={{
             position: 'absolute',
             top: 0,
@@ -91,24 +101,26 @@ export default function ArticleDetail() {
         >
           <Box width='100%'>
             <Box 
-              marginTop={{base: '', md: '112px'}}
-              fontSize={{base: '', md: '28px'}}
+              marginTop={{base: '139px', md: '112px'}}
+              fontSize={{base: '25px', md: '28px'}}
               dangerouslySetInnerHTML={{
                 __html: article?.excerpt?.rendered || article?.post_excerpt
               }}
             />
             <Text
               textAlign='left'
-              fontSize={{base: '', md: '15px'}}
-              my={{base: '', md: '30px'}}
+              fontSize={{base: '13px', md: '15px'}}
+              my={{base: '16px', md: '30px'}}
             >
               {(article?.post_date || article?.date) && format(new Date(article?.post_date || article?.date), 'yyyy.MM.dd')}
             </Text>
             <Flex
               width='100%'
-              alignItems='center'
+              flexDirection={{base: 'column', md: 'row'}}
+              alignItems={{ base: 'flex-start', md: 'center'}}
               justifyContent='space-between'
-              mb={{base: '', md: '80px'}}
+              gridGap={{base: '40px', md: 'unset'}}
+              mb={{base: '40px', md: '80px'}}
             >
               <Flex gridGap='10px' flexWrap='wrap'>
                 {article?.article_tags?.map((tag) => {
@@ -130,11 +142,11 @@ export default function ArticleDetail() {
               </Flex>
               {renderSnsIcons()}
             </Flex>
-            <Center mb={{base: '', md: '63px'}}>
+            <Center mb={{base: '20px', md: '63px'}}>
               <Button
-                width={{base: '', md: '274px'}}
-                height={{base: '', md: '46px'}}
-                fontSize={{base: '', md: '14px'}}
+                width={{base: '294px', md: '274px'}}
+                height={{base: '48px', md: '46px'}}
+                fontSize={{base: '16px', md: '14px'}}
                 fontWeight='normal'
                 border='1px solid white'
                 borderRadius='full'
@@ -152,18 +164,90 @@ export default function ArticleDetail() {
               />
             </Center>
           </Box>
+          {(article?.acf?.recruitment_voice_description) && (
+            <Box>
+              <Flex 
+                marginTop={{base: '64px', md: '184px'}}
+                flexDirection={{base: 'column', md: 'row'}} 
+                alignItems='center'
+                gridGap={{base: '34px', md: '46px'}}
+              >
+                <Box
+                  boxSize={{base: '178px', md: '356px'}}
+                  minWidth={{base: '178px', md: '356px'}}
+                  bg='#e2e2e2'
+                >
+                  {article?.recruitment_voice_image && (
+                    <Image 
+                      src={article?.recruitment_voice_image}
+                      width={'100%'}
+                      height='100%'
+                      objectFit='cover'
+                    />
+                  )}
+                </Box>
+                <Box textAlign={{base: 'center', md: 'unset'}}>
+                  <Text 
+                    fontSize={{base: '18px', md: '20px'}}
+                    marginBottom={{base: '27px', md: '43px'}}
+                  >
+                    採用担当からの面接ポイントひと言
+                  </Text>
+                  <Box 
+                    margin={{base: '0 auto', md: 'unset'}}
+                    marginBottom={{base: '40px', md: '39px'}}
+                    width={'70px'}
+                    height='2px'
+                    bg='white'
+                  />
+                  <Text 
+                    fontSize={{base: '18px', md: '20px'}}
+                    marginBottom={{base: '22px', md: '30px'}}
+                  >
+                    {article?.acf?.recruitment_voice_title}
+                  </Text>
+                  <Text
+                    fontSize={{base: '12px', md: '14px'}}
+                    lineHeight={{base: '24px', md: '24px'}}
+                  >
+                    {article?.acf?.recruitment_voice_description}
+                  </Text>
+                </Box>
+              </Flex>
+              <Center marginTop={{base: '78px', md: '126px'}} width='100%'>
+                <Link 
+                  href={article?.acf?.recruitment_voice_url_link?.url} 
+                  isExternal
+                  width={{base: '100%', md: 'fit-content'}}
+                >
+                  <Center
+                    cursor='pointer'
+                    bg='white'
+                    color='black'
+                    width={{base: '100%', md: '314px'}}
+                    height={{base: '48px', md: '52px'}}
+                    fontSize={{base: '16px', md: '22px'}}
+                    borderRadius='full'
+                    _hover={{ opacity: 0.8 }}
+                  >
+                    募集要項を詳しく見る
+                  </Center>
+                </Link>
+              </Center>
+            </Box>
+          )}
         </Container>
         <Box 
-          mt={{base: '', md: '136px'}}
+          mt={{base: '81px', md: '136px'}}
           width='100%'
-          height={{base: '', md: '245px'}}
+          height={{base: '215px', md: '245px'}}
           bg='black'
           backdropFilter='blur(15px)'
           position='relative'
         >
           <Box
-            fontSize={{base: '', md: '141px'}}
-            lineHeight={{base: '', md: '171px'}}
+            fontSize={{base: '50px', md: '141px'}}
+            lineHeight={{base: '60px', md: '171px'}}
             letterSpacing='8.46px'
             fontWeight='bold'
             textAlign='center'
@@ -178,27 +262,27 @@ export default function ArticleDetail() {
             left='0'
             width='100%'
             flexDirection='column'
-            height={{base: '', md: '245px'}}
+            height={{base: '215px', md: '245px'}}
           >
             <Text
-              fontSize={{base: '', md: '44px'}}
+              fontSize={{base: '30px', md: '44px'}}
               letterSpacing='2.2px'
               color='white'
               fontWeight='normal'
             >
             この求人に応募する
             </Text>
-            <Flex marginTop={{base: '', md: '43px'}} gridGap={{base: '', md: '36px'}}>
+            <Flex marginTop={{base: '31px', md: '43px'}} gridGap={{base: '12px', md: '36px'}}>
               <Button
-                width={{base: '', md: '258px'}}
-                height={{base: '', md: '46px'}}
+                width={{base: '152px', md: '258px'}}
+                height={{base: '36px', md: '46px'}}
                 borderRadius='full'
               >
               採用ページへ
               </Button>
               <Button
-                width={{base: '', md: '258px'}}
-                height={{base: '', md: '46px'}}
+                width={{base: '152px', md: '258px'}}
+                height={{base: '36px', md: '46px'}}
                 borderRadius='full'
               >
               メールで応募する
@@ -207,8 +291,8 @@ export default function ArticleDetail() {
           </Center>
         </Box>
         <Center 
-          mt={{base: '', md: '77px'}}
-          mb={{base: '', md: '113px'}}
+          mt={{base: '72px', md: '77px'}}
+          mb={{base: '60px', md: '113px'}}
         >
           {renderSnsIcons()}
         </Center>
@@ -217,7 +301,7 @@ export default function ArticleDetail() {
             <Button
               bg='transparent'
               color='white'
-              fontSize={{base: '', md: '16px'}}
+              fontSize={{base: '12px', md: '16px'}}
               fontWeight='normal'
               _hover={{
                 bg: 'transparent'
@@ -225,13 +309,13 @@ export default function ArticleDetail() {
             >
               <ChevronLeftIcon fontSize='40px' />
               <Text>
-              BEFORE　会社と出会う
+              BEFORE　<Text as='span' className='pc'>会社と出会う</Text>
               </Text>
             </Button>
             <Button
               bg='transparent'
               color='white'
-              fontSize={{base: '', md: '16px'}}
+              fontSize={{base: '12px', md: '16px'}}
               fontWeight='normal'
               _hover={{
                 bg: 'transparent'
@@ -244,29 +328,29 @@ export default function ArticleDetail() {
             <Button
               bg='transparent'
               color='white'
-              fontSize={{base: '', md: '16px'}}
+              fontSize={{base: '12px', md: '16px'}}
               fontWeight='normal'
               _hover={{
                 bg: 'transparent'
               }}
             >
               <Text>
-              AFTER　会社と出会う
+              AFTER　<Text as='span' className='pc'>会社と出会う</Text>
               </Text>
               <ChevronRightIcon fontSize='40px' />
             </Button>
           </Center>
         </Container>
         <Container 
-          marginTop={{base: '', md: '150px'}}
-          paddingLeft={{base: '16px', md: '132px'}}
-          paddingRight={{base: '16px', md: '128px'}}
+          marginTop={{base: '82px', md: '150px'}}
+          paddingLeft={{base: '25px', md: '132px'}}
+          paddingRight={{base: '25px', md: '128px'}}
         >
           <Recommended />
         </Container>
         <Box
           position='relative'
-          marginTop={{base: '', md: '152px'}}
+          marginTop={{base: '89px', md: '152px'}}
           py={'60px'}
           background='transparent linear-gradient(0deg, #000 0%, #414141 100%) 0% 0% no-repeat padding-box'
         >
@@ -278,9 +362,9 @@ export default function ArticleDetail() {
             <Center
               borderRadius='full'
               background='#717171'
-              width={{base: '', md: '170px'}}
-              height={{base: '', md: '32px'}}
-              fontSize={{base: '', md: '15px'}}
+              width={{base: '143px', md: '170px'}}
+              height={'32px'}
+              fontSize={'15px'}
               fontWeight='normal'
             >
               別の気分で探す

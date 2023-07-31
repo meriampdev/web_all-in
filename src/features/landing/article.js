@@ -5,7 +5,7 @@ export const Article = ({ article, isLoading }) => {
 
   return (
     <Link 
-      href={`/story/${article?.post_name || article?.slug}`} 
+      href={`/story/detail?slug=${article?.post_name || article?.slug}`} 
       _hover={{textDecoration: 'none'}} 
       paddingBottom='30px'
     >

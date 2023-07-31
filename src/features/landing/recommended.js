@@ -1,15 +1,12 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useAxios } from '@/hooks/useAxios'
+import { useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
-import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react'
-import { ChevronRightIcon } from '@chakra-ui/icons'
+import { Box } from '@chakra-ui/react'
 import { Article } from '@/features/landing/article'
-import { WP_REST_API } from '@/constants'
 
 
 export const Recommended = ({ slug, ...rest }) => {
-  const [list, setList] = useState([])
   const [emblaRef, embla] = useEmblaCarousel({ 
     loop: false,
     dragFree: true,
@@ -18,16 +15,7 @@ export const Recommended = ({ slug, ...rest }) => {
     align: 'start',
     containScroll: 'trimSnaps',
   }, [WheelGesturesPlugin()])
-
-  useEffect(() => {
-    axios
-      .get(`${WP_REST_API}/wp-json/api/v1/articles-selection`)
-      .then((response) => {
-        setList(response?.data)
-      }).catch((err) => {
-        console.error('err', err)
-      })
-  }, [])
+  const { data, loading } = useAxios(`/wp-json/api/v1/articles-recommended`)
 
   return (
     <Box {...rest}>
@@ -46,7 +34,7 @@ export const Recommended = ({ slug, ...rest }) => {
       <Box className="embla">
         <Box className="embla__viewport" ref={emblaRef}>
           <Box className="embla__container">
-            {list.map((article) => (
+            {data?.map((article) => (
               <Box 
                 key={article?.ID}  
                 className="embla__slide"
@@ -55,7 +43,7 @@ export const Recommended = ({ slug, ...rest }) => {
                 <Box 
                   className='embla__slide__inner'
                 >
-                  <Article key={article?.ID} article={article} />
+                  <Article isLoading={loading} article={article} />
                 </Box>
               </Box>
             ))}
