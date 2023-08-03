@@ -13,6 +13,7 @@ import {
   useDisclosure,
   Flex
 } from '@chakra-ui/react'
+import NextLink from 'next/link'
 import { Search2Icon } from '@chakra-ui/icons'
 import { WP_REST_API } from '@/constants'
 import { isReservedKeyword } from '@/utils'
@@ -115,18 +116,21 @@ export const Search = ({ ...rest }) => {
                 {list?.map((tag, i) => {
                   if(isReservedKeyword(tag?.slug)) return null 
                   return (
-                    <Center
-                      key={`tag-${i}`}
-                      borderRadius='full'
-                      border='1px solid white'
-                      lineHeight='normal'
-                      px={4}
-                      fontSize={{base: '18px', md: '18px'}}
-                      minWidth={{base: '129px', md: '129px'}}
-                      height={{base: '38px', md: '38px'}}
-                    >
-                      #{tag?.name}
-                    </Center>
+                    <NextLink href={`/story/tag?slug=${tag?.slug}`} passHref>
+                      <Center
+                        key={`tag-${i}`}
+                        cursor='pointer'
+                        borderRadius='full'
+                        border='1px solid white'
+                        lineHeight='normal'
+                        px={4}
+                        fontSize={{base: '18px', md: '18px'}}
+                        minWidth={{base: '129px', md: '129px'}}
+                        height={{base: '38px', md: '38px'}}
+                      >
+                        #{tag?.name}
+                      </Center>
+                    </NextLink>
                   )
                 })}
               </Flex>

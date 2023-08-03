@@ -59,13 +59,15 @@ export const Footer = () => {
           >
             SIGN UP
           </Button>
-          <Button
-            height={{base: '43px', md: '43px'}}
-            width={{base: '144px', md: '164px'}}
-            borderRadius='full'
-          >
-            CONTACT
-          </Button>
+          <NextLink href='/contact' passHref>
+            <Button
+              height={{base: '43px', md: '43px'}}
+              width={{base: '144px', md: '164px'}}
+              borderRadius='full'
+            >
+              CONTACT
+            </Button>
+          </NextLink>
         </HStack>
       </Flex>
       <Box 

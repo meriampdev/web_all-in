@@ -1,5 +1,6 @@
 import { isReservedKeyword } from '@/utils'
 import { Box, Center, Flex, Image, Link, Skeleton, SkeletonText, VStack } from '@chakra-ui/react'
+import NextLink from 'next/link'
 
 export const Article = ({ article, isLoading }) => {
 
@@ -11,6 +12,7 @@ export const Article = ({ article, isLoading }) => {
     >
       <VStack
         width={{base: '230px', md: '292px'}}
+        paddingBottom={'30px'}
         alignItems='flex-start'
         spacing='20px'
         position='relative'
@@ -59,23 +61,25 @@ export const Article = ({ article, isLoading }) => {
         {article?.article_tags?.map((tag, i) => {
           if(isReservedKeyword(tag?.slug)) return null 
           return (
-            <Center
-              key={`tag-${i}`}
-              height={{base: '28px', md: '30px'}}
-              px={'18px'}
-              fontSize={{base: '12px', md: '14px'}}
-              background='#123E43'
-              color='#39A5B2'
-              borderRadius='full'
-            >
-              #{tag?.name}
-            </Center>
+            <NextLink href={`/story/tag?slug=${tag?.slug}`} passHref>
+              <Center
+                key={`tag-${i}`}
+                height={{base: '28px', md: '30px'}}
+                px={'18px'}
+                fontSize={{base: '12px', md: '14px'}}
+                background='#123E43'
+                color='#39A5B2'
+                borderRadius='full'
+              >
+                #{tag?.name}
+              </Center>
+            </NextLink>
           )
         })}
         </Flex>
         <Box 
           position='absolute'
-          bottom='-30px'
+          bottom='0'
           right='20px'
           zIndex='10'
           boxSize={{base: '', md: '30px'}}

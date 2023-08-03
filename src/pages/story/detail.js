@@ -17,6 +17,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { Recommended } from '@/features/landing/recommended'
 import { FullPageLoader } from '@/components/loader';
 import { WP_REST_API } from '@/constants'
+import { ApplicationRequirements } from '@/features/article-detail/application-requirements'
+import NextLink from 'next/link'
 
 export default function ArticleDetail() {
   const router = useRouter()
@@ -280,13 +282,7 @@ export default function ArticleDetail() {
               >
               採用ページへ
               </Button>
-              <Button
-                width={{base: '152px', md: '258px'}}
-                height={{base: '36px', md: '46px'}}
-                borderRadius='full'
-              >
-              メールで応募する
-              </Button>
+              <ApplicationRequirements />
             </Flex>
           </Center>
         </Box>
@@ -380,17 +376,23 @@ export default function ArticleDetail() {
               {tags?.map((tag,i) => {
                 if(isReservedKeyword(tag?.slug)) return null 
                 return (
-                  <Center
+                  <NextLink 
                     key={`tag-${i}`}
-                    height={{base: '28px', md: '38px'}}
-                    px={'18px'}
-                    fontSize={{base: '12px', md: '14px'}}
-                    color='white'
-                    borderRadius='full'
-                    border='1px solid white'
+                    href={`/story/tag?slug=${tag?.slug}`} 
+                    passHref
                   >
-                    #{tag?.name}
-                  </Center>
+                    <Center
+                      cursor='pointer'
+                      height={{base: '28px', md: '38px'}}
+                      px={'18px'}
+                      fontSize={{base: '12px', md: '14px'}}
+                      color='white'
+                      borderRadius='full'
+                      border='1px solid white'
+                    >
+                      #{tag?.name}
+                    </Center>
+                  </NextLink>
                 )
               })}
             </HStack>

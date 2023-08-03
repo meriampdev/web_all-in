@@ -4,6 +4,7 @@ import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Article } from './article'
+import NextLink from 'next/link'
 
 export const AllStories = () => {
   const { data, loading } = useAxios('/wp-json/wp/v2/articles?per_page=6')
@@ -18,18 +19,20 @@ export const AllStories = () => {
 
   return (
     <Box>
-      <Box
-        height={{base: '36px', md: '77px'}}
-        borderLeft='2px solid white'
-        paddingLeft={{base: '16px', md: '30px'}}
-        fontSize={{base: '25px', md: '50px'}}
-        lineHeight={{base: 'normal', md: '61px'}}
-        marginBottom={{base: '25px', md: '50px'}}
-        display='flex'
-        alignItems='flex-end'
-      >
-        ALL STORY 
-      </Box>
+      <NextLink href={`/story/all`} passHref>
+        <Box
+          height={{base: '36px', md: '77px'}}
+          borderLeft='2px solid white'
+          paddingLeft={{base: '16px', md: '30px'}}
+          fontSize={{base: '25px', md: '50px'}}
+          lineHeight={{base: 'normal', md: '61px'}}
+          marginBottom={{base: '25px', md: '50px'}}
+          display='flex'
+          alignItems='flex-end'
+        >
+          ALL STORY 
+        </Box>
+      </NextLink>
       <Box className="embla" display={{base: 'block', md: 'none'}}>
         <Box className="embla__viewport" ref={emblaRef}>
           <Box className="embla__container">
@@ -79,17 +82,19 @@ export const AllStories = () => {
         })}
       </Flex>
       <Flex display={{base: 'none', md: 'flex'}} justifyContent='flex-end' marginTop={{base: '', md: '50px'}}>
-        <Button 
-          height={{base: '', md: '43px'}}
-          width={{base: '', md: '138px'}}
-          borderRadius='full'
-          bg='white'
-        >
-          <HStack width='100%' justifyContent='center'>
-            <Text>MORE</Text>
-            <ChevronRightIcon fontSize='20px' />
-          </HStack>
-        </Button>
+        <NextLink href={`/story/all`} passHref>
+          <Button 
+            height={{base: '', md: '43px'}}
+            width={{base: '', md: '138px'}}
+            borderRadius='full'
+            bg='white'
+          >
+            <HStack width='100%' justifyContent='center'>
+              <Text>MORE</Text>
+              <ChevronRightIcon fontSize='20px' />
+            </HStack>
+          </Button>
+        </NextLink>
       </Flex>
     </Box>
   )

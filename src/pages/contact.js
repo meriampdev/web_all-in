@@ -1,11 +1,80 @@
+import { useState } from 'react'
+import axios from 'axios'
+import { useForm } from "react-hook-form"
 import Head from 'next/head'
 import { Container } from '@/components/container'
 import { Box, Button, Center, Flex, HStack, VStack, Text, RadioGroup, Stack, Radio, Input, Textarea, Checkbox } from '@chakra-ui/react'
 import { Header } from '@/components/header'
 import { Search } from '@/features/landing/search'
 import { Footer } from '@/components/footer'
+import { WP_REST_API } from '@/constants'
 
 export default function Contact() {
+  const [isAgree, setIsAgree] = useState(false)
+  const [inquiry_type, setInquiryType] = useState('inquiry')
+  const [formData, setFormData] = useState({})
+  const [forConfirm, setForConfirm] = useState(false)
+  const [confirmed, setConfirmed] = useState(false)
+  const [done, setDone] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      company_name: '',
+      department_name: '',
+      familyname_kanji: '',
+      givenname_kanji: '',
+      familyname_furigana: '',
+      givenname_furigana: '',
+      email: '',
+      inquiry: ''
+    }
+  })
+
+  const validateEmail = () => {
+    return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]+$/i
+  }
+
+  const submitForm = (_formData) => {
+    setForConfirm(true)
+    setConfirmed(false)
+    setFormData({
+      ..._formData,
+      inquiry_type: inquiry_type === 'inquiry' ? 'お問い合わせ' : '求人を掲載したい',
+      name: `${_formData?.familyname_furigana}${_formData?.givenname_furigana}`,
+      name_kanji: `${_formData?.familyname_kanji}${_formData?.givenname_kanji}`,
+      name_furigana: `${_formData?.familyname_furigana}${_formData?.givenname_furigana}`
+    })
+  }
+
+  const handleConfirm = () => {
+    setConfirmed(true)
+    sendInquiry()
+  }
+
+  const sendInquiry = async () => {
+    setLoading(true)
+    try {
+      let response = await axios.post(`${WP_REST_API}/wp-json/api/inquiry`, formData)
+      setLoading(false)
+      if(response?.data?.success) {
+        setDone(true)
+        setFormData({})
+        setInquiryType('inquiry')
+        setIsAgree(false)
+        setForConfirm(false)
+        setConfirmed(false)
+        reset()
+      }
+    } catch (error) {
+      console.log('error', error)
+      setLoading(false)
+    }
+  }
 
   const RequiredTag = () => (
     <Center
@@ -18,6 +87,14 @@ export default function Contact() {
       必須
     </Center>
   )
+
+  const RenderFormField = ({ formKey, children }) => {
+    if(forConfirm) {
+      return <Text fontSize={'16px'}>{formData[formKey]}</Text>
+    }
+
+    return children
+  }
 
   return (
     <>
@@ -65,7 +142,31 @@ export default function Contact() {
             お問い合わせ
           </Center>
           <Center width='100%'>
+            {done && (
+              <Box
+                width='100%'
+                borderRadius='17px'
+                padding={{base: '62px 25px', md: '100px 120px'}}
+                background={'transparent linear-gradient(180deg, #000 0%, #222222 100%) 0% 0% no-repeat padding-box'}
+              >
+                <VStack spacing='30px'>
+                  <Text fontSize='30px'>送信完了</Text>
+                  <Button
+                    onClick={() => {
+                      setDone(false)
+                    }}
+                    width={{base: '286px', md: '314px'}}
+                    height={{base: '48px', md: '52px'}}
+                    borderRadius='full'
+                    fontSize={{base: '16px', md: '20px'}}
+                  >
+                    戻る
+                  </Button>
+                </VStack>
+              </Box>
+            )}
             <Box
+              display={done ? 'none' : 'block'}
               width='100%'
               borderRadius='17px'
               padding={{base: '62px 25px', md: '100px 120px'}}
@@ -75,20 +176,25 @@ export default function Contact() {
                 <Text fontSize={{base: '12px', md: '14px'}}>
                   種別
                 </Text>
-                <RadioGroup>
-                  <Stack 
-                    direction={{base: 'column', md: 'row'}} 
-                    spacing={{ base: '14px', md: '26px'}}
-                    fontSize={{ base: '14px', mg: '16px'}}
+                <RenderFormField formKey={'inquiry_type'}>
+                  <RadioGroup
+                    value={inquiry_type}
+                    onChange={setInquiryType}
                   >
-                    <Radio>
-                    求人を掲載したい
-                    </Radio>
-                    <Radio>
-                    お問い合わせ
-                    </Radio>
-                  </Stack>
-                </RadioGroup>
+                    <Stack 
+                      direction={{base: 'column', md: 'row'}} 
+                      spacing={{ base: '14px', md: '26px'}}
+                      fontSize={{ base: '14px', mg: '16px'}}
+                    >
+                      <Radio value='post_a_job'>
+                      求人を掲載したい
+                      </Radio>
+                      <Radio value='inquiry'>
+                      お問い合わせ
+                      </Radio>
+                    </Stack>
+                  </RadioGroup>
+                </RenderFormField>
               </VStack>
               <VStack 
                 marginTop={{base: '42px', md: '50px'}} 
@@ -102,17 +208,22 @@ export default function Contact() {
                     </Text>
                     <RequiredTag />
                   </HStack>
-                  <Input 
-                    placeholder='会社名・組織名'
-                    _placeholder={{
-                      color: 'black',
-                      opacity: 0.2
-                    }}
-                    fontSize={'16px'}
-                    width='100%'
-                    height={'50px'}
-                    background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
-                  />
+                  <RenderFormField formKey={'company_name'}>
+                    <Input 
+                      {...register('company_name', { required: true })}
+                      isInvalid={!!errors?.company_name}
+                      placeholder='会社名・組織名'
+                      _placeholder={{
+                        color: 'black',
+                        opacity: 0.2
+                      }}
+                      color='black'
+                      fontSize={'16px'}
+                      width='100%'
+                      height={'50px'}
+                      background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
+                    />
+                  </RenderFormField>
                 </VStack>
                 <VStack alignItems='flex-start' width='100%' spacing='14px'>
                   <HStack spacing='16px'>
@@ -120,17 +231,21 @@ export default function Contact() {
                       部署名・部門名
                     </Text>
                   </HStack>
-                  <Input 
-                    placeholder='会社名・組織名'
-                    _placeholder={{
-                      color: 'black',
-                      opacity: 0.2
-                    }}
-                    fontSize={'16px'}
-                    width='100%'
-                    height={'50px'}
-                    background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
-                  />
+                  <RenderFormField formKey={'department_name'}>
+                    <Input 
+                      {...register('department_name')}
+                      placeholder='会社名・組織名'
+                      _placeholder={{
+                        color: 'black',
+                        opacity: 0.2
+                      }}
+                      color='black'
+                      fontSize={'16px'}
+                      width='100%'
+                      height={'50px'}
+                      background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
+                    />
+                  </RenderFormField>
                 </VStack>
                 <VStack alignItems='flex-start' width='100%' spacing='14px'>
                   <HStack spacing='16px'>
@@ -140,28 +255,38 @@ export default function Contact() {
                     <RequiredTag />
                   </HStack>
                   <Flex gridGap='24px' width='100%'>
-                    <Input 
-                      placeholder='田中'
-                      _placeholder={{
-                        color: 'black',
-                        opacity: 0.2
-                      }}
-                      fontSize={'16px'}
-                      width='100%'
-                      height={'50px'}
-                      background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
-                    />
-                    <Input 
-                      placeholder='太郎'
-                      _placeholder={{
-                        color: 'black',
-                        opacity: 0.2
-                      }}
-                      fontSize={'16px'}
-                      width='100%'
-                      height={'50px'}
-                      background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
-                    />
+                    <RenderFormField formKey={'familyname_kanji'}>
+                      <Input 
+                        {...register('familyname_kanji', { required: true })}
+                        isInvalid={!!errors?.familyname_kanji}
+                        placeholder='田中'
+                        _placeholder={{
+                          color: 'black',
+                          opacity: 0.2
+                        }}
+                        color='black'
+                        fontSize={'16px'}
+                        width='100%'
+                        height={'50px'}
+                        background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
+                      />
+                    </RenderFormField>
+                    <RenderFormField formKey={'givenname_kanji'}>
+                      <Input 
+                        {...register('givenname_kanji', { required: true })}
+                        isInvalid={!!errors?.givenname_kanji}
+                        placeholder='太郎'
+                        _placeholder={{
+                          color: 'black',
+                          opacity: 0.2
+                        }}
+                        color='black'
+                        fontSize={'16px'}
+                        width='100%'
+                        height={'50px'}
+                        background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
+                      />
+                    </RenderFormField>
                   </Flex>
                 </VStack>
                 <VStack alignItems='flex-start' width='100%' spacing='14px'>
@@ -172,28 +297,39 @@ export default function Contact() {
                     <RequiredTag />
                   </HStack>
                   <Flex gridGap='24px' width='100%'>
-                    <Input 
-                      placeholder='たなか'
-                      _placeholder={{
-                        color: 'black',
-                        opacity: 0.2
-                      }}
-                      fontSize={'16px'}
-                      width='100%'
-                      height={'50px'}
-                      background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
-                    />
-                    <Input 
-                      placeholder='たろう'
-                      _placeholder={{
-                        color: 'black',
-                        opacity: 0.2
-                      }}
-                      fontSize={'16px'}
-                      width='100%'
-                      height={'50px'}
-                      background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
-                    />
+                    <RenderFormField formKey={'familyname_furigana'}>
+                      <Input 
+                        {...register('familyname_furigana', { required: true })}
+                        isInvalid={!!errors?.familyname_furigana}
+                        placeholder='たなか'
+                        _placeholder={{
+                          color: 'black',
+                          opacity: 0.2
+                        }}
+                        color='black'
+                        fontSize={'16px'}
+                        width='100%'
+                        height={'50px'}
+                        background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
+                      />
+                    </RenderFormField>
+                    <RenderFormField formKey={'givenname_furigana'}>
+                      <Input 
+                        {...register('givenname_furigana', { required: true })}
+                        isInvalid={!!errors?.givenname_furigana}
+                        placeholder='たろう'
+                        _placeholder={{
+                          color: 'black',
+                          opacity: 0.2
+                        }}
+                        color='black'
+                        fontSize={'16px'}
+                        width='100%'
+                        height={'50px'}
+                        background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
+                      />
+                    </RenderFormField>
+                    
                   </Flex>
                 </VStack>
                 <VStack alignItems='flex-start' width='100%' spacing='14px'>
@@ -203,17 +339,33 @@ export default function Contact() {
                     </Text>
                     <RequiredTag />
                   </HStack>
-                  <Input 
-                    placeholder='メールアドレス'
-                    _placeholder={{
-                      color: 'black',
-                      opacity: 0.2
-                    }}
-                    fontSize={'16px'}
-                    width='100%'
-                    height={'50px'}
-                    background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
-                  />
+                  <RenderFormField formKey={'email'}>
+                    <Input 
+                      {...register('email', { 
+                        validate: {
+                          required: (val) => {
+                            let notEmpty = val?.trim().length > 0
+                            return notEmpty
+                          },
+                        },
+                        pattern: {
+                          value: validateEmail(),
+                          message: '有効なメールアドレスを入力してください。',
+                        },
+                      })}
+                      isInvalid={!!errors?.email}
+                      placeholder='メールアドレス'
+                      _placeholder={{
+                        color: 'black',
+                        opacity: 0.2
+                      }}
+                      color='black'
+                      fontSize={'16px'}
+                      width='100%'
+                      height={'50px'}
+                      background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
+                    />
+                  </RenderFormField>
                 </VStack>
                 <VStack alignItems='flex-start' width='100%' spacing='14px'>
                   <HStack spacing='16px'>
@@ -222,42 +374,60 @@ export default function Contact() {
                     </Text>
                     <RequiredTag />
                   </HStack>
-                  <Textarea 
-                    placeholder='テキストを入力してください'
-                    _placeholder={{
-                      color: 'black',
-                      opacity: 0.2
-                    }}
-                    fontSize={'16px'}
-                    padding={'17px 26px'}
-                    resize='none'
-                    width='100%'
-                    minHeight={{base: '100px', md: '147px'}}
-                    height={'50px'}
-                    background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
-                  />
+                  <RenderFormField formKey={'inquiry'}>
+                    <Textarea 
+                      {...register('inquiry', { required: true })}
+                      isInvalid={!!errors?.inquiry}
+                      placeholder='テキストを入力してください'
+                      _placeholder={{
+                        color: 'black',
+                        opacity: 0.2
+                      }}
+                      color='black'
+                      fontSize={'16px'}
+                      padding={'17px 26px'}
+                      resize='none'
+                      width='100%'
+                      minHeight={{base: '100px', md: '147px'}}
+                      height={'50px'}
+                      background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
+                    />
+                  </RenderFormField>
                 </VStack>
-                <VStack alignItems='flex-start' width='100%' spacing='14px'>
-                  <HStack spacing='16px'>
-                    <Text fontSize={{ base: '12px', md: '14px'}}>
-                    個人情報の取り扱いについて
-                    </Text>
-                    <RequiredTag />
-                  </HStack>
-                  <Checkbox>
-                    <Text fontSize={{ base: '12px', md: '14px'}}>
-                    個人情報保護に関する事項に同意して先に進む
-                    </Text>
-                  </Checkbox>
-                </VStack>
+                {(!forConfirm && !confirmed) && 
+                  <VStack alignItems='flex-start' width='100%' spacing='14px'>
+                    <HStack spacing='16px'>
+                      <Text fontSize={{ base: '12px', md: '14px'}}>
+                      個人情報の取り扱いについて
+                      </Text>
+                      <RequiredTag />
+                    </HStack>
+                    <Checkbox isChecked={isAgree} onChange={(e) => setIsAgree(e.target.checked)}>
+                      <Text fontSize={{ base: '12px', md: '14px'}}>
+                      個人情報保護に関する事項に同意して先に進む
+                      </Text>
+                    </Checkbox>
+                  </VStack>
+                }
                 <Center width='100%'>
                   <Button
+                    isLoading={loading}
+                    isDisabled={!isAgree}
+                    onClick={() => {
+                      if(!forConfirm && !confirmed) {
+                        handleSubmit(submitForm)()
+                      } else {
+                        handleConfirm()
+                      }
+                    }}
                     width={{base: '286px', md: '314px'}}
                     height={{base: '48px', md: '52px'}}
                     borderRadius='full'
                     fontSize={{base: '16px', md: '20px'}}
                   >
-                    入力を確認する
+                    {(!forConfirm && !confirmed) ? '送信' : (
+                      (forConfirm ? '入力を確認する' : '')
+                    )}
                   </Button>
                 </Center>
               </VStack>

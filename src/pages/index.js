@@ -31,7 +31,11 @@ export default function Home() {
             width='100%'
             height={{base: '', xl: '690px'}}
           >
-            <Header />
+            <Header 
+              withTextOnSp={false} 
+              left={{ base: '14px', md: '38px'}}
+              right={'unset'}
+            />
             <Center 
               position='absolute'
               flexDirection='column'
