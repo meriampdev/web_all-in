@@ -28,7 +28,7 @@ export default function ArticleDetail() {
 
   useEffect(() => {
     axios
-      .get(`${WP_REST_API}/wp-json/wp/v2/tags?per_page=12`)
+      .get(`${WP_REST_API}/wp-json/wp/v2/categories?per_page=12`)
       .then((response) => {
         if(response?.data?.length > 0) {
           setTagList(response.data)
@@ -125,8 +125,8 @@ export default function ArticleDetail() {
               mb={{base: '40px', md: '80px'}}
             >
               <Flex gridGap='10px' flexWrap='wrap'>
-                {article?.article_tags?.map((tag) => {
-                  if(isReservedKeyword(tag?.slug)) return null 
+                {article?.post_categories?.map((tag) => {
+                  if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
                   return (
                     <Center
                       key={`tag-${tag?.term_id}`}
@@ -166,7 +166,7 @@ export default function ArticleDetail() {
               />
             </Center>
           </Box>
-          {(article?.acf?.recruitment_voice_description) && (
+          {(article?.acf?.recruitment_description) && (
             <Box>
               <Flex 
                 marginTop={{base: '64px', md: '184px'}}
@@ -179,9 +179,9 @@ export default function ArticleDetail() {
                   minWidth={{base: '178px', md: '356px'}}
                   bg='#e2e2e2'
                 >
-                  {article?.recruitment_voice_image && (
+                  {article?.recruitment_image && (
                     <Image 
-                      src={article?.recruitment_voice_image}
+                      src={article?.recruitment_image}
                       width={'100%'}
                       height='100%'
                       objectFit='cover'
@@ -206,35 +206,21 @@ export default function ArticleDetail() {
                     fontSize={{base: '18px', md: '20px'}}
                     marginBottom={{base: '22px', md: '30px'}}
                   >
-                    {article?.acf?.recruitment_voice_title}
+                    {article?.acf?.recruitment_title}
                   </Text>
                   <Text
                     fontSize={{base: '12px', md: '14px'}}
                     lineHeight={{base: '24px', md: '24px'}}
                   >
-                    {article?.acf?.recruitment_voice_description}
+                    {article?.acf?.recruitment_description}
                   </Text>
                 </Box>
               </Flex>
               <Center marginTop={{base: '78px', md: '126px'}} width='100%'>
-                <Link 
-                  href={article?.acf?.recruitment_voice_url_link?.url} 
-                  isExternal
-                  width={{base: '100%', md: 'fit-content'}}
-                >
-                  <Center
-                    cursor='pointer'
-                    bg='white'
-                    color='black'
-                    width={{base: '100%', md: '314px'}}
-                    height={{base: '48px', md: '52px'}}
-                    fontSize={{base: '16px', md: '22px'}}
-                    borderRadius='full'
-                    _hover={{ opacity: 0.8 }}
-                  >
-                    募集要項を詳しく見る
-                  </Center>
-                </Link>
+                <ApplicationRequirements 
+                  article={article}
+                  content={article?.acf?.application_requirements} 
+                />
               </Center>
             </Box>
           )}
@@ -275,14 +261,31 @@ export default function ArticleDetail() {
             この求人に応募する
             </Text>
             <Flex marginTop={{base: '31px', md: '43px'}} gridGap={{base: '12px', md: '36px'}}>
-              <Button
-                width={{base: '152px', md: '258px'}}
-                height={{base: '36px', md: '46px'}}
-                borderRadius='full'
+              <Link 
+                href={article?.acf?.recruitment_url_link?.url} 
+                isExternal
+                width={{base: '100%', md: 'fit-content'}}
               >
-              採用ページへ
-              </Button>
-              <ApplicationRequirements />
+                <Button
+                  width={{base: '152px', md: '258px'}}
+                  height={{base: '36px', md: '46px'}}
+                  borderRadius='full'
+                >
+                採用ページへ
+                </Button>
+              </Link>
+              <Link 
+                href={`mailto:${article?.acf?.recruitment_email}`} 
+                width={{base: '100%', md: 'fit-content'}}
+              >
+                <Button
+                  width={{base: '152px', md: '258px'}}
+                  height={{base: '36px', md: '46px'}}
+                  borderRadius='full'
+                >
+                  メールで応募する
+                </Button>
+              </Link>
             </Flex>
           </Center>
         </Box>
@@ -374,7 +377,7 @@ export default function ArticleDetail() {
               flexWrap='wrap'
             >
               {tags?.map((tag,i) => {
-                if(isReservedKeyword(tag?.slug)) return null 
+                if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
                 return (
                   <NextLink 
                     key={`tag-${i}`}

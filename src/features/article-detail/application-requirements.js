@@ -4,10 +4,12 @@ import { ChevronRightIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
+  Center,
+  Flex,
+  Link,
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
   ModalFooter,
   ModalBody,
   ModalCloseButton,
@@ -16,7 +18,7 @@ import {
   IconButton
 } from '@chakra-ui/react'
 
-export const ApplicationRequirements = () => {
+export const ApplicationRequirements = ({ article, content }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [bodyNode, setNode] = useState({ current: null })
   const bodyRef = useCallback((node) => {
@@ -26,16 +28,28 @@ export const ApplicationRequirements = () => {
   }, [])
   const { isOverflowY } = useIsOverflow(bodyNode, 'vertical')
 
+  const backToTop = () => {
+    if(bodyNode?.current) {
+      bodyNode?.current?.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+    }
+  }
+
   return (
     <>
       <Button
         onClick={onOpen}
         tabIndex={-1} 
-        width={{base: '152px', md: '258px'}}
-        height={{base: '36px', md: '46px'}}
+        bg='white'
+        color='black'
+        fontWeight='normal'
+        width={{base: '100%', md: '314px'}}
+        height={{base: '48px', md: '52px'}}
+        fontSize={{base: '16px', md: '22px'}}
         borderRadius='full'
+        _hover={{ opacity: 0.8 }}
       >
-      メールで応募する
+      {/* メールで応募する */}
+      募集要項を詳しく見る
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size='6xl' scrollBehavior='inside'>
         <ModalOverlay />
@@ -51,61 +65,68 @@ export const ApplicationRequirements = () => {
             >
             募集要項
             </Text>
-            <Box marginTop='50px'>
-              <Text
-                fontSize={{base: '', md: '22px'}}
-                lineHeight={{base: '', md: '44px'}}
-              >
-              仕事内容
-              </Text>
-              <Box
-                fontSize={{base: '', md: '14px'}}
-                lineHeight={{base: '', md: '24px'}}
-                letterSpacing='1.12px'
-              >
-              9割以上が未経験スタート★誰もが知る有名商品PR！店頭での販売企画や市場調査などをお任せします！知名度の高い商材を扱うためPRしやすい◎
-              </Box>
-            </Box>
-            <Box>
-              <Text
-                fontSize={{base: '', md: '18px'}}
-                lineHeight={{base: '', md: '44px'}}
-                letterSpacing='1.44px'
-              >
-              具体的には
-              </Text>
-              <Box>
-              　 <ul>
-                  <li>
-                    取扱い商品のPR・広報 　
-                  </li>
-                  <li>
-                    店頭でお客様のご案内やフォロー 　
-                  </li>
-                  <li>
-                    POPや陳列方法等の販促企画 
-                    イベントの企画・立案・実施　など 
-                  </li>
-                </ul>
-                
-                <Text>◎仕事もプライベートも充実！</Text>
-                <ul>
-                  <li>働きやすさと雰囲気の良さが当社の自慢！</li>
-                  <li>残業も月9h未満と少なく、</li>
-                  <li>産休育休取得実績も多数あります！</li>
-                </ul>
-              </Box>
-            </Box>
+            <Box 
+              marginTop='50px'
+              fontSize={{base: '', md: '14px'}}
+              lineHeight={{base: '', md: '24px'}}
+              letterSpacing='1.12px'
+              css={{
+                '*': {
+                  all: 'revert !important',
+                }
+              }}
+              dangerouslySetInnerHTML={{
+                __html: content
+              }}
+            />
           </ModalBody>
 
-          {isOverflowY && <ModalFooter>
+          {isOverflowY && 
             <IconButton 
+              onClick={backToTop}
               icon={<ChevronRightIcon fontSize='30px' transform='rotate(-90deg)' />} 
               borderRadius='full'
               bg='black'
               color='white'
+              boxSize='50px'
+              minHeight='50px'
+              position='absolute'
+              bottom='100px'
+              right='30px'
+              _hover={{ bg: 'black', opacity: 0.8 }}
             />
-          </ModalFooter>}
+          }
+          <ModalFooter bg='black'>
+            <Center width='100%'>
+              <Flex gridGap={{base: '12px', md: '36px'}}>
+                <Link 
+                  href={article?.acf?.recruitment_url_link?.url} 
+                  isExternal
+                  width={{base: '100%', md: 'fit-content'}}
+                >
+                  <Button
+                    width={{base: '152px', md: '258px'}}
+                    height={{base: '36px', md: '46px'}}
+                    borderRadius='full'
+                  >
+                  採用ページへ
+                  </Button>
+                </Link>
+                <Link 
+                  href={`mailto:${article?.acf?.recruitment_email}`} 
+                  width={{base: '100%', md: 'fit-content'}}
+                >
+                  <Button
+                    width={{base: '152px', md: '258px'}}
+                    height={{base: '36px', md: '46px'}}
+                    borderRadius='full'
+                  >
+                    メールで応募する
+                  </Button>
+                </Link>
+              </Flex>
+            </Center>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

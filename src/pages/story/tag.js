@@ -12,8 +12,8 @@ import { FullPageLoader } from '@/components/loader';
 export default function PerCategory() {
   const router = useRouter()
   const slug = router?.query?.slug
-  const { data, loading } = useAxios(`/wp-json/api/v1/articles-by-tag/${slug}`, { skip: !slug })
-  const { data: tagData, loading: loadingTermData } = useAxios(`/wp-json/api/v1/term/post_tag/${slug}`, { skip: !slug })
+  const { data, loading } = useAxios(`/wp-json/api/v1/articles-by-category/${slug}`, { skip: !slug })
+  const { data: tagData, loading: loadingTermData } = useAxios(`/wp-json/api/v1/term/category/${slug}`, { skip: !slug })
 
   return (
     <>

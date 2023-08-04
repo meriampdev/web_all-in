@@ -1,11 +1,11 @@
 import { isReservedKeyword } from '@/utils'
-import { Box, Center, Flex, Image, Link, Skeleton, SkeletonText, VStack } from '@chakra-ui/react'
+import { Box, Center, Flex, Image, Skeleton, SkeletonText, VStack } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
 export const Article = ({ article, isLoading }) => {
 
   return (
-    <Link 
+    <NextLink 
       href={`/story/detail?slug=${article?.post_name || article?.slug}`} 
       _hover={{textDecoration: 'none'}} 
       paddingBottom='30px'
@@ -58,8 +58,8 @@ export const Article = ({ article, isLoading }) => {
           />
         </SkeletonText>
         <Flex flexWrap='wrap' gridGap='5px'>
-        {article?.article_tags?.map((tag, i) => {
-          if(isReservedKeyword(tag?.slug)) return null 
+        {article?.post_categories?.map((tag, i) => {
+          if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
           return (
             <NextLink href={`/story/tag?slug=${tag?.slug}`} passHref>
               <Center
@@ -125,6 +125,6 @@ export const Article = ({ article, isLoading }) => {
           </svg>
         </Box>
       </VStack>
-    </Link>
+    </NextLink>
   )
 }

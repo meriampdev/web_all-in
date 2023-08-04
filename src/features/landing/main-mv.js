@@ -8,6 +8,7 @@ import { CenterPulse } from '@/features/landing/center-pulse'
 import { isMobile } from '@/utils/screen';
 import { useAxios } from '@/hooks/useAxios'
 import { FullPageLoader } from '@/components/loader';
+import NextLink from 'next/link'
 
 export const MainMv = () => {
   const [active, setActive] = useState(0)
@@ -133,15 +134,19 @@ export const MainMv = () => {
           zIndex='7'
           bottom='175px'
         >
-          <Button
-            borderRadius='full'
-            lineHeight='normal'
-            width={{base: '134px', md: '158px'}}
-            height={{base: '42px', md: '48px'}}
-            fontSize={{base: '18px', md: '20px'}}
-          >
-            WATCH
-          </Button>
+          {data?.length > 0 && (
+            <NextLink href={`/story/category?slug=${data[active]?.slug}`} passHref>
+              <Button
+                borderRadius='full'
+                lineHeight='normal'
+                width={{base: '134px', md: '158px'}}
+                height={{base: '42px', md: '48px'}}
+                fontSize={{base: '18px', md: '20px'}}
+              >
+                WATCH
+              </Button>
+            </NextLink>
+          )}
         </Center>
       </Box>
     </>

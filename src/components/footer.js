@@ -52,13 +52,13 @@ export const Footer = () => {
           </Box>
         </Box>
         <HStack spacing={{base: '20px', md: '30px'}} justifyContent='center'>
-          <Button
+          {/* <Button
             height={{base: '43px', md: '43px'}}
             width={{base: '144px', md: '164px'}}
             borderRadius='full'
           >
             SIGN UP
-          </Button>
+          </Button> */}
           <NextLink href='/contact' passHref>
             <Button
               height={{base: '43px', md: '43px'}}
@@ -95,9 +95,9 @@ export const Footer = () => {
           <Link href='https://allhero.co.jp/about/' isExternal>
             運営会社について
           </Link>
-          <Link href='#' isExternal>
+          <NextLink href='/jobboard'>
             求人掲載について
-          </Link>
+          </NextLink>
           <Link href='https://allhero.co.jp/privacypolicy/' isExternal>
             プラポリ
           </Link>

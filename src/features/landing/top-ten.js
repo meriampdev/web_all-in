@@ -2,6 +2,7 @@ import { useAxios } from '@/hooks/useAxios'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import useEmblaCarousel from 'embla-carousel-react'
 import { Box, Image, Skeleton } from '@chakra-ui/react'
+import NextLink from 'next/link'
 
 export const TopTen = () => {
   const [emblaRef] = useEmblaCarousel({ 
@@ -31,43 +32,48 @@ export const TopTen = () => {
         <Box className="embla__viewport" ref={emblaRef}>
           <Box className="embla__container">
             {[...(data?.length > 0 ? data : [{ id: 1 }, { id: 2 }, { id: 3 }])]?.map((item) => (
-              <Box 
-                key={item?.id}  
-                className="embla__slide"
-                pr={{ base: '24px', md: '22px' }}
+              <NextLink 
+                href={`/story/detail?slug=${item?.post_name || item?.slug}`} 
+                _hover={{textDecoration: 'none'}} 
               >
-                <Skeleton 
-                  width={{base: '195px', lg: '250px'}}
-                  height={{base: '140px', lg: '179px'}}
-                  isLoaded={loading === false}
-                  borderRadius='10px'
+                <Box 
+                  key={item?.id}  
+                  className="embla__slide"
+                  pr={{ base: '24px', md: '22px' }}
                 >
-                  <Box 
-                    className='embla__slide__inner'
-                    borderRadius='10px'
+                  <Skeleton 
                     width={{base: '195px', lg: '250px'}}
                     height={{base: '140px', lg: '179px'}}
-                    position='relative'
+                    isLoaded={loading === false}
+                    borderRadius='10px'
                   >
-                    <Box
-                      position='absolute'
-                      bottom='0'
-                      left='3px'
-                      fontSize={{base: '37px', md: '50px'}}
-                      lineHeight='normal'
-                    >
-                      {item?.post_acfs?.order}
-                    </Box>
-                    <Image 
-                      src={item?.featured_image}
+                    <Box 
+                      className='embla__slide__inner'
                       borderRadius='10px'
-                      height='100%'
-                      width='100%'
-                      objectFit='cover'
-                    />
-                  </Box>
-                </Skeleton>
-              </Box>
+                      width={{base: '195px', lg: '250px'}}
+                      height={{base: '140px', lg: '179px'}}
+                      position='relative'
+                    >
+                      <Box
+                        position='absolute'
+                        bottom='0'
+                        left='3px'
+                        fontSize={{base: '37px', md: '50px'}}
+                        lineHeight='normal'
+                      >
+                        {item?.post_acfs?.order}
+                      </Box>
+                      <Image 
+                        src={item?.featured_image}
+                        borderRadius='10px'
+                        height='100%'
+                        width='100%'
+                        objectFit='cover'
+                      />
+                    </Box>
+                  </Skeleton>
+                </Box>
+              </NextLink>
             ))}
           </Box>
         </Box>

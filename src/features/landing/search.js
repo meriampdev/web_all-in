@@ -24,7 +24,7 @@ export const Search = ({ ...rest }) => {
 
   useEffect(() => {
     axios
-      .get(`${WP_REST_API}/wp-json/wp/v2/tags`)
+      .get(`${WP_REST_API}/wp-json/wp/v2/categories`)
       .then((response) => {
         if(response?.data?.length > 0) {
           setList(response.data)
@@ -114,7 +114,7 @@ export const Search = ({ ...rest }) => {
                 gridGap={{base: '15px', md: '17px'}}
               >
                 {list?.map((tag, i) => {
-                  if(isReservedKeyword(tag?.slug)) return null 
+                  if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
                   return (
                     <NextLink href={`/story/tag?slug=${tag?.slug}`} passHref>
                       <Center
