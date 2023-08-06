@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useAxios } from '@/hooks/useAxios'
 import { 
   Box, 
   Center, 
@@ -15,24 +14,11 @@ import {
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { Search2Icon } from '@chakra-ui/icons'
-import { WP_REST_API } from '@/constants'
 import { isReservedKeyword } from '@/utils'
 
 export const Search = ({ ...rest }) => {
-  const [list, setList] = useState([])
   const { isOpen, onOpen, onClose } = useDisclosure()
-
-  useEffect(() => {
-    axios
-      .get(`${WP_REST_API}/wp-json/wp/v2/categories`)
-      .then((response) => {
-        if(response?.data?.length > 0) {
-          setList(response.data)
-        }
-      }).catch((err) => {
-        console.log('err', err)
-      })
-  }, [])
+  const { data: list } = useAxios('/wp-json/wp/v2/categories')
 
   return (
     <>

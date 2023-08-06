@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react'
+import { useAxios } from '@/hooks/useAxios'
+import { isReservedKeyword } from '@/utils'
 import Head from 'next/head'
 import { Container } from '@/components/container'
 import { Box, Center } from '@chakra-ui/react'
@@ -12,6 +15,25 @@ import { Footer } from '@/components/footer'
 import { Featured } from '@/features/landing/featured'
 
 export default function Home() {
+  const [categories, setCategories] = useState({})
+  const { data } = useAxios('/wp-json/api/v1/get-top-categories')
+
+  useEffect(() => {
+    if(data?.length > 0) {
+      let sorted = data.sort((a, b) => {
+        return a?.order - b?.order
+      })
+      let section1 = sorted.slice(0, 1)
+      let section2 = sorted.slice(1, 3)
+      let remaining = sorted.slice(3, sorted.length)
+      setCategories({
+        section1: section1[0], 
+        section2, 
+        remaining
+      }) 
+    }
+  }, [data])
+
   return (
     <>
       <Head>
@@ -75,28 +97,36 @@ export default function Home() {
           >
             
             <AllStories />
-            <ByCategory slug='emotion' marginTop={{base: '50px', md: '90px'}} />
+            {categories?.section1 &&  (
+              <ByCategory slug={categories?.section1?.slug} marginTop={{base: '50px', md: '90px'}} />
+            )}
           </Container>
 
           <Featured />
 
-          <Container 
-            paddingLeft={{base: '16px', md: '132px'}}
-            paddingRight={{base: '16px', md: '128px'}}
-          >
-            <ByCategory slug='area' marginTop={{base: '50px', md: '90px'}} />
-            <ByCategory slug='job-type' marginTop={{base: '50px', md: '90px'}} />
-          </Container>
+          {categories?.section2?.length > 0 && (
+            <Container 
+              paddingLeft={{base: '16px', md: '132px'}}
+              paddingRight={{base: '16px', md: '128px'}}
+            >
+              {categories?.section2?.map((cat) => (
+                <ByCategory slug={cat?.slug} marginTop={{base: '50px', md: '90px'}} />
+              ))}
+            </Container>
+          )}
 
           <Selection />
 
-          <Container 
-            paddingLeft={{base: '16px', md: '132px'}}
-            paddingRight={{base: '16px', md: '128px'}}
-          >
-            <ByCategory slug='emotion' marginTop={{base: '50px', md: '90px'}} />
-            <ByCategory slug='emotion' marginTop={{base: '50px', md: '90px'}} />
-          </Container>
+          {categories?.remaining?.length > 0 && (
+            <Container 
+              paddingLeft={{base: '16px', md: '132px'}}
+              paddingRight={{base: '16px', md: '128px'}}
+            >
+              {categories?.remaining?.map((cat) => (
+                <ByCategory slug={cat?.slug} marginTop={{base: '50px', md: '90px'}} />
+              ))}
+            </Container>
+          )}
         </Box>
         <Footer />
       </Box>
