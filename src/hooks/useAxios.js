@@ -6,6 +6,7 @@ export const useAxios = (apiRoute, options) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState(undefined)
   const [error, setError] = useState(undefined)
+  const [hasMore, setHasMore] = useState(true)
 
   useEffect(() => {
     if(!options?.skip) {
@@ -23,5 +24,18 @@ export const useAxios = (apiRoute, options) => {
     }
   }, [apiRoute])
 
-  return { data, error, loading }
+  const getMore = async (offset) => {
+    try {
+      let response = await axios.get(`${WP_REST_API}${apiRoute}?offset=${offset}`)
+      setData([ ...data, ...response?.data])
+      if(response?.data?.length <= 0) {
+        setHasMore(false)
+      }
+    } catch (err) {
+      setError(err)
+      setHasMore(false)
+    }
+  }
+
+  return { data, error, loading, hasMore, getMore }
 }

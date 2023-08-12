@@ -6,7 +6,7 @@ import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Article } from '@/features/landing/article'
 import NextLink from 'next/link'
 
-export const ByCategory = ({ slug, ...rest }) => {
+export const ByCategory = ({ slug, animate, direction, ...rest }) => {
   const { data, loading } = useAxios(`/wp-json/api/v1/articles-by-category/${slug}`)
   const { data: category, loading: loadingCatData } = useAxios(`/wp-json/api/v1/term/category/${slug}`)
   const [emblaRef, embla] = useEmblaCarousel({ 
@@ -29,6 +29,8 @@ export const ByCategory = ({ slug, ...rest }) => {
       >
         <NextLink href={`/story/category?slug=${slug}`} passHref>
           <Box
+            animation={animate ? `1.5s slide-${direction}` : ''}
+            minWidth='100%'
             height={{base: '36px', md: '77px'}}
             borderLeft='2px solid white'
             paddingLeft={{base: '16px', md: '30px'}}
@@ -42,7 +44,10 @@ export const ByCategory = ({ slug, ...rest }) => {
           </Box>
         </NextLink>
       </SkeletonText>
-      <Box className="embla">
+      <Box 
+        className="embla"
+        animation={animate ? `2s slide-${direction}` : ''}
+      >
         <Box className="embla__viewport" ref={emblaRef}>
           <Box className="embla__container">
             {[...(data?.length > 0 ? data : [{ id: 1 }, { id: 2 }, { id: 3 }])]?.map((article, i) => (
@@ -64,9 +69,14 @@ export const ByCategory = ({ slug, ...rest }) => {
           </Box>
         </Box>
       </Box>
-      <Flex display={{base: 'none', md: 'flex'}} justifyContent='flex-end' marginTop={{base: '', md: '50px'}}>
+      <Flex 
+        display={{base: 'none', md: 'flex'}} 
+        justifyContent='flex-end' 
+        marginTop={{base: '', md: '50px'}}
+      >
         <NextLink href={`/story/category?slug=${slug}`} passHref>
           <Button 
+            animation={animate ? `2s slide-${direction}` : ''}
             height={{base: '', md: '43px'}}
             width={{base: '', md: '138px'}}
             borderRadius='full'

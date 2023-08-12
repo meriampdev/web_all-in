@@ -1,19 +1,26 @@
 import { useAxios } from '@/hooks/useAxios'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { Box, Flex, SkeletonText } from '@chakra-ui/react'
+import { Box, Center, Flex, SkeletonText, Spinner } from '@chakra-ui/react'
 import { Header } from '@/components/header'
 import { Search } from '@/features/landing/search'
 import { Footer } from '@/components/footer'
 import { Container } from '@/components/container'
 import { Article } from '@/features/landing/article'
 import { FullPageLoader } from '@/components/loader';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function PerCategory() {
   const router = useRouter()
   const slug = router?.query?.slug
-  const { data, loading } = useAxios(`/wp-json/api/v1/articles-by-category/${slug}`)
-  const { data: category, loading: loadingCatData } = useAxios(`/wp-json/api/v1/term/category/${slug}`)
+  const { data, loading, hasMore, getMore } = useAxios(`/wp-json/api/v1/articles-by-category/${slug}`, { skip: !slug })
+  const { data: category, loading: loadingCatData } = useAxios(`/wp-json/api/v1/term/category/${slug}`, { skip: !slug })
+
+  const getMorePost = async () => {
+    if(data?.length) {
+      getMore(data?.length)
+    }
+  };
 
   return (
     <>
@@ -80,7 +87,26 @@ export default function PerCategory() {
             {!loading && data?.length <= 0 ? (
               <Text fontSize='lg'>記事が存在しません</Text>
             ) : (
-              <Flex flexWrap='wrap' gridGap={{base: '25px', md: '68px'}}>
+              <InfiniteScroll
+                dataLength={data?.length || 0}
+                next={getMorePost}
+                hasMore={hasMore}
+                loader={(
+                  <Center width='100%'>
+                    <Spinner size='md' />
+                  </Center>
+                )}
+                endMessage={(
+                  <Center mt={'100px'} width='100%'>
+                    <h4>Nothing more to show</h4>
+                  </Center>
+                )}
+                className='article-list'
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                }}
+              >
                 {[...(data?.length > 0 ? data : [{ id: 1 }, { id: 2 }, { id: 3 }])]?.map((article, i) => (
                   <Box key={`article-${i}`}>
                     <Article 
@@ -89,7 +115,7 @@ export default function PerCategory() {
                     />
                   </Box>
                 ))}
-              </Flex>
+              </InfiniteScroll>
             )}
           </Box>
       </Container>

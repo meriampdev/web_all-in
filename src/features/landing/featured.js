@@ -6,7 +6,7 @@ import { Box, Button, Center, Flex, Image, VStack } from '@chakra-ui/react'
 import { WP_REST_API } from '@/constants'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
-export const Featured = () => {
+export const Featured = ({ animate }) => {
   const [emblaRef, embla] = useEmblaCarousel({ 
     loop: true,
     dragFree: true,
@@ -68,6 +68,7 @@ export const Featured = () => {
       alignItems='center'
     >
       <Box
+        animation={animate ? '1s slide-right' : ''}
         position='absolute'
         top={{base: '115px', md: '241px'}}
         left={{base: '-140px', md: '-250px'}}

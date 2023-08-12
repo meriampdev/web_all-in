@@ -4,7 +4,7 @@ import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import { Box, Center } from '@chakra-ui/react'
 import { Article } from '@/features/landing/article'
 
-export const Selection = () => {
+export const Selection = ({ animate }) => {
   const [emblaRef] = useEmblaCarousel({ 
     loop: false,
     dragFree: true,
@@ -24,6 +24,7 @@ export const Selection = () => {
       alignItems='center'
     >
       <Box
+        animation={animate ? '1s slide-right' : ''}
         position='absolute'
         top={{base: '100px', md: '241px'}}
         left={{base: '-150px', md: '-250px'}}

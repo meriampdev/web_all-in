@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAxios } from '@/hooks/useAxios'
-import { isReservedKeyword } from '@/utils'
+import IsVisible from 'react-is-visible'
 import Head from 'next/head'
 import { Container } from '@/components/container'
 import { Box, Center } from '@chakra-ui/react'
@@ -33,6 +33,7 @@ export default function Home() {
       }) 
     }
   }, [data])
+
 
   return (
     <>
@@ -80,11 +81,12 @@ export default function Home() {
           </Box>
           <TopTen />
         </Box>
-        <Box position='relative' height='100%'>
+        <Box height='100%'>
           <Search />
-          <Container 
-            paddingLeft={{base: '20px', md: '132px'}}
-            paddingRight={{base: '', md: '128px'}}
+          
+          <Box
+            width='100%'
+            position='relative'
             _after={{
               position: 'absolute',
               top: 0,
@@ -94,28 +96,77 @@ export default function Home() {
               height: '100%',
               background: '#707070'
             }}
-          >
-            
-            <AllStories />
-            {categories?.section1 &&  (
-              <ByCategory slug={categories?.section1?.slug} marginTop={{base: '50px', md: '90px'}} />
-            )}
-          </Container>
-
-          <Featured />
-
-          {categories?.section2?.length > 0 && (
+          > 
             <Container 
-              paddingLeft={{base: '16px', md: '132px'}}
-              paddingRight={{base: '16px', md: '128px'}}
+              paddingLeft={{base: '20px', md: '132px'}}
+              paddingRight={{base: '', md: '128px'}}
             >
-              {categories?.section2?.map((cat) => (
-                <ByCategory slug={cat?.slug} marginTop={{base: '50px', md: '90px'}} />
-              ))}
+              <IsVisible once>
+                {(isVisible) => (
+                  <AllStories animate={isVisible} />
+                )}
+              </IsVisible>
+              {categories?.section1 &&  (
+                <IsVisible once>
+                  {(isVisible) => (
+                    <ByCategory 
+                      animate={isVisible}
+                      direction='left'
+                      slug={categories?.section1?.slug} 
+                      marginTop={{base: '50px', md: '90px'}} 
+                    />
+                  )}
+                </IsVisible>
+              )}
             </Container>
-          )}
+          </Box>
 
-          <Selection />
+          <IsVisible once>
+            {(isVisible) => (
+              <Featured animate={isVisible} />
+            )}
+          </IsVisible>
+
+          <Box
+            className='animate slide-right'
+            width='100%'
+            position='relative'
+            _after={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              content: "''",
+              width: '7px',
+              height: '100%',
+              background: '#707070'
+            }}
+          > 
+            {categories?.section2?.length > 0 && (
+              <Container 
+                paddingLeft={{base: '16px', md: '132px'}}
+                paddingRight={{base: '16px', md: '128px'}}
+              >
+                {categories?.section2?.map((cat) => (
+                  <IsVisible once>
+                    {(isVisible) => (
+                      <ByCategory 
+                        animate={isVisible}
+                        direction='left'
+                        slug={cat?.slug} 
+                        marginTop={{base: '50px', md: '90px'}} 
+                      />
+                    )}
+                  </IsVisible>
+                ))}
+              </Container>
+            )}
+          </Box>
+
+          <IsVisible once>
+            {(isVisible) => (
+              <Selection animate={isVisible} />
+            )}
+          </IsVisible>
 
           {categories?.remaining?.length > 0 && (
             <Container 
@@ -123,7 +174,16 @@ export default function Home() {
               paddingRight={{base: '16px', md: '128px'}}
             >
               {categories?.remaining?.map((cat) => (
-                <ByCategory slug={cat?.slug} marginTop={{base: '50px', md: '90px'}} />
+                <IsVisible once>
+                  {(isVisible) => (
+                    <ByCategory 
+                      animate={isVisible}
+                      direction='left'
+                      slug={cat?.slug} 
+                      marginTop={{base: '50px', md: '90px'}} 
+                    />
+                  )}
+                </IsVisible>
               ))}
             </Container>
           )}

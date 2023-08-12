@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useAxios } from '@/hooks/useAxios'
 import { 
   Box, 
@@ -10,15 +11,42 @@ import {
   VStack, 
   Text,
   useDisclosure,
-  Flex
+  Flex,
+  HStack
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
-import { Search2Icon } from '@chakra-ui/icons'
+import { ChevronLeftIcon, ChevronRightIcon, Search2Icon } from '@chakra-ui/icons'
 import { isReservedKeyword } from '@/utils'
 
 export const Search = ({ ...rest }) => {
+  const [category, setCategory] = useState()
+  const [parents, setParents] = useState([])
+  const [nav, setNav] = useState({})
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { data: list } = useAxios('/wp-json/wp/v2/categories')
+  const { data: parentCategories } = useAxios(`/wp-json/api/v1/get-parent-categories`)
+
+  useEffect(() => {
+    if(parentCategories?.length > 0) {
+      setParents(parentCategories.filter((f) => f.slug !== 'uncategorized'))
+      setCategory('emotion')
+    }
+  }, [parentCategories])
+
+  useEffect(() => {
+    if(parents?.length > 0) {
+      let _categories = [...parents]
+      let current = _categories.filter((f) => f?.slug === category)[0]
+      let filtered = _categories.filter((f) => f?.slug !== category)
+      let next = filtered.shift()
+      let prev = filtered.shift()
+      setNav({
+        current,
+        next: next,
+        prev: prev,
+      })
+      setParents([ next, prev, current ])
+    }
+  }, [category])
 
   return (
     <>
@@ -80,9 +108,9 @@ export const Search = ({ ...rest }) => {
           <DrawerCloseButton margin='15px' fontSize='30px' />
           <DrawerBody
             py={{base: '80px', md: '73px'}}
-            px={{base: '30px', md: '150px'}}
+            px={{ base: '15px', md: '30px'}}
           >
-            <Center flexDirection='column'>
+            <Center flexDirection='column' width='100%'>
               <Center
                 borderRadius='full'
                 background='#717171'
@@ -91,35 +119,59 @@ export const Search = ({ ...rest }) => {
                 width={{base: '143px', md: '143px'}}
                 height={{base: '32px', md: '32px'}}
               >
-                気分で探す
+                {nav?.current?.name}で探す
               </Center>
-              <Flex 
+              <HStack 
+                width='100%' 
+                alignItems='center' 
+                spacing={{base: '20px', md: '50px'}}
                 marginTop={{base: '58px', md: '58px'}}
-                flexWrap='wrap'
-                justifyContent='space-between'
-                gridGap={{base: '15px', md: '17px'}}
               >
-                {list?.map((tag, i) => {
-                  if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
-                  return (
-                    <NextLink href={`/story/tag?slug=${tag?.slug}`} passHref>
-                      <Center
-                        key={`tag-${i}`}
-                        cursor='pointer'
-                        borderRadius='full'
-                        border='1px solid white'
-                        lineHeight='normal'
-                        px={4}
-                        fontSize={{base: '18px', md: '18px'}}
-                        minWidth={{base: '129px', md: '129px'}}
-                        height={{base: '38px', md: '38px'}}
-                      >
-                        #{tag?.name}
-                      </Center>
-                    </NextLink>
-                  )
-                })}
-              </Flex>
+                <VStack
+                  onClick={() => setCategory(nav?.prev?.slug)}
+                  cursor='pointer'
+                  visibility={nav?.prev?.slug ? 'visible' : 'hidden'}
+                  _hover={{ opacity: 0.8}}
+                >
+                  <Text whiteSpace='nowrap' fontSize='15px'>{nav?.prev?.name}で探す</Text>
+                  <ChevronLeftIcon cursor='pointer' fontSize='30px' />
+                </VStack>
+                <Flex 
+                  flexWrap='wrap'
+                  justifyContent={{ base: 'center', md: 'space-between'}}
+                  gridGap={{base: '15px', md: '17px'}}
+                >
+                  {nav?.current?.subs?.map((tag, i) => {
+                    if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
+                    return (
+                      <NextLink href={`/story/tag?slug=${tag?.slug}`} passHref>
+                        <Center
+                          key={`tag-${i}`}
+                          cursor='pointer'
+                          borderRadius='full'
+                          border='1px solid white'
+                          lineHeight='normal'
+                          px={4}
+                          fontSize={{base: '18px', md: '18px'}}
+                          minWidth={{base: '129px', md: '129px'}}
+                          minHeight={'38px'}
+                          height='auto'
+                        >
+                          #{tag?.name}
+                        </Center>
+                      </NextLink>
+                    )
+                  })}
+                </Flex>
+                <VStack
+                  onClick={() => setCategory(nav?.next?.slug)}
+                  cursor='pointer'
+                  visibility={nav?.next?.slug ? 'visible' : 'hidden'}
+                >
+                  <Text whiteSpace='nowrap' fontSize='15px'>{nav?.next?.name}で探す</Text>
+                  <ChevronRightIcon fontSize='30px' />
+                </VStack>
+              </HStack>
             </Center>
           </DrawerBody>
         </DrawerContent>

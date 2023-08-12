@@ -70,15 +70,33 @@ a {
   height: 100%;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 515px) {
   .pc {
     display: none !important;
   }
+
+  .chakra-icon.slick-arrow.slick-next {
+    right: 0 ;
+    top: 340px;
+  }
+
+  .chakra-icon.slick-arrow.slick-prev {
+    left: 0;
+    top: 340px
+  }
+
+  .article-list {
+    grid-gap: 25px;
+  }
 }
 
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 520px) {
   .sp {
     display: none !important;
+  }
+
+  .article-list {
+    grid-gap: 68px;
   }
 }
 
@@ -128,5 +146,29 @@ a {
   }
   to {
     -webkit-transform: rotate(360deg);
+  }
+}
+
+.slide-right {
+  animation: 2s slide-right;
+}
+@keyframes slide-right {
+  from {
+    margin-left: -30%;
+  }
+  to {
+    margin-left: 0%;
+  }
+}
+
+.slide-left {
+  animation: 2s slide-left;
+}
+@keyframes slide-left {
+  from {
+    margin-left: 30%;
+  }
+  to {
+    margin-left: 0%;
   }
 }

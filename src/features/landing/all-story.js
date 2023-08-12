@@ -6,8 +6,8 @@ import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Article } from './article'
 import NextLink from 'next/link'
 
-export const AllStories = () => {
-  const { data, loading } = useAxios('/wp-json/wp/v2/articles?per_page=6')
+export const AllStories = ({ animate }) => {
+  const { data, loading } = useAxios('/wp-json/api/v1/articles')
   const [emblaRef, embla] = useEmblaCarousel({ 
     loop: false,
     dragFree: true,
@@ -21,6 +21,8 @@ export const AllStories = () => {
     <Box>
       <NextLink href={`/story/all`} passHref>
         <Box
+          animation={animate ? '1.5s slide-left' : ''}
+          minWidth='100%'
           height={{base: '36px', md: '77px'}}
           borderLeft='2px solid white'
           paddingLeft={{base: '16px', md: '30px'}}
@@ -33,7 +35,10 @@ export const AllStories = () => {
           ALL STORY 
         </Box>
       </NextLink>
-      <Box className="embla" display={{base: 'block', md: 'none'}}>
+      <Box 
+        className={`embla`}
+        display={{base: 'block', md: 'none'}}
+      >
         <Box className="embla__viewport" ref={emblaRef}>
           <Box className="embla__container">
             {[...(
@@ -61,7 +66,9 @@ export const AllStories = () => {
         </Box>
       </Box>
       <Flex 
+        animation={animate ? '2s slide-left' : ''}
         flexWrap='wrap'
+        minWidth='100%'
         display={{base: 'none', md: 'flex'}}
         gridGap={{base: '25px', md: '68px'}}
       >
@@ -81,9 +88,14 @@ export const AllStories = () => {
           )
         })}
       </Flex>
-      <Flex display={{base: 'none', md: 'flex'}} justifyContent='flex-end' marginTop={{base: '', md: '50px'}}>
+      <Flex 
+        display={{base: 'none', md: 'flex'}} 
+        justifyContent='flex-end'
+        marginTop={{base: '', md: '50px'}}
+      >
         <NextLink href={`/story/all`} passHref>
           <Button 
+            animation={animate ? '2s slide-left' : ''}
             height={{base: '', md: '43px'}}
             width={{base: '', md: '138px'}}
             borderRadius='full'

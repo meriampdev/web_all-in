@@ -7,7 +7,6 @@ export const Article = ({ article, isLoading }) => {
   return (
     <NextLink 
       href={`/story/detail?slug=${article?.post_name || article?.slug}`} 
-      _hover={{textDecoration: 'none'}} 
       paddingBottom='30px'
     >
       <VStack

@@ -18,7 +18,7 @@ import {
   IconButton
 } from '@chakra-ui/react'
 
-export const ApplicationRequirements = ({ article, content }) => {
+export const ApplicationRequirements = ({ floatingBtn, article, content }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [bodyNode, setNode] = useState({ current: null })
   const bodyRef = useCallback((node) => {
@@ -36,21 +36,45 @@ export const ApplicationRequirements = ({ article, content }) => {
 
   return (
     <>
-      <Button
-        onClick={onOpen}
-        tabIndex={-1} 
-        bg='white'
-        color='black'
-        fontWeight='normal'
-        width={{base: '100%', md: '314px'}}
-        height={{base: '48px', md: '52px'}}
-        fontSize={{base: '16px', md: '22px'}}
-        borderRadius='full'
-        _hover={{ opacity: 0.8 }}
-      >
-      {/* メールで応募する */}
-      募集要項を詳しく見る
-      </Button>
+      {floatingBtn ? (
+        <Center
+          cursor='pointer'
+          onClick={onOpen}
+          tabIndex={-1} 
+          position='sticky'
+          alignSelf='flex-start'
+          marginTop={{base: '20px', md: '40px'}}
+          marginLeft={{base: '-100px', md: '-140px'}}
+          top='470px'
+          right='40px'
+          flexDirection='column'
+          borderRadius='full'
+          background='black'
+          fontSize={{ base: '14px', md: '20px'}}
+          lineHeight={{ base: '20px', md: '25px'}}
+          minWidth={{base: '100px', md: '150px'}}
+          height={{base: '100px', md: '150px'}}
+        >
+          <Box>募集要項</Box>
+          <Box>を見る</Box>
+        </Center>
+        ) : (
+          <Button
+            cursor='pointer'
+            onClick={onOpen}
+            tabIndex={-1} 
+            bg='white'
+            color='black'
+            fontWeight='normal'
+            width={{base: '100%', md: '314px'}}
+            height={{base: '48px', md: '52px'}}
+            fontSize={{base: '16px', md: '22px'}}
+            borderRadius='full'
+            _hover={{ opacity: 0.8 }}
+          >
+            募集要項を詳しく見る
+          </Button>
+      )}
       <Modal isOpen={isOpen} onClose={onClose} size='6xl' scrollBehavior='inside'>
         <ModalOverlay />
         <ModalContent>
@@ -61,7 +85,7 @@ export const ApplicationRequirements = ({ article, content }) => {
           >
             <Text
               letterSpacing='2.32px'
-              fontSize={{base: '', md: '29px'}}
+              fontSize={{base: '25px', md: '29px'}}
             >
             募集要項
             </Text>
@@ -100,7 +124,7 @@ export const ApplicationRequirements = ({ article, content }) => {
             <Center width='100%'>
               <Flex gridGap={{base: '12px', md: '36px'}}>
                 <Link 
-                  href={article?.acf?.recruitment_url_link?.url} 
+                  href={article?.post_acfs?.recruitment_url_link?.url} 
                   isExternal
                   width={{base: '100%', md: 'fit-content'}}
                 >
@@ -113,7 +137,7 @@ export const ApplicationRequirements = ({ article, content }) => {
                   </Button>
                 </Link>
                 <Link 
-                  href={`mailto:${article?.acf?.recruitment_email}`} 
+                  href={`mailto:${article?.post_acfs?.recruitment_email}`} 
                   width={{base: '100%', md: 'fit-content'}}
                 >
                   <Button

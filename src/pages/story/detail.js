@@ -25,6 +25,22 @@ export default function ArticleDetail() {
   const [loading, setLoading] = useState(true)
   const [article, setArticle] = useState(null)
   const [tags, setTagList] = useState([])
+  const [nextArticle, setNextArticle] = useState({})
+  const [prevArticle, setPrevArticle] = useState({})
+  const [shareLinks, setShareLinks] = useState({})
+
+  useEffect(() => {
+    let q = window?.location?.origin + router?.asPath
+    let fbShare = `${q}&quote=${article?.post_title} %0D%0A${article?.post_excerpt}%0D%0A`
+    let twitterShare = `${q}&text=${article?.post_title} %0D%0A${article?.post_excerpt}%0D%0A`
+
+    setShareLinks({ 
+      twitterShare: `https://twitter.com/share?url=${twitterShare}`, 
+      fbShare: `https://www.facebook.com/sharer/sharer.php?u=${fbShare}`,
+      lineShare: `https://social-plugins.line.me/lineit/share?url=${q}`,
+      bpsShare: `https://b.hatena.ne.jp/entry/panel/?url=${q}`
+    })
+  }, [article, router])
 
   useEffect(() => {
     axios
@@ -36,29 +52,58 @@ export default function ArticleDetail() {
       }).catch((err) => {
         console.log('err', err)
       })
+    
   }, [])
 
   useEffect(() => {
     setLoading(true)
-    axios
-      .get(`${WP_REST_API}/wp-json/wp/v2/articles?slug=${router?.query?.slug}`)
-      .then((response) => {
-        setLoading(false)
-        if(response?.data?.length > 0) {
-          setArticle(response.data[0])
-        }
-      }).catch((err) => {
-        console.log('err', err)
-        setLoading(false)
-      })
+    if(router?.query?.slug) {
+      axios
+        .get(`${WP_REST_API}/wp-json/api/v1/article-by-slug/${router?.query?.slug}`)
+        .then((response) => {
+          setLoading(false)
+          if(response?.data?.article?.length > 0) {
+            setArticle(response.data?.article[0])
+          }
+          if(response?.data?.next) {
+            setNextArticle(response?.data?.next)
+          }
+          if(response?.data?.prev) {
+            setPrevArticle(response?.data?.prev)
+          }
+        }).catch((err) => {
+          console.log('err', err)
+          setLoading(false)
+        })
+    }
   }, [router?.query?.slug])
 
   const renderSnsIcons = () => (
-    <Flex gridGap='17px' alignSelf={{base: 'center', md: 'unset'}}>
-      <Icon as={TwitterIcon} />
-      <Icon as={FacebookIcon2} />
-      <Icon as={LineIcon} />
-      <Icon as={BIcon} />
+    <Flex gridGap='17px' alignItems='center' alignSelf={{base: 'center', md: 'unset'}}>
+      <Link
+        isExternal
+        href={shareLinks?.twitterShare}
+      >
+        <Icon as={TwitterIcon} />
+      </Link>
+      <Link
+        isExternal
+        href={shareLinks?.fbShare}
+      >
+        <Icon as={FacebookIcon2} />
+      </Link>
+      <Link 
+        isExternal 
+        href={shareLinks?.lineShare}
+      >
+        <Icon as={LineIcon} />
+      </Link>
+      <Link 
+        isExternal
+        href={shareLinks?.bpsShare}
+      >
+        <Icon as={BIcon} />
+      </Link>
     </Flex>
   )
 
@@ -158,15 +203,20 @@ export default function ArticleDetail() {
               アニメーションを見る
               </Button>
             </Center>
-            <Center width='100%'>
+            <Center width='100%' position='relative'>
               <Box 
                 dangerouslySetInnerHTML={{
                   __html: article?.content?.rendered || article?.post_content
                 }}
               />
+              <ApplicationRequirements 
+                article={article}
+                content={article?.post_acfs?.application_requirements} 
+                floatingBtn={true}
+              />
             </Center>
           </Box>
-          {(article?.acf?.recruitment_description) && (
+          {(article?.post_acfs?.recruitment_description) && (
             <Box>
               <Flex 
                 marginTop={{base: '64px', md: '184px'}}
@@ -179,9 +229,9 @@ export default function ArticleDetail() {
                   minWidth={{base: '178px', md: '356px'}}
                   bg='#e2e2e2'
                 >
-                  {article?.recruitment_image && (
+                  {article?.post_acfs?.recruitment_image && (
                     <Image 
-                      src={article?.recruitment_image}
+                      src={article?.post_acfs?.recruitment_image?.url}
                       width={'100%'}
                       height='100%'
                       objectFit='cover'
@@ -206,20 +256,20 @@ export default function ArticleDetail() {
                     fontSize={{base: '18px', md: '20px'}}
                     marginBottom={{base: '22px', md: '30px'}}
                   >
-                    {article?.acf?.recruitment_title}
+                    {article?.post_acfs?.recruitment_title}
                   </Text>
                   <Text
                     fontSize={{base: '12px', md: '14px'}}
                     lineHeight={{base: '24px', md: '24px'}}
                   >
-                    {article?.acf?.recruitment_description}
+                    {article?.post_acfs?.recruitment_description}
                   </Text>
                 </Box>
               </Flex>
               <Center marginTop={{base: '78px', md: '126px'}} width='100%'>
                 <ApplicationRequirements 
                   article={article}
-                  content={article?.acf?.application_requirements} 
+                  content={article?.post_acfs?.application_requirements} 
                 />
               </Center>
             </Box>
@@ -262,7 +312,7 @@ export default function ArticleDetail() {
             </Text>
             <Flex marginTop={{base: '31px', md: '43px'}} gridGap={{base: '12px', md: '36px'}}>
               <Link 
-                href={article?.acf?.recruitment_url_link?.url} 
+                href={article?.post_acfs?.recruitment_url_link?.url} 
                 isExternal
                 width={{base: '100%', md: 'fit-content'}}
               >
@@ -275,7 +325,7 @@ export default function ArticleDetail() {
                 </Button>
               </Link>
               <Link 
-                href={`mailto:${article?.acf?.recruitment_email}`} 
+                href={`mailto:${article?.post_acfs?.recruitment_email}`} 
                 width={{base: '100%', md: 'fit-content'}}
               >
                 <Button
@@ -297,47 +347,64 @@ export default function ArticleDetail() {
         </Center>
         <Container>
           <Center width='100%' justifyContent='space-between' px={{base: '', md: '100px', lg: '150px'}}>
-            <Button
-              bg='transparent'
-              color='white'
-              fontSize={{base: '12px', md: '16px'}}
-              fontWeight='normal'
-              _hover={{
-                bg: 'transparent'
-              }}
+            <NextLink 
+              href={`/story/detail?slug=${prevArticle?.post_name}`} 
+              passHref
+              style={{ pointerEvents: !prevArticle?.post_name ? 'none' : 'all' }}
             >
-              <ChevronLeftIcon fontSize='40px' />
-              <Text>
-              BEFORE　<Text as='span' className='pc'>会社と出会う</Text>
-              </Text>
-            </Button>
-            <Button
-              bg='transparent'
-              color='white'
-              fontSize={{base: '12px', md: '16px'}}
-              fontWeight='normal'
-              _hover={{
-                bg: 'transparent'
-              }}
+              <Button
+                isDisabled={!prevArticle?.post_name}
+                bg='transparent'
+                color='white'
+                fontSize={{base: '12px', md: '16px'}}
+                fontWeight='normal'
+                _hover={{
+                  bg: 'transparent'
+                }}
+              >
+                <ChevronLeftIcon fontSize='40px' />
+                <Text>
+                BEFORE　<Text as='span' className='pc'>会社と出会う</Text>
+                </Text>
+              </Button>
+            </NextLink>
+            <NextLink href='/story/all' passHref>
+              <Button
+                cursor='pointer'
+                bg='transparent'
+                color='white'
+                fontSize={{base: '12px', md: '16px'}}
+                fontWeight='normal'
+                _hover={{
+                  bg: 'transparent'
+                }}
+              >
+                <Text>
+                ALL STORYへ
+                </Text>
+              </Button>
+            </NextLink>
+            <NextLink 
+              href={`/story/detail?slug=${nextArticle?.post_name}`} 
+              passHref
+              style={{ pointerEvents: !nextArticle?.post_name ? 'none' : 'all' }}
             >
-              <Text>
-              ALL STORYへ
-              </Text>
-            </Button>
-            <Button
-              bg='transparent'
-              color='white'
-              fontSize={{base: '12px', md: '16px'}}
-              fontWeight='normal'
-              _hover={{
-                bg: 'transparent'
-              }}
-            >
-              <Text>
-              AFTER　<Text as='span' className='pc'>会社と出会う</Text>
-              </Text>
-              <ChevronRightIcon fontSize='40px' />
-            </Button>
+              <Button
+                isDisabled={!nextArticle?.post_name}
+                bg='transparent'
+                color='white'
+                fontSize={{base: '12px', md: '16px'}}
+                fontWeight='normal'
+                _hover={{
+                  bg: 'transparent'
+                }}
+              >
+                <Text>
+                AFTER　<Text as='span' className='pc'>会社と出会う</Text>
+                </Text>
+                <ChevronRightIcon fontSize='40px' />
+              </Button>
+            </NextLink>
           </Center>
         </Container>
         <Container 
