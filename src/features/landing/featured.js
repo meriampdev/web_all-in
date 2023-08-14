@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import { Box, Button, Center, Flex, Image, VStack } from '@chakra-ui/react'
+import NextLink from 'next/link'
 import { WP_REST_API } from '@/constants'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
@@ -59,6 +60,7 @@ export const Featured = ({ animate }) => {
 
   return (
     <Box
+      animation={animate ? '1s slide-left-100' : ''}
       position='relative'
       marginTop={{base: '66px', md: '129px'}}
       height={{base: '477px', md: '620px'}}
@@ -68,7 +70,6 @@ export const Featured = ({ animate }) => {
       alignItems='center'
     >
       <Box
-        animation={animate ? '1s slide-right' : ''}
         position='absolute'
         top={{base: '115px', md: '241px'}}
         left={{base: '-140px', md: '-250px'}}
@@ -208,15 +209,20 @@ export const Featured = ({ animate }) => {
                               overflow: 'hidden'
                             }}
                           />
-                          <Button
-                            borderRadius='full'
-                            lineHeight='normal'
-                            width={{base: '100px', md: '142px'}}
-                            height={{base: '28px', md: '43px'}}
-                            fontSize={{base: '13px', md: '16px'}}
+                          <NextLink 
+                            href={`/story/detail?slug=${item?.post_name || item?.slug}`} 
+                            passHref
                           >
-                            WATCH
-                          </Button>
+                            <Button
+                              borderRadius='full'
+                              lineHeight='normal'
+                              width={{base: '100px', md: '142px'}}
+                              height={{base: '28px', md: '43px'}}
+                              fontSize={{base: '13px', md: '16px'}}
+                            >
+                              WATCH
+                            </Button>
+                          </NextLink>
                         </VStack>
                       </Box>
                     </Flex>

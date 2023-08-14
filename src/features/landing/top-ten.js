@@ -1,6 +1,7 @@
 import { useAxios } from '@/hooks/useAxios'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import useEmblaCarousel from 'embla-carousel-react'
+import IsVisible from 'react-is-visible'
 import { Box, Image, Skeleton } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
@@ -12,6 +13,7 @@ export const TopTen = () => {
     containScroll: 'keepSnaps',
   }, [WheelGesturesPlugin()])
   const { data, loading } = useAxios('/wp-json/api/v1/articles-by-tag/top10')
+  
 
   return (
     <Box 
@@ -31,50 +33,77 @@ export const TopTen = () => {
       <Box className="embla">
         <Box className="embla__viewport" ref={emblaRef}>
           <Box className="embla__container">
-            {[...(data?.length > 0 ? data : [{ id: 1 }, { id: 2 }, { id: 3 }])]?.map((item) => (
-              <NextLink 
-                href={`/story/detail?slug=${item?.post_name || item?.slug}`} 
-                _hover={{textDecoration: 'none'}} 
-              >
-                <Box 
-                  key={item?.id}  
-                  className="embla__slide"
-                  pr={{ base: '24px', md: '22px' }}
-                >
-                  <Skeleton 
-                    width={{base: '195px', lg: '250px'}}
-                    height={{base: '140px', lg: '179px'}}
-                    isLoaded={loading === false}
-                    borderRadius='10px'
-                  >
-                    <Box 
-                      className='embla__slide__inner'
-                      borderRadius='10px'
-                      width={{base: '195px', lg: '250px'}}
-                      height={{base: '140px', lg: '179px'}}
-                      position='relative'
+            {[...(data?.length > 0 ? data : [])]?.map((item) => {
+              return (
+                <IsVisible once>
+                  {(isVisible) => (
+                    <NextLink 
+                      key={item?.id}  
+                      href={`/story/detail?slug=${item?.post_name || item?.slug}`} 
+                      _hover={{textDecoration: 'none'}} 
                     >
-                      <Box
-                        position='absolute'
-                        bottom='0'
-                        left='3px'
-                        fontSize={{base: '37px', md: '50px'}}
-                        lineHeight='normal'
+                      <Box 
+                        className="embla__slide"
+                        pr={{ base: '24px', md: '22px' }}
                       >
-                        {item?.post_acfs?.order}
+                        <Skeleton 
+                          width={{base: '195px', lg: '250px'}}
+                          height={{base: '140px', lg: '179px'}}
+                          isLoaded={loading === false}
+                          borderRadius='10px'
+                        >
+                          <Box 
+                            className='embla__slide__inner'
+                            borderRadius='10px'
+                            width={{base: '195px', lg: '250px'}}
+                            height={{base: '140px', lg: '179px'}}
+                            position='relative'
+                            className={(isVisible && loading === false) ? 'inview' : ''}
+                            css={{
+                              '&.inview': {
+                                '&::before': {
+                                  width: 0
+                                }
+                              }
+                            }}
+                            _before={{
+                              backgroundColor: '#2B575D',
+                              content: "''",
+                              display: 'block',
+                              borderRadius: '10px',
+                              width: '100%',
+                              height: {base: '152px', md: '209px'},
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              zIndex: 200,
+                              transition: 'width 0.6s ease-out 0.5s'
+                            }}
+                          >
+                            <Box
+                              position='absolute'
+                              bottom='0'
+                              left='3px'
+                              fontSize={{base: '37px', md: '50px'}}
+                              lineHeight='normal'
+                            >
+                              {item?.post_acfs?.order}
+                            </Box>
+                            <Image 
+                              src={item?.featured_image}
+                              borderRadius='10px'
+                              height='100%'
+                              width='100%'
+                              objectFit='cover'
+                            />
+                          </Box>
+                        </Skeleton>
                       </Box>
-                      <Image 
-                        src={item?.featured_image}
-                        borderRadius='10px'
-                        height='100%'
-                        width='100%'
-                        objectFit='cover'
-                      />
-                    </Box>
-                  </Skeleton>
-                </Box>
-              </NextLink>
-            ))}
+                    </NextLink>
+                  )}
+                </IsVisible>
+              )
+            })}
           </Box>
         </Box>
       </Box>

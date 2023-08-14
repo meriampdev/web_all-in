@@ -15,6 +15,7 @@ export const Selection = ({ animate }) => {
 
   return (
     <Box
+      animation={animate ? '1s slide-left-100' : ''}
       position='relative'
       marginTop={{base: '66px', md: '97px'}}
       height={{base: '', md: '620px'}}
@@ -24,7 +25,6 @@ export const Selection = ({ animate }) => {
       alignItems='center'
     >
       <Box
-        animation={animate ? '1s slide-right' : ''}
         position='absolute'
         top={{base: '100px', md: '241px'}}
         left={{base: '-150px', md: '-250px'}}
