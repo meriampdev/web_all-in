@@ -1,11 +1,10 @@
 import Head from 'next/head'
-import { Container } from '@/components/container'
-import { Box, Center, Flex, Image, Link, Text } from '@chakra-ui/react'
+import { Box, Flex, Image, Link, Text } from '@chakra-ui/react'
 import { Header } from '@/components/header'
 import { Search } from '@/features/landing/search'
 import { Footer } from '@/components/footer'
+import NextLink from 'next/link'
 import JobBoardImage from '@/assets/images/job-board.png'
-import GradientBubble from '@/assets/images/gradient-bubble1.png'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 
 export default function JobBoard() {
@@ -110,21 +109,21 @@ export default function JobBoard() {
                 <br />
                 テキストテキストテキストテキストテキストテキスト
               </Box>
-              <Link href='#'>
+              <NextLink href='/contact' passHref>
                 <Text 
                   fontSize={{ base: '12px', md: '16px'}}
                   mt={{base: '72px', md: '166px'}}
                 >
                   お問い合わせ <ChevronRightIcon fontSize='20px' />
                 </Text>
-              </Link>
+              </NextLink>
             </Box>
           </Flex>
           <Footer />
         </Box>
         <Box 
           position='absolute'
-          top='731px'
+          bottom='0'
           left='-400px'
           zIndex='0'
           borderRadius='full'
