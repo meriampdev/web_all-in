@@ -39,9 +39,10 @@ export const MainMv = () => {
         backgroundImage={`url("${data?.length > 0 ? data[active]?.tagImageSrc : ''}")`}
         backgroundSize='cover'
         backgroundRepeat='no-repeat'
+        backgroundPosition='center'
         height={{base: '700px', xl: '690px'}}
         width='100%'
-        transition='background 0.4s linear'
+        transition='background 0.1s linear'
       >
         <Center 
           width='100%' 

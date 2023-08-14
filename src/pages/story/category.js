@@ -1,7 +1,7 @@
 import { useAxios } from '@/hooks/useAxios'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { Box, Center, Flex, SkeletonText, Spinner } from '@chakra-ui/react'
+import { Box, Center, Flex, SkeletonText, Spinner, Text } from '@chakra-ui/react'
 import { Header } from '@/components/header'
 import { Search } from '@/features/landing/search'
 import { Footer } from '@/components/footer'

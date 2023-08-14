@@ -19,6 +19,8 @@ import { FullPageLoader } from '@/components/loader';
 import { WP_REST_API } from '@/constants'
 import { ApplicationRequirements } from '@/features/article-detail/application-requirements'
 import NextLink from 'next/link'
+import IsVisible from 'react-is-visible'
+import { JobOffer } from '@/features/article-detail/job-offer'
 
 export default function ArticleDetail() {
   const router = useRouter()
@@ -107,6 +109,11 @@ export default function ArticleDetail() {
     </Flex>
   )
 
+  const categories = article?.post_categories ? article?.post_categories?.filter((tag) => {
+    if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return false 
+    return true
+  }) : []
+
   return (
     <>
       <Head>
@@ -170,8 +177,7 @@ export default function ArticleDetail() {
               mb={{base: '40px', md: '80px'}}
             >
               <Flex gridGap='10px' flexWrap='wrap'>
-                {article?.post_categories?.map((tag) => {
-                  if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
+                {categories.map((tag) => {
                   return (
                     <Center
                       key={`tag-${tag?.term_id}`}
@@ -190,18 +196,27 @@ export default function ArticleDetail() {
               {renderSnsIcons()}
             </Flex>
             <Center mb={{base: '20px', md: '63px'}}>
-              <Button
-                width={{base: '294px', md: '274px'}}
-                height={{base: '48px', md: '46px'}}
-                fontSize={{base: '16px', md: '14px'}}
-                fontWeight='normal'
-                border='1px solid white'
-                borderRadius='full'
-                bg='transparent'
-                color='white'
+              <NextLink 
+                href={categories?.length > 0 ? `/story/tag?slug=${categories[0]?.slug}` : []} 
+                passHref
               >
-              アニメーションを見る
-              </Button>
+                <Button
+                  width={{base: '294px', md: '274px'}}
+                  height={{base: '48px', md: '46px'}}
+                  fontSize={{base: '16px', md: '14px'}}
+                  fontWeight='normal'
+                  border='1px solid white'
+                  borderRadius='full'
+                  bg='transparent'
+                  color='white'
+                  _hover={{
+                    bg: 'transparent',
+                    opacity: 0.8
+                  }}
+                >
+                アニメーションを見る
+                </Button>
+              </NextLink>
             </Center>
             <Center width='100%' position='relative'>
               <Box 
@@ -275,70 +290,18 @@ export default function ArticleDetail() {
             </Box>
           )}
         </Container>
-        <Box 
-          mt={{base: '81px', md: '136px'}}
-          width='100%'
-          height={{base: '215px', md: '245px'}}
-          bg='black'
-          backdropFilter='blur(15px)'
-          position='relative'
-        >
-          <Box
-            fontSize={{base: '50px', md: '141px'}}
-            lineHeight={{base: '60px', md: '171px'}}
-            letterSpacing='8.46px'
-            fontWeight='bold'
-            textAlign='center'
-            color='white'
-            opacity='0.1'
-          >
-            JOB OFFER
-          </Box>
-          <Center
-            position='absolute'
-            top='0'
-            left='0'
-            width='100%'
-            flexDirection='column'
-            height={{base: '215px', md: '245px'}}
-          >
-            <Text
-              fontSize={{base: '30px', md: '44px'}}
-              letterSpacing='2.2px'
-              color='white'
-              fontWeight='normal'
-            >
-            この求人に応募する
-            </Text>
-            <Flex marginTop={{base: '31px', md: '43px'}} gridGap={{base: '12px', md: '36px'}}>
-              <Link 
-                href={article?.post_acfs?.recruitment_url_link?.url} 
-                isExternal
-                width={{base: '100%', md: 'fit-content'}}
-              >
-                <Button
-                  width={{base: '152px', md: '258px'}}
-                  height={{base: '36px', md: '46px'}}
-                  borderRadius='full'
-                >
-                採用ページへ
-                </Button>
-              </Link>
-              <Link 
-                href={`mailto:${article?.post_acfs?.recruitment_email}`} 
-                width={{base: '100%', md: 'fit-content'}}
-              >
-                <Button
-                  width={{base: '152px', md: '258px'}}
-                  height={{base: '36px', md: '46px'}}
-                  borderRadius='full'
-                >
-                  メールで応募する
-                </Button>
-              </Link>
-            </Flex>
-          </Center>
-        </Box>
+        
+        {article && (
+          <IsVisible>
+            {(isVisible) => (
+              <JobOffer 
+                isVisible={isVisible} 
+                article={article}
+              />
+            )}
+          </IsVisible>
+        )}
+
         <Center 
           mt={{base: '72px', md: '77px'}}
           mb={{base: '60px', md: '113px'}}

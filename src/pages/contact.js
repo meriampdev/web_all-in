@@ -2,6 +2,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useForm } from "react-hook-form"
 import Head from 'next/head'
+import NextLink from 'next/link'
 import { Container } from '@/components/container'
 import { Box, Button, Center, Flex, HStack, VStack, Text, RadioGroup, Stack, Radio, Input, Textarea, Checkbox } from '@chakra-ui/react'
 import { Header } from '@/components/header'
@@ -76,7 +77,18 @@ export default function Contact() {
     }
   }
 
+  const FieldWrap = ({ children, ...rest }) => (
+    <Flex 
+      flexDirection={{ base: 'column', md: forConfirm ? 'row' : 'column'}}
+      gridGap={{ base: '17px', md: forConfirm ? '25px' : '20px' }}
+      {...rest}
+    >
+      {children}
+    </Flex>
+  ) 
+
   const RequiredTag = () => (
+    forConfirm ? null : 
     <Center
       borderRadius='full'
       fontSize='10px'
@@ -146,22 +158,36 @@ export default function Contact() {
               <Box
                 width='100%'
                 borderRadius='17px'
+                mt={{ base: '60px', md: '70px'}}
                 padding={{base: '62px 25px', md: '100px 120px'}}
-                background={'transparent linear-gradient(180deg, #000 0%, #222222 100%) 0% 0% no-repeat padding-box'}
+                background={'#CFD4D7'}
               >
                 <VStack spacing='30px'>
-                  <Text fontSize='30px'>送信完了</Text>
-                  <Button
-                    onClick={() => {
-                      setDone(false)
-                    }}
-                    width={{base: '286px', md: '314px'}}
-                    height={{base: '48px', md: '52px'}}
-                    borderRadius='full'
-                    fontSize={{base: '16px', md: '20px'}}
+                  <Text 
+                    color='black' 
+                    fontSize={{ base: '12px', md: '14px'}} 
+                    textAlign='center'
+                    lineHeight={'30px'}
                   >
-                    戻る
-                  </Button>
+                    お問い合わせありがとうございます。 <br />
+                    確認次第、担当者よりご連絡をさせていただきます。
+                  </Text>
+                  <NextLink href='/' passHref>
+                    <Button
+                      bg='black'
+                      color='white'
+                      width={{base: '184px', md: '197px'}}
+                      height={{base: '51px', md: '56px'}}
+                      borderRadius='full'
+                      fontSize={{base: '16px', md: '20px'}}
+                      _hover={{
+                        bg: 'black',
+                        opacity: 0.8
+                      }}
+                    >
+                      TOPへ
+                    </Button>
+                  </NextLink>
                 </VStack>
               </Box>
             )}
@@ -170,10 +196,20 @@ export default function Contact() {
               width='100%'
               borderRadius='17px'
               padding={{base: '62px 25px', md: '100px 120px'}}
-              background={'transparent linear-gradient(180deg, #000 0%, #222222 100%) 0% 0% no-repeat padding-box'}
+              background={
+                forConfirm ? '#CFD4D7' :
+                'transparent linear-gradient(180deg, #000 0%, #222222 100%) 0% 0% no-repeat padding-box'
+              }
+              color={forConfirm ? 'black' : 'white'}
+              mt={forConfirm ? '70px' : '0'}
             >
-              <VStack spacing='20px' alignItems='flex-start'>
-                <Text fontSize={{base: '12px', md: '14px'}}>
+              {forConfirm && (
+                <Box fontSize={'14px'} lineHeight='44px' mb='57px'>
+                  内容を確認の上、送信ボタンを押してください。
+                </Box>
+              )}
+              <FieldWrap>
+                <Text minWidth='115px' fontSize={{base: '12px', md: '14px'}}>
                   種別
                 </Text>
                 <RenderFormField formKey={'inquiry_type'}>
@@ -195,15 +231,15 @@ export default function Contact() {
                     </Stack>
                   </RadioGroup>
                 </RenderFormField>
-              </VStack>
+              </FieldWrap>
               <VStack 
                 marginTop={{base: '42px', md: '50px'}} 
                 alignItems='flex-start' 
-                spacing={{ base: '44px', md: '52px'}}
+                spacing={{ base: '30px', md: '52px'}}
               >
-                <VStack alignItems='flex-start' width='100%' spacing='14px'>
+                <FieldWrap alignItems='flex-start' width='100%' spacing='14px'>
                   <HStack spacing='16px'>
-                    <Text fontSize={{ base: '12px', md: '14px'}}>
+                    <Text minWidth='115px' fontSize={{ base: '12px', md: '14px'}}>
                       会社・組織名
                     </Text>
                     <RequiredTag />
@@ -224,10 +260,10 @@ export default function Contact() {
                       background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
                     />
                   </RenderFormField>
-                </VStack>
-                <VStack alignItems='flex-start' width='100%' spacing='14px'>
+                </FieldWrap>
+                <FieldWrap alignItems='flex-start' width='100%' spacing='14px'>
                   <HStack spacing='16px'>
-                    <Text fontSize={{ base: '12px', md: '14px'}}>
+                    <Text minWidth='115px' fontSize={{ base: '12px', md: '14px'}}>
                       部署名・部門名
                     </Text>
                   </HStack>
@@ -246,10 +282,10 @@ export default function Contact() {
                       background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
                     />
                   </RenderFormField>
-                </VStack>
-                <VStack alignItems='flex-start' width='100%' spacing='14px'>
+                </FieldWrap>
+                <FieldWrap alignItems='flex-start' width='100%' spacing='14px'>
                   <HStack spacing='16px'>
-                    <Text fontSize={{ base: '12px', md: '14px'}}>
+                    <Text minWidth='115px' fontSize={{ base: '12px', md: '14px'}}>
                     氏名(漢字)
                     </Text>
                     <RequiredTag />
@@ -288,10 +324,10 @@ export default function Contact() {
                       />
                     </RenderFormField>
                   </Flex>
-                </VStack>
-                <VStack alignItems='flex-start' width='100%' spacing='14px'>
+                </FieldWrap>
+                <FieldWrap alignItems='flex-start' width='100%' spacing='14px'>
                   <HStack spacing='16px'>
-                    <Text fontSize={{ base: '12px', md: '14px'}}>
+                    <Text minWidth='115px' fontSize={{ base: '12px', md: '14px'}}>
                     氏名(ふりがな)
                     </Text>
                     <RequiredTag />
@@ -331,10 +367,10 @@ export default function Contact() {
                     </RenderFormField>
                     
                   </Flex>
-                </VStack>
-                <VStack alignItems='flex-start' width='100%' spacing='14px'>
+                </FieldWrap>
+                <FieldWrap alignItems='flex-start' width='100%' spacing='14px'>
                   <HStack spacing='16px'>
-                    <Text fontSize={{ base: '12px', md: '14px'}}>
+                    <Text minWidth='115px' fontSize={{ base: '12px', md: '14px'}}>
                     メールアドレス
                     </Text>
                     <RequiredTag />
@@ -366,10 +402,10 @@ export default function Contact() {
                       background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
                     />
                   </RenderFormField>
-                </VStack>
-                <VStack alignItems='flex-start' width='100%' spacing='14px'>
+                </FieldWrap>
+                <FieldWrap alignItems='flex-start' width='100%' spacing='14px'>
                   <HStack spacing='16px'>
-                    <Text fontSize={{ base: '12px', md: '14px'}}>
+                    <Text minWidth='115px' fontSize={{ base: '12px', md: '14px'}}>
                     問い合わせ内容
                     </Text>
                     <RequiredTag />
@@ -393,7 +429,7 @@ export default function Contact() {
                       background='transparent linear-gradient(270deg, #D6DCE0 0%, #B7B7B7 73%, #C5BEC6 100%) 0% 0% no-repeat padding-box'
                     />
                   </RenderFormField>
-                </VStack>
+                </FieldWrap>
                 {(!forConfirm && !confirmed) && 
                   <VStack alignItems='flex-start' width='100%' spacing='14px'>
                     <HStack spacing='16px'>
@@ -410,25 +446,60 @@ export default function Contact() {
                   </VStack>
                 }
                 <Center width='100%'>
-                  <Button
-                    isLoading={loading}
-                    isDisabled={!isAgree}
-                    onClick={() => {
-                      if(!forConfirm && !confirmed) {
-                        handleSubmit(submitForm)()
-                      } else {
-                        handleConfirm()
-                      }
-                    }}
-                    width={{base: '286px', md: '314px'}}
-                    height={{base: '48px', md: '52px'}}
-                    borderRadius='full'
-                    fontSize={{base: '16px', md: '20px'}}
-                  >
-                    {(!forConfirm && !confirmed) ? '送信' : (
-                      (forConfirm ? '入力を確認する' : '')
-                    )}
-                  </Button>
+                  {forConfirm ? (
+                      <Flex 
+                        flexDirection={{base: 'column-reverse', md: 'row'}}
+                        gridGap={{ base: '30px', md: '60px'}}
+                        alignItems='center'
+                      >
+                        <Button
+                          onClick={() => {
+                            setForConfirm(false)
+                          }}
+                          bg='#84363D'
+                          color='white'
+                          width={{base: '206px', md: '214px'}}
+                          height={{base: '48px', md: '52px'}}
+                          borderRadius='full'
+                          fontSize={{base: '16px', md: '20px'}}
+                          _hover={{
+                            bg: '#84363D',
+                            opacity: 0.8
+                          }}
+                        >
+                          戻る
+                        </Button>
+                        <Button
+                          isLoading={loading}
+                          onClick={handleConfirm}
+                          loadingText='送信する'
+                          bg='black'
+                          color='white'
+                          width={{base: '238px', md: '254px'}}
+                          height={{base: '48px', md: '52px'}}
+                          borderRadius='full'
+                          fontSize={{base: '16px', md: '20px'}}
+                          _hover={{
+                            bg: 'black',
+                            opacity: 0.8
+                          }}
+                        >
+                          送信する
+                        </Button>
+                      </Flex>
+                    ) : (
+                      <Button
+                        isDisabled={!isAgree}
+                        onClick={handleSubmit(submitForm)}
+                        width={{base: '286px', md: '314px'}}
+                        height={{base: '48px', md: '52px'}}
+                        borderRadius='full'
+                        fontSize={{base: '16px', md: '20px'}}
+                      >
+                        入力を確認する
+                      </Button>
+                    )
+                  }
                 </Center>
               </VStack>
             </Box>
