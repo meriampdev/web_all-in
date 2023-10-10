@@ -43,15 +43,15 @@ export const ApplicationRequirements = ({ floatingBtn, article, content }) => {
           tabIndex={-1} 
           position='sticky'
           alignSelf='flex-start'
-          marginTop={{base: '20px', md: '40px'}}
-          marginLeft={{base: '-100px', md: '-140px'}}
-          top='470px'
+          top={{base: '20px', md: '40px'}}
+          marginLeft={{base: '71%', md: '95%'}}
           right={{ base: 0, md: '40px'}}
           flexDirection='column'
           borderRadius='full'
           background='black'
           fontSize={{ base: '14px', md: '20px'}}
           lineHeight={{ base: '20px', md: '25px'}}
+          width={{base: '100px', md: '150px'}}
           minWidth={{base: '100px', md: '150px'}}
           height={{base: '100px', md: '150px'}}
         >
@@ -78,20 +78,45 @@ export const ApplicationRequirements = ({ floatingBtn, article, content }) => {
       <Modal isOpen={isOpen} onClose={onClose} size='6xl' scrollBehavior='inside'>
         <ModalOverlay />
         <ModalContent>
-          <ModalCloseButton />
+          <ModalCloseButton zIndex='100' />
           <ModalBody
             ref={bodyRef}
             padding={{base: '', md: '81px 115px'}}
+            position='relative'
           >
             <Text
+              fontWeight='medium'
               letterSpacing='2.32px'
               fontSize={{base: '25px', md: '29px'}}
             >
             募集要項
             </Text>
+            <Box
+              position='absolute'
+              top={{base: '70px', md: '158px'}}
+              left='0'
+              width={{base: '125px', md: '240px'}}
+              height={{base: '37px', md: '37px'}}
+              backgroundColor='#EDEDED'
+              textAlign={{ base: 'center', md: 'right'}}
+            >
+              <Flex
+                fontSize={{base: '18px', md: '22px'}}
+                lineHeight={'normal'}
+                letterSpacing='1.76px'
+                color='black'
+                fontWeight='bold'
+                alignItems='center'
+                height='100%'
+                justifyContent={{ base: 'center', md: 'flex-end'}}
+                pr={{base: '', md: '37px'}}
+              >
+                仕事内容
+              </Flex>
+            </Box>
             <Box 
-              marginTop='50px'
-              fontSize={{base: '', md: '14px'}}
+              marginTop={{base: '70px', md: '100px'}}
+              fontSize={{base: '12px', md: '14px'}}
               lineHeight={{base: '', md: '24px'}}
               letterSpacing='1.12px'
               css={{
@@ -112,11 +137,12 @@ export const ApplicationRequirements = ({ floatingBtn, article, content }) => {
               borderRadius='full'
               bg='black'
               color='white'
-              boxSize='50px'
-              minHeight='50px'
+              minWidth={{ base: '35px', md: '50px'}}
+              width={{ base: '35px', md: '50px'}}
+              height={{ base: '35px', md: '50px'}}
               position='absolute'
-              bottom='100px'
-              right='30px'
+              bottom={{ base: '80px', md: '100px'}}
+              right={{ base: '10px', md: '30px'}}
               _hover={{ bg: 'black', opacity: 0.8 }}
             />
           }

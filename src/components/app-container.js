@@ -126,14 +126,16 @@ export const AppContainer = ({ children }) => {
         />
         <Box
           position='fixed'
-          top={'40%'}
-          right={'-8%'}
+          top={'60%'}
+          right={'-6%'}
           transform='matrix(0, 1, -1, 0, 0, 0)'
           color='#F8F8F8'
           opacity='0.05'
           fontSize={{base: '0', md: '5vw'}}
+          fontWeight='normal'
+          fontFamily="Montserrat, sans-serif"
         >
-        UMPLEX
+        Umplex
         </Box>
         <Box 
           position='absolute'

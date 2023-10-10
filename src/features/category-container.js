@@ -8,7 +8,7 @@ export const CategoryContainer = ({ children, data }) => {
       </Box>
       <Box 
         position='absolute'
-        top='0'
+        top='-100px'
         left='0'
         width='100%'
         height='100%'
@@ -16,18 +16,21 @@ export const CategoryContainer = ({ children, data }) => {
       >
         <Box
           position='fixed'
-          top={{base: '', md: '54%'}}
-          left={{base: '', md: '-15%'}}
+          top={{base: '', md: '128px'}}
+          left={0}
+          width='85px'
+          whiteSpace='nowrap'
+          lineHeight='normal'
           transform='matrix(0, 1, -1, 0, 0, 0)'
           color='#F8F8F8'
           opacity='0.05'
-          fontSize={{base: '0', md: '5vw'}}
+          fontSize={{base: '0', md: '70px'}}
         >
         { data?.name ? `#${data?.name}` : ''}
         </Box>
         <Box 
           position='absolute'
-          top='0'
+          top='-2%'
           left='-400px'
           zIndex='0'
           borderRadius='full'
@@ -49,7 +52,7 @@ export const CategoryContainer = ({ children, data }) => {
         />
         <Box 
           position='absolute'
-          top='20%'
+          top='17%'
           right='-400px'
           zIndex='0'
           borderRadius='full'
@@ -71,14 +74,16 @@ export const CategoryContainer = ({ children, data }) => {
         />
         <Box
           position='fixed'
-          top={'40%'}
-          right={'-8%'}
+          top={'60%'}
+          right={'-6%'}
           transform='matrix(0, 1, -1, 0, 0, 0)'
           color='#F8F8F8'
           opacity='0.05'
           fontSize={{base: '0', md: '5vw'}}
+          fontWeight='normal'
+          fontFamily="Montserrat, sans-serif"
         >
-        UMPLEX
+          Umplex
         </Box>
         <Box 
           position='absolute'

@@ -164,25 +164,27 @@ export default function ArticleDetail() {
             <Flex
               width='100%'
               flexDirection={{base: 'column', md: 'row'}}
-              alignItems={{ base: 'flex-start', md: 'center'}}
+              alignItems={{ base: 'flex-start', md: 'flex-start'}}
               justifyContent='space-between'
-              gridGap={{base: '40px', md: 'unset'}}
+              gridGap={{base: '40px', md: '40px'}}
               mb={{base: '40px', md: '80px'}}
             >
               <Flex gridGap='10px' flexWrap='wrap'>
                 {categories.map((tag) => {
                   return (
-                    <Center
-                      key={`tag-${tag?.term_id}`}
-                      height={{base: '28px', md: '30px'}}
-                      px={'18px'}
-                      fontSize={{base: '12px', md: '14px'}}
-                      background='#123E43'
-                      color='#39A5B2'
-                      borderRadius='full'
-                    >
-                      #{tag?.name}
-                    </Center>
+                    <NextLink href={`/story/tag?slug=${tag?.slug}`}>
+                      <Center
+                        key={`tag-${tag?.term_id}`}
+                        height={{base: '28px', md: '30px'}}
+                        px={'18px'}
+                        fontSize={{base: '12px', md: '14px'}}
+                        background='#123E43'
+                        color='#39A5B2'
+                        borderRadius='full'
+                      >
+                        #{tag?.name}
+                      </Center>
+                    </NextLink>
                   )
                 })}
               </Flex>
@@ -213,37 +215,55 @@ export default function ArticleDetail() {
                 </Link>
               </Center>
             )}
-            <Center width='100%' position='relative'>
-              {/* <Box 
-                width={{ base: '100%', md: '80%'}}
-                dangerouslySetInnerHTML={{
-                  __html: article?.content?.rendered || article?.post_content
-                }}
-              /> */}
-              <Box width={{ base: '100%', md: '80%'}}>
-                <Image 
-                  width='100%'
-                  height='100%'
-                  objectFit='contain'
-                  src={article?.post_acfs?.article_image_content?.url}
-                />
-              </Box>
-              <Flex
-                position='absolute'
-                width='100%'
+            
+          </Box>
+        </Container>
+        <Container 
+          paddingLeft={{base: '0', md: '132px'}}
+          paddingRight={{base: '0', md: '128px'}}
+          _after={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            content: "''",
+            width: '7px',
+            height: '100%',
+            background: '#707070'
+          }}
+        >
+          <Box 
+            margin='0 auto'
+            backgroundColor='#222222'
+          >
+            <ApplicationRequirements 
+              article={article}
+              content={article?.post_acfs?.application_requirements} 
+              floatingBtn={true}
+            />
+            <Center width='100%' padding={{base: '22px', md: '60px'}}>
+              <Image 
+                marginTop={{base: '-100px', md: '-150px'}}
+                width={'100%'}
                 height='100%'
-                right='0'
-                top='0'
-                justifyContent='flex-end'
-              >
-                <ApplicationRequirements 
-                  article={article}
-                  content={article?.post_acfs?.application_requirements} 
-                  floatingBtn={true}
-                />
-              </Flex>
+                objectFit='contain'
+                src={article?.post_acfs?.article_image_content?.url}
+              />
             </Center>
           </Box>
+        </Container>
+        <Container 
+          paddingLeft={{base: '25px', md: '132px'}}
+          paddingRight={{base: '25px', md: '128px'}}
+          _after={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            content: "''",
+            width: '7px',
+            height: '100%',
+            background: '#707070'
+          }}
+        >
           {(article?.post_acfs?.recruitment_description) && (
             <Box>
               <Flex 

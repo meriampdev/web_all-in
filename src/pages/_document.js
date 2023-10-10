@@ -15,6 +15,9 @@ export default function Document() {
         <meta name="twitter:image" content="/OGP1200x630.jpg" />
         <meta name="description" content="ー感情に合わせて求人が見つかるメディアー" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin='true' />
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
       </Head>
       <body>
         <Main />
