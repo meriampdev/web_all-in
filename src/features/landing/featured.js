@@ -119,7 +119,7 @@ export const Featured = ({ animate }) => {
           cursor='pointer'
           position='absolute'
           top={{ base: `48%`, md: `calc(50% - 25px)`}}
-          right='45px'
+          left={{base: '', md: '77.5vw'}}
           zIndex='10'
           bg='white'
           borderRadius='full'
@@ -155,21 +155,24 @@ export const Featured = ({ animate }) => {
                 <Box 
                   key={`featured-${item?.ID}`}  
                   className="embla__slide"
+                  pr={{ base: '20px', md: '40px' }}
                 >
                   <Box className='embla__slide__inner'>
                     <Flex flexDirection={{base: 'column', md: 'row'}}>
                       <Box
                         width={{base: '325px', md: '647px'}}
                         height={{base: '235px', md: '460px'}}
-                        borderTopLeftRadius={{ base: 0, md: '10px'}}
-                        borderBottomLeftRadius={{ base: 0, md: '10px'}}
+                        borderTopLeftRadius={'10px'}
+                        borderTopRightRadius={{ base: '10px', md: 0}}
+                        borderBottomLeftRadius={{ base: '10px', md: '10px'}}
                       >
                         <Image 
                           width='100%'
                           height='100%'
                           objectFit='cover'
-                          borderTopLeftRadius={{ base: 0, md: '10px'}}
-                          borderBottomLeftRadius={{ base: 0, md: '10px'}}
+                          borderTopLeftRadius={'10px'}
+                          borderTopRightRadius={{ base: '10px', md: 0}}
+                          borderBottomLeftRadius={{ base: '10px', md: '10px'}}
                           src={item?.featured_image}
                         />
                       </Box>
@@ -179,18 +182,21 @@ export const Featured = ({ animate }) => {
                         backgroundRepeat='no-repeat'
                         backgroundSize='cover'
                         backgroundPosition='center'
+                        borderTopRightRadius={{ base: 0, md: '10px'}}
+                        borderBottomRightRadius={{ base: '10px', md: '10px'}}
                         borderBottomLeftRadius={{ base: '10px', md: 0}}
                       >
                         <VStack 
                           alignItems='flex-start' 
                           spacing={{base: '15px', md: '30px'}}
-                          background='transparent linear-gradient(180deg, #000000 0%, #336379 100%) 0% 0% no-repeat padding-box'
-                          opacity='0.8'
-                          backdropFilter='blur(15px)'
+                          backgroundColor='rgba(0,0,0,0.5)'
+                          backdropFilter='blur(10px)'
                           width={{base: '325px', md: '495px'}}
                           height={{base: '215px', md: '460px'}}
                           padding={{base: '40px 35px', md: '82px 50px'}}
+                          borderTopRightRadius={{ base: 0, md: '10px'}}
                           borderBottomLeftRadius={{ base: '10px', md: 0}}
+                          borderBottomRightRadius={{ base: '10px', md: '10px'}}
                         >
                           <Box fontSize={{base: '18px', md: '25px'}}>
                             {item?.title || item?.post_title}

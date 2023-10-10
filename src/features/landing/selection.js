@@ -27,7 +27,7 @@ export const Selection = ({ animate }) => {
       <Box
         position='absolute'
         top={{base: '100px', md: '241px'}}
-        left={{base: '-150px', md: '-250px'}}
+        left={{base: '-150px', md: '-265px'}}
         transform='matrix(0, 1, -1, 0, 0, 0)'
         color='#F4F4F4'
         opacity='0.2'
@@ -52,7 +52,7 @@ export const Selection = ({ animate }) => {
       <Box
         width='100%'
         height={{base: '', md: '560px'}}
-        padding={{base: '67px 0  67px 38px', md: '90px 0 90px 90px'}}
+        padding={{base: '67px 0  67px 38px', md: '90px 0 40px 90px'}}
         borderRadius='10px 0 0 10px'
         opacity='0.8'
         background='transparent linear-gradient(105deg, #000000 0%, #336379 100%) 0% 0% no-repeat padding-box'

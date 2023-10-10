@@ -14,7 +14,7 @@ export const CenterPulse = () => {
         width={{base: '100%', lg: '567px'}}
         height={{base: '260px', lg: '567px'}}
         borderRadius='full'
-        background='transparent radial-gradient(closest-side at 50% 50%, #30D3EA 0%, #30CDE4 39%, #FFFFFF00 100%) 0% 0% no-repeat padding-box'
+        background='transparent radial-gradient(closest-side at 50% 50%, #E2E2E2 0%, #FFFF 39%, #FFFFFF00 100%) 0% 0% no-repeat padding-box'
         opacity='0.3'
       >
         <Box 
@@ -22,7 +22,6 @@ export const CenterPulse = () => {
           height={{base: '260px', lg: '285px'}}
           animation='mv-pulse 2s infinite'
           borderRadius='full'
-          border='1px solid white'
         />
       </Center>
     </Center>

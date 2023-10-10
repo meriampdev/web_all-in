@@ -17,6 +17,8 @@ export const Recommended = ({ slug, ...rest }) => {
   }, [WheelGesturesPlugin()])
   const { data, loading } = useAxios(`/wp-json/api/v1/articles-recommended`)
 
+  if(data?.length <= 0) return null
+
   return (
     <Box {...rest}>
       <Box

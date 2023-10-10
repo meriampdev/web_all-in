@@ -6,15 +6,23 @@ import NextLink from 'next/link'
 import { CloseIcon } from '@chakra-ui/icons'
 import { Container } from '@/components/container'
 
+let timer = null
 export const JobOffer = ({ isVisible, article }) => {
   const [show, setShow] = useState(false)
+  const [userClosed, setUserClosed] = useState(false)
   const { data: emotions } = useAxios(`/wp-json/wp/v2/categories?per_page=8&parent=5`)
 
   useEffect(() => {
-    if(!show && isVisible) {
-      setShow(true)
-    } 
-  }, [isVisible])
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      setShow(isVisible && !userClosed)
+    }, 500)
+  }, [isVisible, userClosed])
+
+  const handleClose = () => {
+    setUserClosed(true)
+    setShow(false)
+  }
 
   return (
     <>
@@ -86,9 +94,11 @@ export const JobOffer = ({ isVisible, article }) => {
         transition={'bottom 0.5s ease 0s'}
         position='fixed'
         zIndex='200'
-        bottom={{ base: show ? 0 : '-292px', md: show ? 0 : '-136px'}}
+        bottom={{ base: show ? 0 : '-500px', md: show ? 0 : '-180px'}}
         width='100%'
-        height={{base: '292px', md: '136px'}}
+        minHeight={{base: '292px', md: '136px'}}
+        height='auto'
+        py={4}
         pl={{base: '40px', md: '130px'}}
         pr={{base: '10px', md: '100px'}}
         background='transparent linear-gradient(276deg, #000000 0%, #414141 100%) 0% 0% no-repeat padding-box'
@@ -104,7 +114,7 @@ export const JobOffer = ({ isVisible, article }) => {
             gridGap={{base: '30px', md: '80px'}}
           >
             <IconButton 
-              onClick={() => setShow(false)}
+              onClick={handleClose}
               icon={<CloseIcon fontSize={{ base: '25px', md: '30px'}} />}
               color='white'
               bg='transparent'
@@ -122,15 +132,13 @@ export const JobOffer = ({ isVisible, article }) => {
               minWidth={{base: '193px', md: '211px'}}
               width={{base: '193px', md: '211px'}}
               fontSize={'15px'}
+              mr={{base: '30px', md: '0'}}
             >
               次はどの気分で探す？
             </Center>
             <Flex 
               flexWrap='wrap' 
               pr={{base: '30px', md: 0}}
-              justifyContent={{base: 'space-between', md: 'unset'}}
-              gridGap={{base: '10px', md: '13px'}}
-              maxWidth={{base: 'none', md: '670px'}}
             >
               {emotions?.map((tag, i) => {
                 if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
@@ -146,7 +154,8 @@ export const JobOffer = ({ isVisible, article }) => {
                       minWidth={{ base: '129px', md: '114px'}}
                       height={'38px'}
                       px={'18px'}
-                      mr={{base: 0, md: '37px'}}
+                      mr={{base: '10px', md: '50px'}}
+                      mb={'13px'}
                       fontSize={{base: '12px', md: '14px'}}
                       color='black'
                       borderRadius='full'

@@ -46,7 +46,7 @@ export const ApplicationRequirements = ({ floatingBtn, article, content }) => {
           marginTop={{base: '20px', md: '40px'}}
           marginLeft={{base: '-100px', md: '-140px'}}
           top='470px'
-          right='40px'
+          right={{ base: 0, md: '40px'}}
           flexDirection='column'
           borderRadius='full'
           background='black'

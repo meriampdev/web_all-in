@@ -29,7 +29,7 @@ export const ByCategory = ({ slug, animate, direction, ...rest }) => {
       >
         <NextLink href={`/story/category?slug=${slug}`} passHref>
           <Box
-            animation={animate ? `1.5s slide-${direction}` : ''}
+            // animation={animate ? `1.5s slide-${direction}` : ''}
             minWidth='100%'
             height={{base: '36px', md: '77px'}}
             borderLeft='2px solid white'
@@ -46,7 +46,7 @@ export const ByCategory = ({ slug, animate, direction, ...rest }) => {
       </SkeletonText>
       <Box 
         className="embla"
-        animation={animate ? `2s slide-${direction}` : ''}
+        // animation={animate ? `2s slide-${direction}` : ''}
       >
         <Box className="embla__viewport" ref={emblaRef}>
           <Box className="embla__container">
@@ -76,7 +76,7 @@ export const ByCategory = ({ slug, animate, direction, ...rest }) => {
       >
         <NextLink href={`/story/category?slug=${slug}`} passHref>
           <Button 
-            animation={animate ? `2s slide-${direction}` : ''}
+            // animation={animate ? `2s slide-${direction}` : ''}
             height={{base: '', md: '43px'}}
             width={{base: '', md: '138px'}}
             borderRadius='full'

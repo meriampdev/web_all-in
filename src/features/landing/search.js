@@ -71,7 +71,7 @@ export const Search = ({ ...rest }) => {
           py='11px'
           gridGap={{base: '15px', md: '20px'}}
         > 
-          <VStack alignItems='flex-start' spacing='0' color='black'> 
+          <VStack alignItems='center' spacing='0' color='black'> 
             <Text
               lineHeight='normal'
               fontSize={{base: '10px', md: '12px'}}
@@ -123,7 +123,7 @@ export const Search = ({ ...rest }) => {
               </Center>
               <HStack 
                 width='100%' 
-                alignItems='center' 
+                alignItems='flex-start' 
                 spacing={{base: '20px', md: '50px'}}
                 marginTop={{base: '58px', md: '58px'}}
               >
@@ -133,7 +133,7 @@ export const Search = ({ ...rest }) => {
                   visibility={nav?.prev?.slug ? 'visible' : 'hidden'}
                   _hover={{ opacity: 0.8}}
                 >
-                  <Text whiteSpace='nowrap' fontSize='15px'>{nav?.prev?.name}で探す</Text>
+                  <Text whiteSpace='nowrap' fontSize={{ base: '13px', md: '15px'}}>{nav?.prev?.name}で探す</Text>
                   <ChevronLeftIcon cursor='pointer' fontSize='30px' />
                 </VStack>
                 <Flex 
@@ -152,8 +152,8 @@ export const Search = ({ ...rest }) => {
                           border='1px solid white'
                           lineHeight='normal'
                           px={4}
-                          fontSize={{base: '18px', md: '18px'}}
-                          minWidth={{base: '129px', md: '129px'}}
+                          fontSize={{base: '15px', md: '18px'}}
+                          minWidth={{base: '118px', md: '129px'}}
                           minHeight={'38px'}
                           height='auto'
                         >
@@ -168,7 +168,7 @@ export const Search = ({ ...rest }) => {
                   cursor='pointer'
                   visibility={nav?.next?.slug ? 'visible' : 'hidden'}
                 >
-                  <Text whiteSpace='nowrap' fontSize='15px'>{nav?.next?.name}で探す</Text>
+                  <Text whiteSpace='nowrap' fontSize={{ base: '13px', md: '15px'}}>{nav?.next?.name}で探す</Text>
                   <ChevronRightIcon fontSize='30px' />
                 </VStack>
               </HStack>

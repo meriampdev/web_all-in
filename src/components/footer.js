@@ -1,7 +1,7 @@
 import { Container } from '@/components/container'
 import { Box, Button, Center, Flex, HStack, Link, Image, Text, Icon } from '@chakra-ui/react'
 import NextLink from 'next/link'
-import Logo from '@/assets/images/logo.png'
+import Logo from '@/assets/images/footer_logo.png'
 import { TwitterIcon } from '@/components/icons/TwitterIcon'
 import { FacebookIcon } from '@/components/icons/FacebookIcon'
 import { InstagramIcon } from '@/components/icons/InstagramIcon'
@@ -99,7 +99,7 @@ export const Footer = () => {
             求人掲載について
           </NextLink>
           <Link href='https://allhero.co.jp/privacypolicy/' isExternal>
-            プラポリ
+          プライバシーポリシー
           </Link>
         </Flex>
         <Box 
@@ -111,18 +111,24 @@ export const Footer = () => {
           display={{base: 'block', md: 'none'}}
         />
         <Flex justifyContent='center' gridGap={{base: '17px', md: '17px'}}>
-          <Icon 
-            as={TwitterIcon}
-            color='white'
-          />
-          <Icon 
-            as={InstagramIcon}
-            color='white'
-          />
-          <Icon 
-            as={FacebookIcon}
-            color='white'
-          />
+          <Link href='https://twitter.com/umplex82149' isExternal>
+            <Icon 
+              as={TwitterIcon}
+              color='white'
+            />
+          </Link>
+          <Link href='https://www.instagram.com/umplex_allin/' isExternal>
+            <Icon 
+              as={InstagramIcon}
+              color='white'
+            />
+          </Link>
+          <Link href='https://www.facebook.com/profile.php?id=61552056921897&is_tour_dismissed=true' isExternal>
+            <Icon 
+              as={FacebookIcon}
+              color='white'
+            />
+          </Link>
         </Flex>
       </Flex>
       <Center paddingTop={{base: '37px', md: '62px'}} paddingBottom='10px'> 

@@ -33,11 +33,19 @@ export const Article = ({ article, isLoading }) => {
                   '&.inview': {
                     '&::before': {
                       width: 0
+                    },
+                    '&::after': {
+                      opacity: 0
                     }
+                  },
+                  '&:hover::after': {
+                    opacity: '1',
+                    transition: 'opacity 0.3s',
+                    width: '100%',
                   }
                 }}
                 _before={{
-                  backgroundColor: '#2B575D',
+                  backgroundColor: '#000',
                   content: "''",
                   display: 'block',
                   borderRadius: '10px',
@@ -48,6 +56,18 @@ export const Article = ({ article, isLoading }) => {
                   left: 0,
                   zIndex: 200,
                   transition: 'width 0.6s ease-out 0.5s'
+                }}
+                _after={{
+                  backgroundColor: 'rgba(255,255,255,0.5)',
+                  content: "''",
+                  display: 'block',
+                  borderRadius: '10px',
+                  width: '100%',
+                  height: {base: '152px', md: '209px'},
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  zIndex: 200,
                 }}
               >
                 <Image 
@@ -69,18 +89,24 @@ export const Article = ({ article, isLoading }) => {
                 fontSize={{base: '13px', md: '16px'}}
                 lineHeight={{base: '24px', md: '24px'}}
                 letterSpacing={{base: '', md: '1.28px'}}
+                height={'48px'}
                 dangerouslySetInnerHTML={{
                   __html: article?.excerpt?.rendered || article?.post_excerpt
                 }}
                 css={{
                   'display': '-webkit-box',
-                  'WebkitLineClamp': '3',
+                  'WebkitLineClamp': '2',
                   'WebkitBoxOrient': 'vertical',
                   overflow: 'hidden'
                 }}
               />
             </SkeletonText>
-            <Flex flexWrap='wrap' gridGap='5px'>
+            <Flex 
+              flexWrap='wrap' 
+              gridGap='5px' 
+              maxHeight={{base: '95px', md: '100px'}}
+              overflow='hidden'
+            >
             {article?.post_categories?.map((tag, i) => {
               if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
               return (

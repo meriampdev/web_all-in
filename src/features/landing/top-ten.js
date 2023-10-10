@@ -40,7 +40,6 @@ export const TopTen = () => {
                     <NextLink 
                       key={item?.id}  
                       href={`/story/detail?slug=${item?.post_name || item?.slug}`} 
-                      _hover={{textDecoration: 'none'}} 
                     >
                       <Box 
                         className="embla__slide"
@@ -58,16 +57,25 @@ export const TopTen = () => {
                             width={{base: '195px', lg: '250px'}}
                             height={{base: '140px', lg: '179px'}}
                             position='relative'
+                            overflow='hidden'
                             className={(isVisible && loading === false) ? 'inview' : ''}
                             css={{
                               '&.inview': {
                                 '&::before': {
                                   width: 0
+                                },
+                                '&::after': {
+                                  opacity: 0
                                 }
+                              },
+                              '&:hover::after': {
+                                opacity: '1',
+                                transition: 'opacity 0.3s',
+                                width: '100%',
                               }
                             }}
                             _before={{
-                              backgroundColor: '#2B575D',
+                              backgroundColor: '#000',
                               content: "''",
                               display: 'block',
                               borderRadius: '10px',
@@ -79,13 +87,27 @@ export const TopTen = () => {
                               zIndex: 200,
                               transition: 'width 0.6s ease-out 0.5s'
                             }}
+                            _after={{
+                              backgroundColor: 'rgba(255,255,255,0.5)',
+                              content: "''",
+                              display: 'block',
+                              borderRadius: '10px',
+                              width: '100%',
+                              height: {base: '152px', md: '209px'},
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              zIndex: 200,
+                            }}
                           >
                             <Box
                               position='absolute'
                               bottom='0'
-                              left='3px'
+                              left={{ base: '10px', md: '12px'}}
                               fontSize={{base: '37px', md: '50px'}}
-                              lineHeight='normal'
+                              lineHeight={{base: '37px', md: '50px'}}
+                              background='rgba(0,0,0,0.3)'
+                              borderTopRadius='sm'
                             >
                               {item?.post_acfs?.order}
                             </Box>

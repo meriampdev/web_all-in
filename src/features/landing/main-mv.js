@@ -43,6 +43,11 @@ export const MainMv = () => {
         height={{base: '700px', xl: '690px'}}
         width='100%'
         transition='background 0.1s linear'
+        css={{
+          '@media screen and (max-width: 500px)': {
+            backgroundImage: `url("${data?.length > 0 ? data[active]?.spTagImageSrc || data[active]?.tagImageSrc : ''}")`
+          }
+        }}
       >
         <Center 
           width='100%' 

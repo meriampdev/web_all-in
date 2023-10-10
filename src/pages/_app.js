@@ -1,4 +1,3 @@
-import { AppContainer } from '@/components/app-container'
 import '@/styles/globals.css'
 import { ChakraProvider } from '@chakra-ui/react'
 import NextProgress from 'next-progress'

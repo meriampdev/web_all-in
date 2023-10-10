@@ -21,7 +21,7 @@ export const AllStories = ({ animate }) => {
     <Box>
       <NextLink href={`/story/all`} passHref>
         <Box
-          animation={animate ? '1.5s slide-right' : ''}
+          // animation={animate ? '1.5s slide-right' : ''}
           minWidth='100%'
           height={{base: '36px', md: '77px'}}
           borderLeft='2px solid white'
@@ -66,7 +66,7 @@ export const AllStories = ({ animate }) => {
         </Box>
       </Box>
       <Flex 
-        animation={animate ? '2s slide-right' : ''}
+        // animation={animate ? '2s slide-right' : ''}
         flexWrap='wrap'
         minWidth='100%'
         display={{base: 'none', md: 'flex'}}
@@ -95,7 +95,7 @@ export const AllStories = ({ animate }) => {
       >
         <NextLink href={`/story/all`} passHref>
           <Button 
-            animation={animate ? '2s slide-left' : ''}
+            // animation={animate ? '2s slide-left' : ''}
             height={{base: '', md: '43px'}}
             width={{base: '', md: '138px'}}
             borderRadius='full'

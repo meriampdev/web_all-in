@@ -1,26 +1,24 @@
 import { Box, Image, useBreakpointValue } from '@chakra-ui/react'
 import NextLink from 'next/link'
-import Logo from '@/assets/images/logo.png'
+import Logo from '@/assets/images/header_logo.png'
 
 export const Header = ({ withTextOnSp = true, ...rest }) => {
   const isMobile = useBreakpointValue({ base: true, md: false })
   return (
     <Box
       position='absolute'
-      top={{ base: '27px', md: '25px'}}
-      left={{ base: 'unset', md: '38px'}}
-      right={{base: '18px', md: 'unset'}}
+      top={0}
+      left={0}
       zIndex='100'
       display='flex'
       flexDirection='row'
       alignItems='center'
       gridGap={{base: '7px', md: '17px'}}
-      {...rest}
     >
       <NextLink href='/'>
         <Box
-          width={{base: '34px', md: '54px'}}
-          height={{base: 'auto', md: '75px'}}
+          width={{base: '66px', md: '83px'}}
+          height={{base: '72px', md: '90px'}}
         >
           <Image 
             src={Logo?.src}
@@ -30,7 +28,7 @@ export const Header = ({ withTextOnSp = true, ...rest }) => {
           />
         </Box>
       </NextLink>
-      {(!isMobile || (isMobile && withTextOnSp)) && (
+      {/* {(!isMobile || (isMobile && withTextOnSp)) && (
         <Box textAlign={{base: 'right', md: 'left'}}>
           <Box
             fontSize={{base: '16px', md: '20px'}}
@@ -45,7 +43,7 @@ export const Header = ({ withTextOnSp = true, ...rest }) => {
             ー感情に合わせて求人が見つかるメディアー
           </Box>
         </Box>
-      )}
+      )} */}
     </Box>
   )
 }
