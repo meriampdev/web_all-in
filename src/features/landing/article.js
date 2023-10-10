@@ -3,30 +3,30 @@ import IsVisible from 'react-is-visible'
 import { Box, Center, Flex, Image, Skeleton, SkeletonText, VStack } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
-export const Article = ({ article, isLoading }) => {
+export const Article = ({ article, isLoading, articleList = false }) => {
 
   return (
     <IsVisible once>
       {(isVisible) => (
         <NextLink 
           href={`/story/detail?slug=${article?.post_name || article?.slug}`} 
-          paddingBottom='30px'
+          paddingBottom={{ base: '35px', md: '30px'}}
         >
           <VStack
-            width={{base: '230px', md: '292px'}}
-            paddingBottom={'30px'}
+            width={{base: articleList ? 'auto' : '230px', md: '292px'}}
+            paddingBottom={{ base: '35px', md: '30px'}}
             alignItems='flex-start'
-            spacing='20px'
+            spacing={articleList ? '15.65px' : '20px'}
             position='relative'
           >
             <Skeleton
               width='100%'
-              height={{base: '152px', md: '209px'}}
+              height={{base: articleList ? '99.35px' : '152px', md: '209px'}}
               isLoaded={isLoading === false}
             >
               <Box
                 width='100%'
-                height={{base: '152px', md: '209px'}}
+                height={{base: articleList ? '99.35px' : '152px', md: '209px'}}
                 borderRadius='10px'
                 className={isVisible ? 'inview' : ''}
                 css={{
@@ -50,7 +50,7 @@ export const Article = ({ article, isLoading }) => {
                   display: 'block',
                   borderRadius: '10px',
                   width: '100%',
-                  height: {base: '152px', md: '209px'},
+                  height: {base: articleList ? '99.35px' : '152px', md: '209px'},
                   position: 'absolute',
                   top: 0,
                   left: 0,
@@ -63,7 +63,7 @@ export const Article = ({ article, isLoading }) => {
                   display: 'block',
                   borderRadius: '10px',
                   width: '100%',
-                  height: {base: '152px', md: '209px'},
+                  height: {base: articleList ? '99.35px' : '152px', md: '209px'},
                   position: 'absolute',
                   top: 0,
                   left: 0,
@@ -119,8 +119,16 @@ export const Article = ({ article, isLoading }) => {
                     background='#123E43'
                     color='#39A5B2'
                     borderRadius='full'
+                    maxWidth={{base: articleList ? '140px' : '230px', md: '292px'}}
                   >
-                    #{tag?.name}
+                    <Box
+                      maxWidth={{base: articleList ? '140px' : '230px', md: '292px'}}
+                      whiteSpace='nowrap'
+                      overflow='hidden'
+                      textOverflow='ellipsis'
+                    >
+                      #{tag?.name}
+                    </Box>
                   </Center>
                 </NextLink>
               )

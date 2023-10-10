@@ -26,7 +26,7 @@ export const Selection = ({ animate }) => {
     >
       <Box
         position='absolute'
-        top={{base: '100px', md: '241px'}}
+        top={{base: '115px', md: '241px'}}
         left={{base: '-150px', md: '-265px'}}
         transform='matrix(0, 1, -1, 0, 0, 0)'
         color='#F4F4F4'

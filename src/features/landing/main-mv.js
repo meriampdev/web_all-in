@@ -1,12 +1,11 @@
 import { useState } from 'react'
+import { useAxios } from '@/hooks/useAxios'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import Slider from "react-slick";
-import { Box, Button, Center } from '@chakra-ui/react'
+import { Box, Button, Center, Text } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { CenterPulse } from '@/features/landing/center-pulse'
-import { isMobile } from '@/utils/screen';
-import { useAxios } from '@/hooks/useAxios'
 import { FullPageLoader } from '@/components/loader';
 import NextLink from 'next/link'
 
@@ -21,7 +20,16 @@ export const MainMv = () => {
     className: "center",
     centerMode: true,
     centerPadding: "60px",
-    slidesToShow: isMobile() ? 1 : 3,
+    slidesToShow: 3,
+    responsive: [
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ],
     arrows: true,
     nextArrow: <ChevronRightIcon color='white' width='40px' height='auto' />,
     prevArrow: <ChevronLeftIcon color='white' width='40px' height='auto' />,
@@ -114,7 +122,7 @@ export const MainMv = () => {
                       height={{base: '260px', lg: '285px'}}
                       fontSize={{base: '20px', md: '17px'}}
                     >
-                      # {item?.name}
+                      <Text whiteSpace={{base: '', md: 'nowrap'}}># {item?.name}</Text>
                     </Center>
                   </Center>
                 </Box>

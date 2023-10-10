@@ -90,7 +90,7 @@ a {
   }
 
   .article-list {
-    grid-gap: 25px;
+    grid-gap: 30px;
   }
 }
 
@@ -98,7 +98,15 @@ a {
   .sp {
     display: none !important;
   }
+}
 
+@media only screen and (min-width: 500px) {
+  .article-list {
+    grid-gap: 30px;
+  }
+}
+
+@media only screen and (min-width: 769px) {
   .article-list {
     grid-gap: 68px;
   }
@@ -139,7 +147,7 @@ a {
   );
   border-radius: 50%;
   animation-name: Rotate;
-  animation-duration: 1s;
+  animation-duration: 1.5s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
 }

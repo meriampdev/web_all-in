@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAxios } from '@/hooks/useAxios'
 import IsVisible from 'react-is-visible'
-import Head from 'next/head'
 import { Container } from '@/components/container'
 import { Box, Center } from '@chakra-ui/react'
 import { MainMv } from '@/features/landing/main-mv'

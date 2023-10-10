@@ -127,7 +127,7 @@ export const AppContainer = ({ children }) => {
         <Box
           position='fixed'
           top={'40%'}
-          right={'-7%'}
+          right={'-8%'}
           transform='matrix(0, 1, -1, 0, 0, 0)'
           color='#F8F8F8'
           opacity='0.05'

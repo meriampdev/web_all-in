@@ -71,8 +71,8 @@ export const CategoryContainer = ({ children, data }) => {
         />
         <Box
           position='fixed'
-          bottom={'30%'}
-          right={'-7%'}
+          top={'40%'}
+          right={'-8%'}
           transform='matrix(0, 1, -1, 0, 0, 0)'
           color='#F8F8F8'
           opacity='0.05'

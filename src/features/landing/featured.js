@@ -119,7 +119,7 @@ export const Featured = ({ animate }) => {
           cursor='pointer'
           position='absolute'
           top={{ base: `48%`, md: `calc(50% - 25px)`}}
-          left={{base: '', md: '77.5vw'}}
+          left={{base: '89%', lg: '93%', 'xl': '1112px', '2xl': '95%'}}
           zIndex='10'
           bg='white'
           borderRadius='full'

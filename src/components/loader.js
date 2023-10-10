@@ -3,7 +3,7 @@ import {
   Center,
   Image,
 } from '@chakra-ui/react'
-import AboutImage from '@/assets/images/about.png'
+import AboutImage from '@/assets/images/umplex.jpg'
 
 export const FullPageLoader = () => {
   return (
@@ -20,18 +20,25 @@ export const FullPageLoader = () => {
         <Box
           pos="relative"
           background='black'
-          boxSize={{ base: '110px', md: '310px' }}
+          width={{base: '160px', md: '190px'}}
+          height={{base: '210px', md: '250px'}}
+          overflow='hidden'
         >
           <Box
-            boxSize={{ base: '110px', md: '310px' }}
+            width={{base: '400px', md: '400px'}}
+            height={{base: '400px', md: '400px'}}
             className="animatedBorder"
+            borderRadius='0'
+            top={{base: '-70px', md: '-70px'}}
+            left={{base: '-70px', md: '-70px'}}
           />
           <Box pos="absolute" top="0" left="0" h="100%" w="100%" zIndex="1">
             <Center h="100%">
               <Image
-                boxSize={{ base: '100px', md: '300px' }}
+                objectFit='contain'
+                width={{base: '150px', md: '180px'}}
+                height={{base: '200px', md: '240px'}}
                 src={AboutImage?.src}
-                borderRadius='full'
               />
             </Center>
           </Box>
