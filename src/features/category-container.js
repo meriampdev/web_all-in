@@ -16,26 +16,26 @@ export const CategoryContainer = ({ children, data }) => {
       >
         <Box
           position='fixed'
-          top={{base: '', md: '128px'}}
+          top={{base: '100px', md: '128px'}}
           left={0}
-          width='85px'
+          width={{ base: '30px', md: '85px'}}
           whiteSpace='nowrap'
           lineHeight='normal'
           transform='matrix(0, 1, -1, 0, 0, 0)'
           color='#F8F8F8'
           opacity='0.05'
-          fontSize={{base: '0', md: '70px'}}
+          fontSize={{base: '30px', md: '70px'}}
         >
         { data?.name ? `#${data?.name}` : ''}
         </Box>
         <Box 
           position='absolute'
-          top='-2%'
-          left='-400px'
+          top={{ base: '-30px', md: '-2%'}}
+          left={{ base: '-350px', md: '-400px'}}
           zIndex='0'
           borderRadius='full'
-          width={{base: 0, md: '800px'}}
-          height={{base: 0, md: '800px'}}
+          width={{base: '500px', md: '800px'}}
+          height={{base: '500px', md: '800px'}}
           background='transparent radial-gradient(closest-side at 50% 50%, #7EE2F0 0%, #FFFFFF00 100%, #222222 100%) 0% 0% no-repeat padding-box'
           opacity='0.3'
           animation='color 5s linear 0s infinite alternate'

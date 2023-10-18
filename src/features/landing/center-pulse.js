@@ -4,7 +4,7 @@ export const CenterPulse = () => {
   return (
     <Center 
       position='absolute'
-      top={{ base: '209px', md: '17px'}}
+      top={{ base: '209px', md: '170px', lg: '17px'}}
       left='0'
       zIndex='6'
       width='100%'

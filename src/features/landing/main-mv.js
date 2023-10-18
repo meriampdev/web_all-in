@@ -21,12 +21,15 @@ export const MainMv = () => {
     centerMode: true,
     centerPadding: "60px",
     slidesToShow: 3,
+    slidesToScroll: 1,
     responsive: [
       {
-        breakpoint: 480,
+        breakpoint: 760,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1
+          slidesToScroll: 1,
+          centerMode: false,
+          centerPadding: "unset",
         }
       }
     ],
@@ -109,7 +112,7 @@ export const MainMv = () => {
                   <Center 
                     position='absolute'
                     flexDirection='column'
-                    top={{ base: '209px', md: '17px'}}
+                    top={{ base: '209px', md: '170px', lg: '17px'}}
                     left='0'
                     zIndex='4'
                     width='100%'
@@ -122,7 +125,14 @@ export const MainMv = () => {
                       height={{base: '260px', lg: '285px'}}
                       fontSize={{base: '20px', md: '17px'}}
                     >
-                      <Text whiteSpace={{base: '', md: 'nowrap'}}># {item?.name}</Text>
+                      <Text 
+                        maxWidth='100%'
+                        whiteSpace={'nowrap'}
+                        overflow='hidden'
+                        textOverflow='ellipsis'
+                      >
+                        # {item?.name}
+                      </Text>
                     </Center>
                   </Center>
                 </Box>

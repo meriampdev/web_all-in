@@ -74,7 +74,7 @@ a {
   height: 100%;
 }
 
-@media only screen and (max-width: 515px) {
+@media only screen and (max-width: 550px) {
   .pc {
     display: none !important;
   }
