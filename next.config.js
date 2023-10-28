@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  assetPrefix: "http://dev.all-in.jyminc.com/",
+  assetPrefix: "https://umplex.jp/",
   trailingSlash: true,
   reactStrictMode: true,
   eslint: {

@@ -133,18 +133,10 @@ export default function ArticleDetail() {
             />
           </Flex>
         </Box>
+        
         <Container 
           paddingLeft={{base: '25px', md: '132px'}}
           paddingRight={{base: '25px', md: '128px'}}
-          _after={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            content: "''",
-            width: '7px',
-            height: '100%',
-            background: '#707070'
-          }}
         >
           <Box width='100%'>
             <Box 
@@ -218,253 +210,237 @@ export default function ArticleDetail() {
             
           </Box>
         </Container>
-        <Container 
-          paddingLeft={{base: '0', md: '132px'}}
-          paddingRight={{base: '0', md: '128px'}}
-          _after={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            content: "''",
-            width: '7px',
-            height: '100%',
-            background: '#707070'
-          }}
-        >
-          <Box 
-            margin='0 auto'
-            backgroundColor='#222222'
+        <Box>
+          <ApplicationRequirements 
+            article={article}
+            content={article?.post_acfs?.application_requirements} 
+            floatingBtn={true}
+          />
+          <Container 
+            paddingLeft={{base: '0', md: '132px'}}
+            paddingRight={{base: '0', md: '128px'}}
+            marginTop={{base: '-100px', md: '-120px'}}
           >
-            <ApplicationRequirements 
-              article={article}
-              content={article?.post_acfs?.application_requirements} 
-              floatingBtn={true}
-            />
-            <Center width='100%' padding={{base: '22px', md: '60px'}}>
-              <Image 
-                marginTop={{base: '-100px', md: '-150px'}}
-                width={'100%'}
-                height='100%'
-                objectFit='contain'
-                src={article?.post_acfs?.article_image_content?.url}
-              />
-            </Center>
-          </Box>
-        </Container>
-        <Container 
-          paddingLeft={{base: '25px', md: '132px'}}
-          paddingRight={{base: '25px', md: '128px'}}
-          _after={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            content: "''",
-            width: '7px',
-            height: '100%',
-            background: '#707070'
-          }}
-        >
-          {(article?.post_acfs?.recruitment_description) && (
-            <Box>
-              <Flex 
-                marginTop={{base: '64px', md: '184px'}}
-                flexDirection={{base: 'column', md: 'row'}} 
-                alignItems='center'
-                gridGap={{base: '34px', md: '46px'}}
-              >
-                <Box
-                  boxSize={{base: '178px', md: '356px'}}
-                  minWidth={{base: '178px', md: '356px'}}
-                  bg='#e2e2e2'
-                >
-                  {article?.post_acfs?.recruitment_image && (
-                    <Image 
-                      src={article?.post_acfs?.recruitment_image?.url}
-                      width={'100%'}
-                      height='100%'
-                      objectFit='cover'
-                    />
-                  )}
-                </Box>
-                <Box textAlign={{base: 'center', md: 'unset'}}>
-                  <Text 
-                    fontSize={{base: '18px', md: '20px'}}
-                    marginBottom={{base: '27px', md: '43px'}}
-                  >
-                    採用担当からの面接ポイントひと言
-                  </Text>
-                  <Box 
-                    margin={{base: '0 auto', md: 'unset'}}
-                    marginBottom={{base: '40px', md: '39px'}}
-                    width={'70px'}
-                    height='2px'
-                    bg='white'
-                  />
-                  <Text 
-                    fontSize={{base: '18px', md: '20px'}}
-                    marginBottom={{base: '22px', md: '30px'}}
-                  >
-                    {article?.post_acfs?.recruitment_title}
-                  </Text>
-                  <Text
-                    fontSize={{base: '12px', md: '14px'}}
-                    lineHeight={{base: '24px', md: '24px'}}
-                  >
-                    {article?.post_acfs?.recruitment_description}
-                  </Text>
-                </Box>
-              </Flex>
-              <Center marginTop={{base: '78px', md: '126px'}} width='100%'>
-                <ApplicationRequirements 
-                  article={article}
-                  content={article?.post_acfs?.application_requirements} 
+            <Box 
+              margin='0 auto'
+              backgroundColor='#222222'
+            >
+              <Center width='100%' padding={{base: '22px', md: '60px'}}>
+                <Image 
+                  width={'100%'}
+                  height='100%'
+                  objectFit='contain'
+                  src={article?.post_acfs?.article_image_content?.url}
                 />
               </Center>
             </Box>
-          )}
-        </Container>
-        
-        {article && (
-          <IsVisible>
-            {(isVisible) => (
-              <JobOffer 
-                isVisible={isVisible} 
-                article={article}
-              />
+          </Container>
+          <Container 
+            paddingLeft={{base: '25px', md: '132px'}}
+            paddingRight={{base: '25px', md: '128px'}}
+          >
+            {(article?.post_acfs?.recruitment_description) && (
+              <Box>
+                <Flex 
+                  marginTop={{base: '64px', md: '184px'}}
+                  flexDirection={{base: 'column', md: 'row'}} 
+                  alignItems='center'
+                  gridGap={{base: '34px', md: '46px'}}
+                >
+                  <Box
+                    boxSize={{base: '178px', md: '356px'}}
+                    minWidth={{base: '178px', md: '356px'}}
+                    bg='#e2e2e2'
+                  >
+                    {article?.post_acfs?.recruitment_image && (
+                      <Image 
+                        src={article?.post_acfs?.recruitment_image?.url}
+                        width={'100%'}
+                        height='100%'
+                        objectFit='cover'
+                      />
+                    )}
+                  </Box>
+                  <Box textAlign={{base: 'center', md: 'unset'}}>
+                    <Text 
+                      fontSize={{base: '18px', md: '20px'}}
+                      marginBottom={{base: '27px', md: '43px'}}
+                    >
+                      採用担当からの面接ポイントひと言
+                    </Text>
+                    <Box 
+                      margin={{base: '0 auto', md: 'unset'}}
+                      marginBottom={{base: '40px', md: '39px'}}
+                      width={'70px'}
+                      height='2px'
+                      bg='white'
+                    />
+                    <Text 
+                      fontSize={{base: '18px', md: '20px'}}
+                      marginBottom={{base: '22px', md: '30px'}}
+                    >
+                      {article?.post_acfs?.recruitment_title}
+                    </Text>
+                    <Text
+                      fontSize={{base: '12px', md: '14px'}}
+                      lineHeight={{base: '24px', md: '24px'}}
+                    >
+                      {article?.post_acfs?.recruitment_description}
+                    </Text>
+                  </Box>
+                </Flex>
+                <Center marginTop={{base: '78px', md: '126px'}} width='100%'>
+                  <ApplicationRequirements 
+                    article={article}
+                    content={article?.post_acfs?.application_requirements} 
+                  />
+                </Center>
+              </Box>
             )}
-          </IsVisible>
-        )}
+          </Container>
+          
+          {article && (
+            <IsVisible>
+              {(isVisible) => (
+                <JobOffer 
+                  isVisible={isVisible} 
+                  article={article}
+                />
+              )}
+            </IsVisible>
+          )}
 
-        <Center 
-          mt={{base: '72px', md: '77px'}}
-          mb={{base: '60px', md: '113px'}}
-        >
-          {renderSnsIcons()}
-        </Center>
-        <Container>
-          <Center width='100%' justifyContent='space-between' px={{base: '', md: '100px', lg: '150px'}}>
-            <NextLink 
-              href={`/story/detail?slug=${prevArticle?.post_name}`} 
-              passHref
-              style={{ pointerEvents: !prevArticle?.post_name ? 'none' : 'all' }}
-            >
-              <Button
-                isDisabled={!prevArticle?.post_name}
-                bg='transparent'
-                color='white'
-                fontSize={{base: '12px', md: '16px'}}
-                fontWeight='normal'
-                _hover={{
-                  bg: 'transparent'
-                }}
-              >
-                <ChevronLeftIcon fontSize='40px' />
-                <Text>
-                BEFORE　<Text as='span' className='pc'>会社と出会う</Text>
-                </Text>
-              </Button>
-            </NextLink>
-            <NextLink href='/story/all' passHref>
-              <Button
-                cursor='pointer'
-                bg='transparent'
-                color='white'
-                fontSize={{base: '12px', md: '16px'}}
-                fontWeight='normal'
-                _hover={{
-                  bg: 'transparent'
-                }}
-              >
-                <Text>
-                ALL STORYへ
-                </Text>
-              </Button>
-            </NextLink>
-            <NextLink 
-              href={`/story/detail?slug=${nextArticle?.post_name}`} 
-              passHref
-              style={{ pointerEvents: !nextArticle?.post_name ? 'none' : 'all' }}
-            >
-              <Button
-                isDisabled={!nextArticle?.post_name}
-                bg='transparent'
-                color='white'
-                fontSize={{base: '12px', md: '16px'}}
-                fontWeight='normal'
-                _hover={{
-                  bg: 'transparent'
-                }}
-              >
-                <Text>
-                AFTER　<Text as='span' className='pc'>会社と出会う</Text>
-                </Text>
-                <ChevronRightIcon fontSize='40px' />
-              </Button>
-            </NextLink>
+          <Center 
+            mt={{base: '72px', md: '77px'}}
+            mb={{base: '60px', md: '113px'}}
+          >
+            {renderSnsIcons()}
           </Center>
-        </Container>
-        <Container 
-          marginTop={{base: '82px', md: '150px'}}
-          paddingLeft={{base: '25px', md: '132px'}}
-          paddingRight={{base: '25px', md: '128px'}}
-        >
-          <Recommended />
-        </Container>
-        {/* <Box
-          position='relative'
-          marginTop={{base: '89px', md: '152px'}}
-          py={'60px'}
-          background='transparent linear-gradient(0deg, #000 0%, #414141 100%) 0% 0% no-repeat padding-box'
-        >
-          <Center
-            position='absolute'
-            top='-16px'
-            width='100%'
+          <Container>
+            <Center width='100%' justifyContent='space-between' px={{base: '', md: '100px', lg: '150px'}}>
+              <NextLink 
+                href={`/story/detail?slug=${prevArticle?.post_name}`} 
+                passHref
+                style={{ pointerEvents: !prevArticle?.post_name ? 'none' : 'all' }}
+              >
+                <Button
+                  isDisabled={!prevArticle?.post_name}
+                  bg='transparent'
+                  color='white'
+                  fontSize={{base: '12px', md: '16px'}}
+                  fontWeight='normal'
+                  _hover={{
+                    bg: 'transparent'
+                  }}
+                >
+                  <ChevronLeftIcon fontSize='40px' />
+                  <Text>
+                  BEFORE　<Text as='span' className='pc'>会社と出会う</Text>
+                  </Text>
+                </Button>
+              </NextLink>
+              <NextLink href='/story/all' passHref>
+                <Button
+                  cursor='pointer'
+                  bg='transparent'
+                  color='white'
+                  fontSize={{base: '12px', md: '16px'}}
+                  fontWeight='normal'
+                  _hover={{
+                    bg: 'transparent'
+                  }}
+                >
+                  <Text>
+                  ALL STORYへ
+                  </Text>
+                </Button>
+              </NextLink>
+              <NextLink 
+                href={`/story/detail?slug=${nextArticle?.post_name}`} 
+                passHref
+                style={{ pointerEvents: !nextArticle?.post_name ? 'none' : 'all' }}
+              >
+                <Button
+                  isDisabled={!nextArticle?.post_name}
+                  bg='transparent'
+                  color='white'
+                  fontSize={{base: '12px', md: '16px'}}
+                  fontWeight='normal'
+                  _hover={{
+                    bg: 'transparent'
+                  }}
+                >
+                  <Text>
+                  AFTER　<Text as='span' className='pc'>会社と出会う</Text>
+                  </Text>
+                  <ChevronRightIcon fontSize='40px' />
+                </Button>
+              </NextLink>
+            </Center>
+          </Container>
+          <Container 
+            marginTop={{base: '82px', md: '150px'}}
+            paddingLeft={{base: '25px', md: '132px'}}
+            paddingRight={{base: '25px', md: '128px'}}
+          >
+            <Recommended />
+          </Container>
+          {/* <Box
+            position='relative'
+            marginTop={{base: '89px', md: '152px'}}
+            py={'60px'}
+            background='transparent linear-gradient(0deg, #000 0%, #414141 100%) 0% 0% no-repeat padding-box'
           >
             <Center
-              borderRadius='full'
-              background='#717171'
-              width={{base: '143px', md: '170px'}}
-              height={'32px'}
-              fontSize={'15px'}
-              fontWeight='normal'
+              position='absolute'
+              top='-16px'
+              width='100%'
             >
-              別の気分で探す
+              <Center
+                borderRadius='full'
+                background='#717171'
+                width={{base: '143px', md: '170px'}}
+                height={'32px'}
+                fontSize={'15px'}
+                fontWeight='normal'
+              >
+                別の気分で探す
+              </Center>
             </Center>
-          </Center>
-          <Center width='100%'>
-            <HStack 
-              spacing='20px'
-              justifyContent='center'
-              width='60%'
-              flexWrap='wrap'
-            >
-              {tags?.map((tag,i) => {
-                if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
-                return (
-                  <NextLink 
-                    key={`tag-${i}`}
-                    href={`/story/tag?slug=${tag?.slug}`} 
-                    passHref
-                  >
-                    <Center
-                      cursor='pointer'
-                      height={{base: '28px', md: '38px'}}
-                      px={'18px'}
-                      fontSize={{base: '12px', md: '14px'}}
-                      color='white'
-                      borderRadius='full'
-                      border='1px solid white'
+            <Center width='100%'>
+              <HStack 
+                spacing='20px'
+                justifyContent='center'
+                width='60%'
+                flexWrap='wrap'
+              >
+                {tags?.map((tag,i) => {
+                  if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
+                  return (
+                    <NextLink 
+                      key={`tag-${i}`}
+                      href={`/story/tag?slug=${tag?.slug}`} 
+                      passHref
                     >
-                      #{tag?.name}
-                    </Center>
-                  </NextLink>
-                )
-              })}
-            </HStack>
-          </Center>
-        </Box> */}
-        <Footer />
+                      <Center
+                        cursor='pointer'
+                        height={{base: '28px', md: '38px'}}
+                        px={'18px'}
+                        fontSize={{base: '12px', md: '14px'}}
+                        color='white'
+                        borderRadius='full'
+                        border='1px solid white'
+                      >
+                        #{tag?.name}
+                      </Center>
+                    </NextLink>
+                  )
+                })}
+              </HStack>
+            </Center>
+          </Box> */}
+          <Footer />
+        </Box>
       </Box>
     </>
   )

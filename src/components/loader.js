@@ -20,24 +20,34 @@ export const FullPageLoader = () => {
         <Box
           pos="relative"
           background='black'
-          width={{base: '160px', md: '190px'}}
-          height={{base: '210px', md: '250px'}}
-          overflow='hidden'
+          boxSize={{ base: '200px', md: '280px' }}
         >
           <Box
-            width={{base: '400px', md: '400px'}}
-            height={{base: '400px', md: '400px'}}
+            boxSize={{ base: '200px', md: '280px' }}
             className="animatedBorder"
-            borderRadius='0'
-            top={{base: '-70px', md: '-70px'}}
-            left={{base: '-70px', md: '-70px'}}
           />
-          <Box pos="absolute" top="0" left="0" h="100%" w="100%" zIndex="1">
+          <Center 
+            pos="absolute" 
+            top="0" 
+            left="0" 
+            height="100%" 
+            width="100%" 
+            zIndex="1" 
+            borderRadius='full' 
+          >
+            <Box 
+              height='97%'
+              width='97%'
+              borderRadius='full' 
+              background='black' 
+            />
+          </Center>
+          <Box pos="absolute" top="0" left="0" h="100%" w="100%" zIndex="2">
             <Center h="100%">
               <Image
                 objectFit='contain'
-                width={{base: '150px', md: '180px'}}
-                height={{base: '200px', md: '240px'}}
+                width={{base: '100px', md: '120px'}}
+                height={{base: '150px', md: '180px'}}
                 src={AboutImage?.src}
               />
             </Center>

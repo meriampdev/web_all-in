@@ -1,15 +1,38 @@
-import Head from 'next/head'
-import { Box, Flex, Image, Link, Text } from '@chakra-ui/react'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { Box, Flex, Image, Text } from '@chakra-ui/react'
 import { Header } from '@/components/header'
 import { Search } from '@/features/landing/search'
 import { Footer } from '@/components/footer'
 import NextLink from 'next/link'
-import AboutImage from '@/assets/images/about.jpg'
+import AboutImage from '@/assets/images/about-GIF.gif'
 import { ChevronRightIcon } from '@chakra-ui/icons'
+import { FullPageLoader } from '@/components/loader';
+import { WP_REST_API } from '@/constants'
 
 export default function About() {
+  const [data, setData] = useState({})
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setLoading(true)
+    axios
+      .get(`${WP_REST_API}/wp-json/wp/v2/contents?slug=about-page`)
+      .then((response) => {
+        setLoading(false)
+        if(response?.data?.length > 0) {
+          setData(response.data[0])
+        }
+      }).catch((err) => {
+        console.log('err', err)
+        setLoading(false)
+      })
+    
+  }, [])
+
   return (
     <>
+      {loading && <FullPageLoader />}
       <Box position='relative'>
         <Box margin='0 auto' width='100%' position='relative' zIndex='100'>
           <Box position='relative' height='100%'>
@@ -31,7 +54,7 @@ export default function About() {
                 height={{base: '418px', md: '623px'}}
               >
                 <Image 
-                  src={AboutImage?.src}
+                  src={data?.content_image || AboutImage?.src}
                   objectFit='contain'
                   height='100%'
                   width='100%'
@@ -50,6 +73,7 @@ export default function About() {
                 css={{
                   'writing-mode': 'vertical-lr'
                 }}
+                whiteSpace='nowrap'
               >
                 ABOUT
               </Text>
@@ -63,8 +87,9 @@ export default function About() {
                 fontSize={{base: '25px', md: '28px'}}
                 lineHeight={{base: '43px', md: '44px'}}
               >
-              このサイトについて
+              {data?.acf?.title}
               </Text>
+             
               <Box 
                 mt={{ base: '20px', md: '30px'}}
                 mb={{ base: '40px', md: '60px'}}
@@ -72,33 +97,42 @@ export default function About() {
                 width='100px'
                 background='white'
               />
+              {data?.acf?.content_title && 
+                <Box
+                  fontSize={{base: '10px', md: '14px'}}
+                  lineHeight={'30px'}
+                  maxWidth={{base: '100%', md: '520px'}}
+                >
+                  <Text
+                    fontSize={{base: '', md: '32px'}}
+                    textDecoration='underline'
+                  >
+                    {data?.acf?.content_title}
+                  </Text> <br />
+                </Box>
+              }
               <Box
                 fontSize={{base: '10px', md: '14px'}}
                 lineHeight={'30px'}
-                maxWidth={{base: '100%', md: '520px'}}
-              >
-                <Text
-                  fontSize={{base: '', md: '32px'}}
-                  textDecoration='underline'
+                maxWidth={{xl: '520px'}}
+                dangerouslySetInnerHTML={{
+                  __html: data?.acf?.content_body?.replaceAll('\n', '<br />')
+                }}
+              />
+              {data?.acf?.content_link?.url && 
+                <NextLink 
+                  href={data?.acf?.content_link?.url} 
+                  passHref 
+                  target={data?.acf?.content_link?.target || "_blank"}
                 >
-                  コンプレックスを、愛そう
-                </Text> <br />
-                誰しも日常のふとした瞬間に、劣等感に打ちのめされることがあります。スキル、学歴、<br />
-                年収、会社の知名度。自分と他人を比べるたび、深いため息がこぼれるかもしれません。<br />
-                ですが、あなたがコンプレックスに感じていることは、別の角度から映してみれば、そのひと自身も気づかなかった魅力になり得るはず。私たちは、そう信じているのです。<br />
-                <br />
-                求人広告を制作するときも同じです。私たちは限りなくフラットなまなざしで企業様を見つめ、コアとなる魅力を追求し、読み手の感情に訴えかけます。しかし、職種や業種という検索軸では、どうしても先入観が芽生えてしまう。そんな哀しいすれ違いのせいで、生まれなかった物語がいくつもありました。<br />
-                <br />
-                そして誕生したのが『Umplex』。感情を検索軸に据え、先入観にとらわれない出会いの場を提供します。「今日はどんな映画を観ようか」と映画館のポスターを眺めるときのように、心弾む体験があなたを待っています。曇りのないレンズで物語を見つめるとき、きっとあなたも新たな自分に出会うでしょう。そのとき、あなたのコンプレックスは、他に代えがたい持ち味になっているはずです。<br />
-              </Box>
-              <NextLink href='/contact' passHref>
-                <Text 
-                  fontSize={{ base: '12px', md: '16px'}}
-                  mt={{base: '72px', md: '166px'}}
-                >
-                  運営会社 <ChevronRightIcon fontSize='20px' />
-                </Text>
-              </NextLink>
+                  <Text 
+                    fontSize={{ base: '12px', md: '16px'}}
+                    mt={{base: '72px', md: '166px'}}
+                  >
+                    {data?.acf?.content_link?.title} <ChevronRightIcon fontSize='20px' />
+                  </Text>
+                </NextLink>
+              }
             </Box>
           </Flex>
           <Footer />

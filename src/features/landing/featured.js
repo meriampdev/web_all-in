@@ -119,7 +119,7 @@ export const Featured = ({ animate }) => {
           cursor='pointer'
           position='absolute'
           top={{ base: `48%`, md: `calc(50% - 25px)`}}
-          left={{base: '89%', lg: '93%', 'xl': '1112px', '2xl': '95%'}}
+          left={{base: '89%', md: '93%', xl: '1115px' }}
           zIndex='10'
           bg='white'
           borderRadius='full'
@@ -164,7 +164,7 @@ export const Featured = ({ animate }) => {
                         height={{base: '235px', md: '460px'}}
                         borderTopLeftRadius={'10px'}
                         borderTopRightRadius={{ base: '10px', md: 0}}
-                        borderBottomLeftRadius={{ base: '10px', md: '10px'}}
+                        borderBottomLeftRadius={{ base: '0', md: '10px'}}
                       >
                         <Image 
                           width='100%'
@@ -172,25 +172,42 @@ export const Featured = ({ animate }) => {
                           objectFit='cover'
                           borderTopLeftRadius={'10px'}
                           borderTopRightRadius={{ base: '10px', md: 0}}
-                          borderBottomLeftRadius={{ base: '10px', md: '10px'}}
+                          borderBottomLeftRadius={{ base: '0', md: '10px'}}
                           src={item?.featured_image}
                         />
                       </Box>
                       
                       <Box
-                        backgroundImage={`url(${item?.featured_image})`}
-                        backgroundRepeat='no-repeat'
-                        backgroundSize='cover'
-                        backgroundPosition='center'
                         borderTopRightRadius={{ base: 0, md: '10px'}}
                         borderBottomRightRadius={{ base: '10px', md: '10px'}}
                         borderBottomLeftRadius={{ base: '10px', md: 0}}
+                        position='relative'
+                        width={{base: '325px', md: '495px'}}
+                        height={{base: '215px', md: '460px'}}
+                        overflow='hidden'
                       >
+                        <Box
+                          zIndex='1'
+                          filter='blur(4px)'
+                          transform='scale(1.1)'
+                          position='absolute'
+                          width='100%'
+                          height='100%'
+                          backgroundImage={`url(${item?.featured_image})`}
+                          backgroundRepeat='no-repeat'
+                          backgroundSize='cover'
+                          backgroundPosition='center'
+                          borderTopRightRadius={{ base: 0, md: '10px'}}
+                          borderBottomRightRadius={{ base: '10px', md: '10px'}}
+                          borderBottomLeftRadius={{ base: '10px', md: 0}}
+                        />
                         <VStack 
+                          position='relative'
+                          background='transparent linear-gradient(180deg, #000000 0%, #336379 100%) 0% 0% no-repeat padding-box'
+                          opacity='0.9'
+                          zIndex='2'
                           alignItems='flex-start' 
                           spacing={{base: '15px', md: '30px'}}
-                          backgroundColor='rgba(0,0,0,0.5)'
-                          backdropFilter='blur(10px)'
                           width={{base: '325px', md: '495px'}}
                           height={{base: '215px', md: '460px'}}
                           padding={{base: '40px 35px', md: '82px 50px'}}

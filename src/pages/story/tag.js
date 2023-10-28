@@ -1,20 +1,30 @@
 import { useAxios } from '@/hooks/useAxios'
 import { useRouter } from 'next/router'
-import { Box, Center, Flex, SkeletonText, Spinner, Text, useBreakpointValue } from '@chakra-ui/react'
+import { 
+  Box, 
+  Center, 
+  Flex, 
+  SkeletonText, 
+  Spinner, 
+  Text, 
+  useBreakpointValue 
+} from '@chakra-ui/react'
 import { Header } from '@/components/header'
 import { Search } from '@/features/landing/search'
 import { Footer } from '@/components/footer'
 import { Container } from '@/components/container'
 import { Article } from '@/features/landing/article'
 import { FullPageLoader } from '@/components/loader';
-import InfiniteScroll from "react-infinite-scroll-component";
 import { CategoryContainer } from '@/features/category-container'
+import { PickupArticle } from '@/features/pickup-article'
+import InfiniteScroll from "react-infinite-scroll-component";
+
 
 export default function PerCategory() {
   const router = useRouter()
   const slug = router?.query?.slug
   const { data, loading, hasMore, getMore } = useAxios(`/wp-json/api/v1/articles-by-category/${slug}`, { skip: !slug })
-  const { data: tagData, loading: loadingTermData } = useAxios(`/wp-json/api/v1/term/category/${slug}`, { skip: !slug })
+  const { data: category, loading: loadingCatData } = useAxios(`/wp-json/api/v1/term/category/${slug}`, { skip: !slug })
   const isMobile = useBreakpointValue({ base: true, md: false })
 
   const getMorePost = async () => {
@@ -39,12 +49,10 @@ export default function PerCategory() {
             />
           </Flex>
         </Box>
-        <CategoryContainer data={tagData}>
+        <CategoryContainer data={category}>
           <Container 
-            marginTop={{base: '80px', md: '100px'}}
             paddingLeft={{base: '34px', md: '132px'}}
             paddingRight={{base: '11px', xl: '128px'}}
-            paddingBottom={{base: '25px', md: '128px'}}
             _after={{
               position: 'absolute',
               top: 0,
@@ -58,10 +66,10 @@ export default function PerCategory() {
             <Box>
               <SkeletonText 
                 noOfLines={1} 
-                width={loadingTermData ? '120px' : 'fit-content'}
+                width={loadingCatData ? '120px' : 'fit-content'}
                 skeletonHeight={{base: '22px', md: '45px'}}
                 marginBottom={{base: '25px', md: '50px'}}
-                isLoaded={loadingTermData === false}
+                isLoaded={loadingCatData === false}
               >
                 <Box
                   height={{base: '36px', md: '77px'}}
@@ -73,9 +81,41 @@ export default function PerCategory() {
                   display='flex'
                   alignItems='flex-end'
                 >
-                  #{tagData?.name}
+                  #{category?.name}
                 </Box>
               </SkeletonText>
+            </Box>
+          </Container>
+          <Container 
+            paddingLeft={{base: '34px', md: '132px'}}
+            css={{
+              '@media screen and (max-width: 1600px) and (min-width: 1440px)': {
+                maxWidth: 'none',
+                paddingLeft: '210px'
+              },
+              '@media screen and (max-width: 1600px) and (min-width: 1500px)': {
+                paddingLeft: '285px'
+              }
+            }}
+          >
+            {category?.pickup_article && 
+              <PickupArticle article={category?.pickup_article} />
+            }
+          </Container>
+          <Container 
+            paddingLeft={{base: '34px', md: '132px'}}
+            paddingRight={{base: '11px', xl: '128px'}}
+            _after={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              content: "''",
+              width: isMobile ? 0 : '7px',
+              height: '100%',
+              background: '#707070'
+            }}
+          >
+            <Box>
               {!loading && data?.length <= 0 ? (
                 <Text fontSize='lg'>記事が存在しません</Text>
               ) : (
@@ -88,11 +128,7 @@ export default function PerCategory() {
                       <Spinner size='md' />
                     </Center>
                   )}
-                  endMessage={(
-                    <Center mt={'100px'} width='100%' paddingRight={{base: '23px', md: '0'}}>
-                      <h4>これ以上見せるものは何もない</h4>
-                    </Center>
-                  )}
+                  endMessage={null}
                   className='article-list'
                   style={{
                     display: 'flex',
@@ -117,9 +153,9 @@ export default function PerCategory() {
                 </InfiniteScroll>
               )}
             </Box>
-        </Container>
-        <Footer />
-      </CategoryContainer>
-    </Box>
-  </>
+          </Container>
+          <Footer />
+        </CategoryContainer>
+      </Box>
+    </>
 )}

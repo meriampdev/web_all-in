@@ -111,39 +111,56 @@ export const Search = ({ ...rest }) => {
             px={{ base: '15px', md: '30px'}}
           >
             <Center flexDirection='column' width='100%'>
-              <Center
-                borderRadius='full'
-                background='#717171'
-                lineHeight='normal'
-                fontSize={{base: '15px', md: '15px'}}
-                width={{base: '143px', md: '143px'}}
-                height={{base: '32px', md: '32px'}}
-              >
-                {nav?.current?.name}で探す
-              </Center>
-              <HStack 
-                width='100%' 
-                alignItems='flex-start' 
-                spacing={{base: '20px', md: '50px'}}
-                marginTop={{base: '58px', md: '58px'}}
-              >
-                <VStack
+              <HStack width='100%' justifyContent='space-between' spacing='15px'>
+                <HStack
                   onClick={() => setCategory(nav?.prev?.slug)}
                   cursor='pointer'
                   visibility={nav?.prev?.slug ? 'visible' : 'hidden'}
                   _hover={{ opacity: 0.8}}
+                  spacing='0'
                 >
-                  <Text whiteSpace='nowrap' fontSize={{ base: '13px', md: '15px'}}>{nav?.prev?.name}で探す</Text>
                   <ChevronLeftIcon cursor='pointer' fontSize='30px' />
-                </VStack>
-                <Flex 
-                  flexWrap='wrap'
-                  justifyContent={{ base: 'center', md: 'space-between'}}
-                  gridGap={{base: '15px', md: '17px'}}
+                  <Text whiteSpace='nowrap' fontSize={{ base: '13px', md: '15px'}}>{nav?.prev?.name}で探す</Text>
+                </HStack>
+                <Center
+                  borderRadius='full'
+                  background='#717171'
+                  lineHeight='normal'
+                  fontSize={{base: '15px', md: '15px'}}
+                  width={'143px'}
+                  height={{base: '32px', md: '32px'}}
                 >
-                  {nav?.current?.subs?.map((tag, i) => {
-                    if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
-                    return (
+                  {nav?.current?.name}で探す
+                </Center>
+                <HStack
+                  onClick={() => setCategory(nav?.next?.slug)}
+                  cursor='pointer'
+                  spacing='0'
+                  visibility={nav?.next?.slug ? 'visible' : 'hidden'}
+                >
+                  <Text whiteSpace='nowrap' fontSize={{ base: '13px', md: '15px'}}>{nav?.next?.name}で探す</Text>
+                  <ChevronRightIcon fontSize='30px' />
+                </HStack>
+              </HStack>
+              <Flex 
+                flexWrap='wrap'
+                justifyContent={{ base: 'center', md: 'space-between'}}
+                gridGap={{base: '15px', md: '20px'}}
+                marginTop={{base: '58px', md: '58px'}}
+                px={{ base: '10%', md: '0%' }}
+              >
+                {nav?.current?.subs?.map((tag, i) => {
+                  if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
+                  return (
+                    <Flex 
+                      flexBasis={{ md: '47%' }}
+                      justifyContent='flex-end'
+                      css={{
+                        '&:nth-child(even)': {
+                          justifyContent: 'flex-start'
+                        }
+                      }}
+                    >
                       <NextLink href={`/story/tag?slug=${tag?.slug}`} passHref>
                         <Center
                           key={`tag-${i}`}
@@ -151,27 +168,21 @@ export const Search = ({ ...rest }) => {
                           borderRadius='full'
                           border='1px solid white'
                           lineHeight='normal'
-                          px={4}
+                          py={1}
+                          px={3}
                           fontSize={{base: '15px', md: '18px'}}
-                          minWidth={{base: '118px', md: '129px'}}
+                          minWidth={{base: '130px', md: '170px'}}
                           minHeight={'38px'}
                           height='auto'
+                          whiteSpace='nowrap'
                         >
                           #{tag?.name}
                         </Center>
                       </NextLink>
-                    )
-                  })}
-                </Flex>
-                <VStack
-                  onClick={() => setCategory(nav?.next?.slug)}
-                  cursor='pointer'
-                  visibility={nav?.next?.slug ? 'visible' : 'hidden'}
-                >
-                  <Text whiteSpace='nowrap' fontSize={{ base: '13px', md: '15px'}}>{nav?.next?.name}で探す</Text>
-                  <ChevronRightIcon fontSize='30px' />
-                </VStack>
-              </HStack>
+                    </Flex>
+                  )
+                })}
+              </Flex>
             </Center>
           </DrawerBody>
         </DrawerContent>

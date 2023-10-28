@@ -2,7 +2,7 @@ import { useAxios } from '@/hooks/useAxios'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import useEmblaCarousel from 'embla-carousel-react'
 import IsVisible from 'react-is-visible'
-import { Box, Image, Skeleton } from '@chakra-ui/react'
+import { Box, Flex, Image, Skeleton } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
 export const TopTen = () => {
@@ -103,17 +103,44 @@ export const TopTen = () => {
                             <Box
                               position='absolute'
                               bottom='0'
-                              left={{ base: '10px', md: '12px'}}
-                              fontSize={{base: '37px', md: '50px'}}
-                              lineHeight={{base: '37px', md: '50px'}}
-                              background='rgba(0,0,0,0.3)'
-                              borderTopRadius='sm'
+                              left={'0'}
+                              lineHeight={'normal'}
+                              boxSize={{base: '46px', md: '46px'}}
                             >
-                              {item?.post_acfs?.order}
+                              <Box
+                                position='relative'
+                                top='0'
+                                left='0'
+                                width='100%'
+                                height='100%'
+                              >
+                                <Box 
+                                  position='absolute'
+                                  top='-5px'
+                                  left='-8px'
+                                  transform='rotate(-43deg)'
+                                  background='black'
+                                  width={{base: '46px', md: '46px'}}
+                                  height={{base: '92px', md: '92px'}}
+                                />
+                                <Flex 
+                                  fontSize={'25px'}
+                                  position='absolute'
+                                  left='0'
+                                  bottom='0'
+                                  height={'100%'} 
+                                  alignItems='flex-end' 
+                                  px={'5px'}
+                                >
+                                  {item?.post_acfs?.order}
+                                </Flex>
+                              </Box>
                             </Box>
                             <Image 
                               src={item?.featured_image}
-                              borderRadius='10px'
+                              borderTopRadius='10px'
+                              borderBottomLeftRadius='15px'
+                              borderBottomRightRadius='10px'
                               height='100%'
                               width='100%'
                               objectFit='cover'

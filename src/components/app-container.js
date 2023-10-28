@@ -133,7 +133,7 @@ export const AppContainer = ({ children }) => {
           opacity='0.05'
           fontSize={{base: '0', md: '5vw'}}
           fontWeight='normal'
-          fontFamily="Montserrat, sans-serif"
+          fontFamily="Noto Sans JP,Montserrat, sans-serif"
         >
         Umplex
         </Box>

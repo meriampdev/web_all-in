@@ -137,7 +137,7 @@ export const Footer = () => {
           fontSize={'10px'}
           lineHeight={'17px'}
         >
-        © ALL-IN CO.,LTD. 2023
+        © Umplex CO.,LTD. 2023
         </Text>
       </Center>
     </Container>

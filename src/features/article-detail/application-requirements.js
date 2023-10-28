@@ -42,9 +42,11 @@ export const ApplicationRequirements = ({ floatingBtn, article, content }) => {
           onClick={onOpen}
           tabIndex={-1} 
           position='sticky'
+          zIndex='10000'
           alignSelf='flex-start'
           top={{base: '20px', md: '40px'}}
-          marginLeft={{base: '71%', md: '95%'}}
+          marginTop={{base: '0', md: '-30px'}}
+          marginLeft={{base: '71%', md: '86%'}}
           right={{ base: 0, md: '40px'}}
           flexDirection='column'
           borderRadius='full'

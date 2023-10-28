@@ -74,11 +74,7 @@ export default function AllStories() {
                     <Spinner size='md' />
                   </Center>
                 )}
-                endMessage={(
-                  <Center mt={'100px'} width='100%' paddingRight={{base: '23px', md: '0'}}>
-                    <h4>これ以上見せるものは何もない</h4>
-                  </Center>
-                )}
+                endMessage={null}
                 className='article-list'
                 style={{
                   display: 'flex',
