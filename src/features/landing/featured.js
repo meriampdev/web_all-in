@@ -60,7 +60,8 @@ export const Featured = ({ animate }) => {
 
   return (
     <Box
-      animation={animate ? '1s slide-left-100' : ''}
+      animation={animate ? '0.7s forwards 0.2s slide-left-100' : ''}
+      marginLeft='100%'
       position='relative'
       marginTop={{base: '66px', md: '129px'}}
       height={{base: '477px', md: '620px'}}

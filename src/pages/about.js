@@ -99,12 +99,11 @@ export default function About() {
               />
               {data?.acf?.content_title && 
                 <Box
-                  fontSize={{base: '10px', md: '14px'}}
                   lineHeight={'30px'}
                   maxWidth={{base: '100%', md: '520px'}}
                 >
                   <Text
-                    fontSize={{base: '', md: '32px'}}
+                    fontSize={{ base: '16px', md: '14px'}}
                     textDecoration='underline'
                   >
                     {data?.acf?.content_title}
@@ -112,8 +111,8 @@ export default function About() {
                 </Box>
               }
               <Box
-                fontSize={{base: '10px', md: '14px'}}
-                lineHeight={'30px'}
+                fontSize={{ base: '14px', md: '12px'}}
+                lineHeight={{ base: '20px', md: '30px'}}
                 maxWidth={{xl: '520px'}}
                 dangerouslySetInnerHTML={{
                   __html: data?.acf?.content_body?.replaceAll('\n', '<br />')
@@ -126,7 +125,7 @@ export default function About() {
                   target={data?.acf?.content_link?.target || "_blank"}
                 >
                   <Text 
-                    fontSize={{ base: '12px', md: '16px'}}
+                   fontSize={{ base: '14px', md: '12px'}}
                     mt={{base: '72px', md: '166px'}}
                   >
                     {data?.acf?.content_link?.title} <ChevronRightIcon fontSize='20px' />
@@ -162,4 +161,16 @@ export default function About() {
       </Box>
     </>
   )
+}
+
+export async function getStaticProps() {
+
+  return {
+    props: {
+      seo: {
+        title: 'このサイトについて｜Umplex',
+        description: 'コンプレックスを、愛そう。「今日はどんな映画を観ようか」と映画館のポスターを眺めるときのように、心弾む体験があなたを待っています。曇りのないレンズで物語を見つめるとき、きっとあなたも新たな自分に出会うでしょう。'
+      }
+    },
+  }
 }

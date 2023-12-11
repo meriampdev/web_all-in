@@ -135,7 +135,7 @@ export default function Home() {
               {categories?.section2?.length > 0 && (
                 <Container 
                   paddingLeft={{base: '16px', md: '132px'}}
-                  paddingRight={{base: '16px', md: '128px'}}
+                  paddingRight={{base: '', md: '128px'}}
                 >
                   {categories?.section2?.map((cat) => (
                     <IsVisible once>

@@ -42,9 +42,9 @@ export const ApplicationRequirements = ({ floatingBtn, article, content }) => {
           onClick={onOpen}
           tabIndex={-1} 
           position='sticky'
-          zIndex='10000'
+          zIndex='1000'
           alignSelf='flex-start'
-          top={{base: '20px', md: '40px'}}
+          top={{ base: '80vh', md: '55vh'}}
           marginTop={{base: '0', md: '-30px'}}
           marginLeft={{base: '71%', md: '86%'}}
           right={{ base: 0, md: '40px'}}
@@ -155,6 +155,9 @@ export const ApplicationRequirements = ({ floatingBtn, article, content }) => {
                   href={article?.post_acfs?.recruitment_url_link?.url} 
                   isExternal
                   width={{base: '100%', md: 'fit-content'}}
+                  _hover={{
+                    textDecoration: 'none'
+                  }}
                 >
                   <Button
                     width={{base: '152px', md: '258px'}}
@@ -166,7 +169,12 @@ export const ApplicationRequirements = ({ floatingBtn, article, content }) => {
                 </Link>
                 <Link 
                   href={`mailto:${article?.post_acfs?.recruitment_email}`} 
+                  rel='nofollow'
+                  target='_blank'
                   width={{base: '100%', md: 'fit-content'}}
+                  _hover={{
+                    textDecoration: 'none'
+                  }}
                 >
                   <Button
                     width={{base: '152px', md: '258px'}}

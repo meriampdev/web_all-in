@@ -537,3 +537,15 @@ export default function Contact() {
     </>
   )
 }
+
+export async function getStaticProps() {
+
+  return {
+    props: {
+      seo: {
+        title: 'お問い合わせ｜Umplex',
+        description: 'Umplexについてのお問い合わせページです。'
+      }
+    },
+  }
+}

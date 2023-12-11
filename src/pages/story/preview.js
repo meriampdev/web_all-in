@@ -9,7 +9,7 @@ import { Header } from '@/components/header'
 import { Search } from '@/features/landing/search'
 import { Footer } from '@/components/footer'
 import { FacebookIcon2 } from '@/components/icons/FacebookIcon2'
-import { TwitterIcon } from '@/components/icons/TwitterIcon'
+import { XTwitterIcon } from '@/components/icons/XTwitterIcon'
 import { LineIcon } from '@/components/icons/LineIcon'
 import { BIcon } from '@/components/icons/BIcon'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
@@ -85,7 +85,7 @@ export default function ArticleDetail() {
         isExternal
         href={shareLinks?.twitterShare}
       >
-        <Icon fontSize='20px' as={TwitterIcon} />
+        <Icon fontSize='20px' as={XTwitterIcon} />
       </Link>
       <Link
         isExternal

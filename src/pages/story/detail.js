@@ -3,14 +3,13 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { isReservedKeyword } from '@/utils'
 import { format, parseISO } from 'date-fns'
-import Head from 'next/head'
 import { Container } from '@/components/container'
-import { Box, Button, Center, Flex, HStack, Link, Image, Icon, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Center, Flex, Link, Image, Icon, Text } from '@chakra-ui/react'
 import { Header } from '@/components/header'
 import { Search } from '@/features/landing/search'
 import { Footer } from '@/components/footer'
 import { FacebookIcon2 } from '@/components/icons/FacebookIcon2'
-import { TwitterIcon } from '@/components/icons/TwitterIcon'
+import { XTwitterIcon } from '@/components/icons/XTwitterIcon'
 import { LineIcon } from '@/components/icons/LineIcon'
 import { BIcon } from '@/components/icons/BIcon'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
@@ -21,6 +20,9 @@ import { ApplicationRequirements } from '@/features/article-detail/application-r
 import NextLink from 'next/link'
 import IsVisible from 'react-is-visible'
 import { JobOffer } from '@/features/article-detail/job-offer'
+import { SeoHead } from '@/components/seo-head'
+import PocketIcon from '@/assets/images/pocket.png'
+import PinterestIcon from '@/assets/images/Pinterest.png'
 
 export default function ArticleDetail() {
   const router = useRouter()
@@ -36,11 +38,14 @@ export default function ArticleDetail() {
     let fbShare = `${q}&quote=${article?.post_title} %0D%0A${article?.post_excerpt}%0D%0A`
     let twitterShare = `${q}&text=${article?.post_title} %0D%0A${article?.post_excerpt}%0D%0A`
 
+    const articleImage = article?.featured_image_src || article?.featured_image
     setShareLinks({ 
       twitterShare: `https://twitter.com/share?url=${twitterShare}`, 
       fbShare: `https://www.facebook.com/sharer/sharer.php?u=${fbShare}`,
       lineShare: `https://social-plugins.line.me/lineit/share?url=${q}`,
-      bpsShare: `https://b.hatena.ne.jp/entry/panel/?url=${q}`
+      bpsShare: `https://b.hatena.ne.jp/entry/panel/?url=${q}`,
+      pinterest: `https://pinterest.com/pin/create/button/?url=${q}&media=${articleImage}&description=umplex`,
+      pocket: `https://widgets.getpocket.com/v1/popup?url=${q}`
     })
   }, [article, router])
 
@@ -89,7 +94,7 @@ export default function ArticleDetail() {
         isExternal
         href={shareLinks?.twitterShare}
       >
-        <Icon fontSize='20px' as={TwitterIcon} />
+        <Icon fontSize='20px' as={XTwitterIcon} />
       </Link>
       <Link
         isExternal
@@ -109,6 +114,23 @@ export default function ArticleDetail() {
       >
         <Icon fontSize='20px' as={BIcon} />
       </Link>
+      
+      <Link 
+        isExternal
+        href={shareLinks?.pinterest}
+      >
+        <Box boxSize='20px'>
+          <Image src={PinterestIcon.src} />
+        </Box>
+      </Link>
+      <Link 
+        isExternal
+        href={shareLinks?.pocket}
+      >
+        <Box boxSize='30px' mt='3px' ml='-3px'>
+          <Image src={PocketIcon.src} />
+        </Box>
+      </Link>
     </Flex>
   )
 
@@ -119,6 +141,12 @@ export default function ArticleDetail() {
 
   return (
     <>
+      {article && (
+        <SeoHead 
+          title={`${article?.post_title}｜Umplex`}
+          description={article?.excerpt?.rendered || article?.post_excerpt}
+        />
+      )}
       {loading && <FullPageLoader />}
       <Box margin='0 auto' width='100%'>
         <Box position='relative' height='100%'>

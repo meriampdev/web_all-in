@@ -70,15 +70,14 @@ export const ByCategory = ({ slug, animate, direction, ...rest }) => {
         </Box>
       </Box>
       <Flex 
-        display={{base: 'none', md: 'flex'}} 
         justifyContent='flex-end' 
-        marginTop={{base: '', md: '50px'}}
+        marginTop={{base: '20px', md: '50px'}}
       >
         <NextLink href={`/story/category?slug=${slug}`} passHref>
           <Button 
-            // animation={animate ? `2s slide-${direction}` : ''}
-            height={{base: '', md: '43px'}}
-            width={{base: '', md: '138px'}}
+            height={'43px'}
+            width={'138px'}
+            mr={{base: '16px', md: 0}}
             borderRadius='full'
             bg='white'
           >

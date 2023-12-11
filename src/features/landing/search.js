@@ -12,7 +12,8 @@ import {
   Text,
   useDisclosure,
   Flex,
-  HStack
+  HStack,
+  Link
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { ChevronLeftIcon, ChevronRightIcon, Search2Icon } from '@chakra-ui/icons'
@@ -24,6 +25,12 @@ export const Search = ({ ...rest }) => {
   const [nav, setNav] = useState({})
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { data: parentCategories } = useAxios(`/wp-json/api/v1/get-parent-categories`)
+
+  useEffect(() => {
+    return () => {
+      onClose()
+    }
+  }, [])
 
   useEffect(() => {
     if(parentCategories?.length > 0) {
@@ -144,41 +151,33 @@ export const Search = ({ ...rest }) => {
               </HStack>
               <Flex 
                 flexWrap='wrap'
-                justifyContent={{ base: 'center', md: 'space-between'}}
+                justifyContent={'space-between'}
                 gridGap={{base: '15px', md: '20px'}}
-                marginTop={{base: '58px', md: '58px'}}
-                px={{ base: '10%', md: '0%' }}
+                marginTop={{base: '48px', md: '58px'}}
+                px={{ base: '5px', md: '0%' }}
               >
                 {nav?.current?.subs?.map((tag, i) => {
                   if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
                   return (
-                    <Flex 
-                      flexBasis={{ md: '47%' }}
-                      justifyContent='flex-end'
-                      css={{
-                        '&:nth-child(even)': {
-                          justifyContent: 'flex-start'
-                        }
-                      }}
-                    >
-                      <NextLink href={`/story/tag?slug=${tag?.slug}`} passHref>
-                        <Center
+                    <Flex flexBasis={'47%'}>
+                      <Link href={`/story/tag?slug=${tag?.slug}`} textDecoration='none' _hover={{ textDecoration: 'none' }}>
+                        <Box
                           key={`tag-${i}`}
                           cursor='pointer'
-                          borderRadius='full'
-                          border='1px solid white'
                           lineHeight='normal'
-                          py={1}
-                          px={3}
                           fontSize={{base: '15px', md: '18px'}}
                           minWidth={{base: '130px', md: '170px'}}
                           minHeight={'38px'}
                           height='auto'
-                          whiteSpace='nowrap'
+                          textAlign='left'
+                          display='flex'
+                          alignItems={{ base: 'flex-start', md: 'center'}}
+                          px={1}
+                          _hover={{ opacity: 0.8 }}
                         >
                           #{tag?.name}
-                        </Center>
-                      </NextLink>
+                        </Box>
+                      </Link>
                     </Flex>
                   )
                 })}

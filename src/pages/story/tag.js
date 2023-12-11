@@ -18,7 +18,7 @@ import { FullPageLoader } from '@/components/loader';
 import { CategoryContainer } from '@/features/category-container'
 import { PickupArticle } from '@/features/pickup-article'
 import InfiniteScroll from "react-infinite-scroll-component";
-
+import { SeoHead } from '@/components/seo-head'
 
 export default function PerCategory() {
   const router = useRouter()
@@ -35,6 +35,12 @@ export default function PerCategory() {
 
   return (
     <>
+      {category && (
+        <SeoHead 
+          title={`${category?.name}｜Umplex`}
+          description='あなたの感情に寄り添ったさまざまな感情が巻き起こるストーリー仕立ての求人広告が、先入観にとらわれない企業と求職者の出会いを提供します。'
+        />
+      )}
       {loading && <FullPageLoader />}
       <Box margin='0 auto' width='100%'>
         <Box position='relative' height='100%'>
@@ -72,6 +78,7 @@ export default function PerCategory() {
                 isLoaded={loadingCatData === false}
               >
                 <Box
+                  marginTop={{ base: '36px', md: 'unset' }}
                   height={{base: '36px', md: '77px'}}
                   borderLeft='2px solid white'
                   paddingLeft={{base: '16px', md: '30px'}}

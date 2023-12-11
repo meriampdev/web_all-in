@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react'
 
 export const AppContainer = ({ children }) => {
   return (
-    <Box position='relative'>
+    <Box position='relative' overflowX='hidden'>
       <Box position='relative' zIndex='100'>
         {children}
       </Box>

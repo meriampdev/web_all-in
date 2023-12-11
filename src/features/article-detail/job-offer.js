@@ -66,6 +66,9 @@ export const JobOffer = ({ isVisible, article }) => {
               href={article?.post_acfs?.recruitment_url_link?.url} 
               isExternal
               width={{base: '100%', md: 'fit-content'}}
+              _hover={{
+                textDecoration: 'none'
+              }}
             >
               <Button
                 width={{base: '152px', md: '258px'}}
@@ -77,7 +80,12 @@ export const JobOffer = ({ isVisible, article }) => {
             </Link>
             <Link 
               href={`mailto:${article?.post_acfs?.recruitment_email}`} 
+              rel='nofollow'
+              target='_blank'
               width={{base: '100%', md: 'fit-content'}}
+              _hover={{
+                textDecoration: 'none'
+              }}
             >
               <Button
                 width={{base: '152px', md: '258px'}}
@@ -93,14 +101,14 @@ export const JobOffer = ({ isVisible, article }) => {
       <Center
         transition={'bottom 0.5s ease 0s'}
         position='fixed'
-        zIndex='200'
+        zIndex='1001'
         bottom={{ base: show ? 0 : '-500px', md: show ? 0 : '-180px'}}
         width='100%'
         minHeight={{base: '292px', md: '136px'}}
         height='auto'
         py={4}
-        pl={{base: '40px', md: '130px'}}
-        pr={{base: '10px', md: '100px'}}
+        pl={{base: '20px', md: '130px'}}
+        pr={{base: '20px', md: '100px'}}
         background='transparent linear-gradient(276deg, #000000 0%, #414141 100%) 0% 0% no-repeat padding-box'
         opacity='0.95'
       >
@@ -136,33 +144,33 @@ export const JobOffer = ({ isVisible, article }) => {
             >
               次はどの気分で探す？
             </Center>
-            <Flex 
-              flexWrap='wrap' 
-              pr={{base: '30px', md: 0}}
-            >
+            <Flex flexWrap='wrap' justifyContent={{ base: 'space-between', md: 'unset'}}>
               {emotions?.map((tag, i) => {
                 if(isReservedKeyword(tag?.slug) || tag?.parent === 0) return null 
                 return (
-                  <NextLink 
-                    key={`tag-${i}`}
-                    href={`/story/category?slug=${tag?.slug}`} 
-                    passHref
-                  >
-                    <Center
-                      cursor='pointer'
-                      bg='white'
-                      minWidth={{ base: '129px', md: '114px'}}
-                      height={'38px'}
-                      px={'18px'}
-                      mr={{base: '10px', md: '50px'}}
-                      mb={'13px'}
-                      fontSize={{base: '12px', md: '14px'}}
-                      color='black'
-                      borderRadius='full'
+                  <Flex flexBasis={{base: '47%', md: '33%'}}>
+                    <NextLink 
+                      key={`tag-${i}`}
+                      href={`/story/category?slug=${tag?.slug}`} 
+                      passHref
                     >
-                      #{tag?.name}
-                    </Center>
-                  </NextLink>
+                      <Box
+                        cursor='pointer'
+                        minWidth={{ base: 'none', md: '114px'}}
+                        height={'38px'}
+                        mb={{ base: '13px', md: '0'}}
+                        mr={{base: '10px', md: '50px'}}
+                        fontSize={{base: '12px', md: '14px'}}
+                        color='white'
+                        textAlign='left'
+                        display='flex'
+                        alignItems={{ base: 'flex-start', md: 'center'}}
+                        _hover={{ opacity: 0.8 }}
+                      >
+                        #{tag?.name}
+                      </Box>
+                    </NextLink>
+                  </Flex>
                 )
               })}
             </Flex>

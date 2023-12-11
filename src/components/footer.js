@@ -2,7 +2,7 @@ import { Container } from '@/components/container'
 import { Box, Button, Center, Flex, HStack, Link, Image, Text, Icon } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import Logo from '@/assets/images/footer_logo.png'
-import { TwitterIcon } from '@/components/icons/TwitterIcon'
+import { XTwitterIcon } from '@/components/icons/XTwitterIcon'
 import { FacebookIcon } from '@/components/icons/FacebookIcon'
 import { InstagramIcon } from '@/components/icons/InstagramIcon'
 
@@ -41,14 +41,14 @@ export const Footer = () => {
               fontSize={{base: '15px', md: '16px'}}
               lineHeight={{base: '26px', md: '27px'}}
             >
-              わたしたちは知らない仕事のほうが多い
+              Umplex  ｜「感情」で検索する求人情報サイト
             </Box>
-            <Box
+            {/* <Box
               fontSize={{base: '11px', md: '10px'}}
               lineHeight={{base: '19px', md: '17px'}}
             >
               ー感情に合わせて求人が見つかるメディアー
-            </Box>
+            </Box> */}
           </Box>
         </Box>
         <HStack spacing={{base: '20px', md: '30px'}} justifyContent='center'>
@@ -113,7 +113,7 @@ export const Footer = () => {
         <Flex justifyContent='center' gridGap={{base: '17px', md: '17px'}}>
           <Link href='https://twitter.com/umplex82149' isExternal>
             <Icon 
-              as={TwitterIcon}
+              as={XTwitterIcon}
               color='white'
             />
           </Link>
@@ -137,7 +137,7 @@ export const Footer = () => {
           fontSize={'10px'}
           lineHeight={'17px'}
         >
-        © Umplex CO.,LTD. 2023
+        © ALL-IN CO.,LTD. 2023
         </Text>
       </Center>
     </Container>

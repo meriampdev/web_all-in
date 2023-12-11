@@ -55,9 +55,10 @@ export const Article = ({ article, isLoading, articleList = false }) => {
                   top: 0,
                   left: 0,
                   zIndex: 200,
-                  transition: 'width 0.6s ease-out 0.5s'
+                  transition: 'width 0.4s ease-out 0.3s'
                 }}
                 _after={{
+                  opacity: 0,
                   backgroundColor: 'rgba(255,255,255,0.5)',
                   content: "''",
                   display: 'block',
