@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import Script from 'next/script'
 
 export const SeoHead = ({ title, description }) => {
+  const isProd = process.env.NEXT_PUBLIC_WP_ADMIN === 'https://umplex.jp'
  
   return (
     <>
@@ -16,6 +16,10 @@ export const SeoHead = ({ title, description }) => {
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content="/OGP1200x630.jpg" />
         <meta name="description" content={description} />
+
+        {!isProd && <meta name="robots" content="noindex" />}
+        {!isProd && <meta name="googlebot" content="noindex" />}
+
         <link rel="icon" href="/favico.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin='true' />

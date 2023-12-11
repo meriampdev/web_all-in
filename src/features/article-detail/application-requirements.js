@@ -168,9 +168,9 @@ export const ApplicationRequirements = ({ floatingBtn, article, content }) => {
                   </Button>
                 </Link>
                 <Link 
+                  className="mailtoui"
                   href={`mailto:${article?.post_acfs?.recruitment_email}`} 
                   rel='nofollow'
-                  target='_blank'
                   width={{base: '100%', md: 'fit-content'}}
                   _hover={{
                     textDecoration: 'none'
