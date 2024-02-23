@@ -99,6 +99,7 @@ export const PickupArticle = ({ article }) => {
                 width={{base: '100px', md: '142px'}}
                 height={{base: '28px', md: '43px'}}
                 fontSize={{base: '13px', md: '16px'}}
+                className='ripple-hover'
               >
                 WATCH
               </Button>

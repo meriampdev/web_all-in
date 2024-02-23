@@ -99,46 +99,48 @@ export const MainMv = () => {
             }
           }}
         >
-          <Slider {...settings}>
-            {data?.map((item) => {
-              return (
-                <Box 
-                  key={item?.slug} 
-                  zIndex='5'
-                  position="relative"
-                  width='100%' 
-                  height={{base: '700px', xl: '690px'}}
-                >
-                  <Center 
-                    position='absolute'
-                    flexDirection='column'
-                    top={{ base: '209px', md: '170px', lg: '17px'}}
-                    left='0'
-                    zIndex='4'
-                    width='100%'
-                    height={{base: '260px', lg: '567px'}}
+          {data?.length > 0 && (
+            <Slider {...settings}>
+              {data?.map((item) => {
+                return (
+                  <Box 
+                    key={item?.slug} 
+                    zIndex='5'
+                    position="relative"
+                    width='100%' 
+                    height={{base: '700px', xl: '690px'}}
                   >
-                    <Center
-                      className='tag'
-                      borderRadius='full'
-                      width={{base: '260px', lg: '285px'}}
-                      height={{base: '260px', lg: '285px'}}
-                      fontSize={{base: '20px', md: '17px'}}
+                    <Center 
+                      position='absolute'
+                      flexDirection='column'
+                      top={{ base: '209px', md: '170px', lg: '17px'}}
+                      left='0'
+                      zIndex='4'
+                      width='100%'
+                      height={{base: '260px', lg: '567px'}}
                     >
-                      <Text 
-                        maxWidth='100%'
-                        whiteSpace={'nowrap'}
-                        overflow='hidden'
-                        textOverflow='ellipsis'
+                      <Center
+                        className='tag'
+                        borderRadius='full'
+                        width={{base: '260px', lg: '285px'}}
+                        height={{base: '260px', lg: '285px'}}
+                        fontSize={{base: '20px', md: '17px'}}
                       >
-                        # {item?.name}
-                      </Text>
+                        <Text 
+                          maxWidth='100%'
+                          whiteSpace={'nowrap'}
+                          overflow='hidden'
+                          textOverflow='ellipsis'
+                        >
+                          # {item?.name}
+                        </Text>
+                      </Center>
                     </Center>
-                  </Center>
-                </Box>
-              )
-            })}
-          </Slider>
+                  </Box>
+                )
+              })}
+            </Slider>
+          )}
         </Box>
         <Box 
           position='absolute'
@@ -166,6 +168,8 @@ export const MainMv = () => {
                 width={{base: '134px', md: '158px'}}
                 height={{base: '42px', md: '48px'}}
                 fontSize={{base: '18px', md: '20px'}}
+                transition={'all 0.2s ease-in'}
+                className='ripple-hover'
               >
                 WATCH
               </Button>

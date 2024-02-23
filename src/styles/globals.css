@@ -12,6 +12,7 @@ body {
 
 body {
   position: unset !important;
+  background-color: #222 !important;
 }
 
 html,
@@ -19,6 +20,7 @@ body,
 div#__next {
   color: white;
   background: transparent linear-gradient(180deg, #000000 0%, #222222 100%) 0% 0% no-repeat padding-box;
+  overscroll-behavior: none;
 }
 
 div#__next {
@@ -217,6 +219,37 @@ a {
     opacity: 1;
   }
   100%{
+    opacity: 0;
+  }
+}
+
+.ripple-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-hover:hover::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  content: "";
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+  background: #E2E2E2;
+  border-radius: 100%;
+  opacity: 0;
+  animation: ripple 0.3s 1 ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    opacity: 1;
+    transform: scale(0.0);
+  }
+  100% {
+    transform: scale(1.0);
     opacity: 0;
   }
 }

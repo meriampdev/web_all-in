@@ -61,7 +61,10 @@ export const JobOffer = ({ isVisible, article }) => {
           >
           この求人に応募する
           </Text>
-          <Flex marginTop={{base: '31px', md: '43px'}} gridGap={{base: '12px', md: '36px'}}>
+          <Flex 
+            marginTop={{base: '31px', md: '43px'}} 
+            gridGap={{base: '12px', md: '36px'}}
+          >
             <Link 
               href={article?.post_acfs?.recruitment_url_link?.url} 
               isExternal
@@ -96,6 +99,9 @@ export const JobOffer = ({ isVisible, article }) => {
               </Button>
             </Link>
           </Flex>
+          <NextLink href='/jobboard#mailer-instruction'>
+            <Box mt={{base: '12px', md: '20px'}} fontSize={'md'}>メールリンクが開かない場合</Box>
+          </NextLink>
         </Center>
       </Box>
       <Center

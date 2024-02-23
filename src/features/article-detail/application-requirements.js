@@ -17,6 +17,7 @@ import {
   useDisclosure,
   IconButton
 } from '@chakra-ui/react'
+import NextLink from 'next/link'
 
 export const ApplicationRequirements = ({ floatingBtn, article, content }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -143,13 +144,13 @@ export const ApplicationRequirements = ({ floatingBtn, article, content }) => {
               width={{ base: '35px', md: '50px'}}
               height={{ base: '35px', md: '50px'}}
               position='absolute'
-              bottom={{ base: '80px', md: '100px'}}
+              bottom={{ base: '110px', md: '130px'}}
               right={{ base: '10px', md: '30px'}}
               _hover={{ bg: 'black', opacity: 0.8 }}
             />
           }
           <ModalFooter bg='black'>
-            <Center width='100%'>
+            <Center flexDirection={'column'} width='100%'>
               <Flex gridGap={{base: '12px', md: '36px'}}>
                 <Link 
                   href={article?.post_acfs?.recruitment_url_link?.url} 
@@ -185,6 +186,9 @@ export const ApplicationRequirements = ({ floatingBtn, article, content }) => {
                   </Button>
                 </Link>
               </Flex>
+              <NextLink href='/jobboard#mailer-instruction'>
+                <Box color='white' mt={{base: '12px', md: '20px'}} fontSize={'md'}>メールリンクが開かない場合</Box>
+              </NextLink>
             </Center>
           </ModalFooter>
         </ModalContent>

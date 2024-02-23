@@ -139,7 +139,7 @@ export const Featured = ({ animate }) => {
         >
           {scrollSnaps.map((_, index) => {
             return (
-              <Center boxSize='18px'>
+              <Center boxSize='18px' key={`dot-${index}`}>
                 <Box 
                   boxSize='5px'
                   borderRadius='full'
@@ -158,99 +158,125 @@ export const Featured = ({ animate }) => {
                   className="embla__slide"
                   pr={{ base: '20px', md: '40px' }}
                 >
-                  <Box className='embla__slide__inner'>
-                    <Flex flexDirection={{base: 'column', md: 'row'}}>
-                      <Box
-                        width={{base: '325px', md: '647px'}}
-                        height={{base: '235px', md: '460px'}}
-                        borderTopLeftRadius={'10px'}
-                        borderTopRightRadius={{ base: '10px', md: 0}}
-                        borderBottomLeftRadius={{ base: '0', md: '10px'}}
-                      >
-                        <Image 
-                          width='100%'
-                          height='100%'
-                          objectFit='cover'
+                  <NextLink 
+                    href={`/story/detail?slug=${item?.post_name || item?.slug}`} 
+                    passHref
+                  >
+                    <Box className='embla__slide__inner'>
+                      <Flex flexDirection={{base: 'column', md: 'row'}}>
+                        <Box
+                          width={{base: '325px', md: '647px'}}
+                          height={{base: '235px', md: '460px'}}
                           borderTopLeftRadius={'10px'}
                           borderTopRightRadius={{ base: '10px', md: 0}}
                           borderBottomLeftRadius={{ base: '0', md: '10px'}}
-                          src={item?.featured_image}
-                        />
-                      </Box>
-                      
-                      <Box
-                        borderTopRightRadius={{ base: 0, md: '10px'}}
-                        borderBottomRightRadius={{ base: '10px', md: '10px'}}
-                        borderBottomLeftRadius={{ base: '10px', md: 0}}
-                        position='relative'
-                        width={{base: '325px', md: '495px'}}
-                        height={{base: '215px', md: '460px'}}
-                        overflow='hidden'
-                      >
+                        >
+                          <Image 
+                            width='100%'
+                            height='100%'
+                            objectFit='cover'
+                            borderTopLeftRadius={'10px'}
+                            borderTopRightRadius={{ base: '10px', md: 0}}
+                            borderBottomLeftRadius={{ base: '0', md: '10px'}}
+                            src={item?.featured_image}
+                            alt='featured'
+                          />
+                        </Box>
                         <Box
-                          zIndex='1'
-                          filter='blur(4px)'
-                          transform='scale(1.1)'
-                          position='absolute'
-                          width='100%'
-                          height='100%'
-                          backgroundImage={`url(${item?.featured_image})`}
-                          backgroundRepeat='no-repeat'
-                          backgroundSize='cover'
-                          backgroundPosition='center'
                           borderTopRightRadius={{ base: 0, md: '10px'}}
                           borderBottomRightRadius={{ base: '10px', md: '10px'}}
                           borderBottomLeftRadius={{ base: '10px', md: 0}}
-                        />
-                        <VStack 
                           position='relative'
-                          background='transparent linear-gradient(180deg, #000000 0%, #336379 100%) 0% 0% no-repeat padding-box'
-                          opacity='0.9'
-                          zIndex='2'
-                          alignItems='flex-start' 
-                          spacing={{base: '15px', md: '30px'}}
                           width={{base: '325px', md: '495px'}}
                           height={{base: '215px', md: '460px'}}
-                          padding={{base: '40px 35px', md: '82px 50px'}}
-                          borderTopRightRadius={{ base: 0, md: '10px'}}
-                          borderBottomLeftRadius={{ base: '10px', md: 0}}
-                          borderBottomRightRadius={{ base: '10px', md: '10px'}}
+                          overflow='hidden'
                         >
-                          <Box fontSize={{base: '18px', md: '25px'}}>
-                            {item?.title || item?.post_title}
-                          </Box>
                           <Box
-                            maxWidth={{base: '', md: '300px'}}
-                            fontSize={{base: '12px', md: '16px'}}
-                            lineHeight={{base: '15px', md: '30px'}}
-                            dangerouslySetInnerHTML={{
-                              __html: item?.excerpt || item?.post_excerpt
-                            }}
-                            css={{
-                              'display': '-webkit-box',
-                              'WebkitLineClamp': '5',
-                              'WebkitBoxOrient': 'vertical',
-                              overflow: 'hidden'
-                            }}
+                            zIndex='1'
+                            filter='blur(4px)'
+                            transform='scale(1.1)'
+                            position='absolute'
+                            width='100%'
+                            height='100%'
+                            backgroundImage={`url(${item?.featured_image})`}
+                            backgroundRepeat='no-repeat'
+                            backgroundSize='cover'
+                            backgroundPosition='center'
+                            borderTopRightRadius={{ base: 0, md: '10px'}}
+                            borderBottomRightRadius={{ base: '10px', md: '10px'}}
+                            borderBottomLeftRadius={{ base: '10px', md: 0}}
                           />
-                          <NextLink 
-                            href={`/story/detail?slug=${item?.post_name || item?.slug}`} 
-                            passHref
+                          <VStack 
+                            position='relative'
+                            background='transparent linear-gradient(180deg, #000000 0%, #336379 100%) 0% 0% no-repeat padding-box'
+                            opacity='0.9'
+                            zIndex='2'
+                            alignItems='flex-start' 
+                            spacing={{base: '15px', md: '30px'}}
+                            width={{base: '325px', md: '495px'}}
+                            height={{base: '215px', md: '460px'}}
+                            padding={{base: '40px 35px', md: '82px 50px'}}
+                            borderTopRightRadius={{ base: 0, md: '10px'}}
+                            borderBottomLeftRadius={{ base: '10px', md: 0}}
+                            borderBottomRightRadius={{ base: '10px', md: '10px'}}
                           >
-                            <Button
-                              borderRadius='full'
-                              lineHeight='normal'
-                              width={{base: '100px', md: '142px'}}
-                              height={{base: '28px', md: '43px'}}
-                              fontSize={{base: '13px', md: '16px'}}
+                            <Box width={'100%'}>
+                              <Box 
+                                as='a'
+                                color='inherit'
+                                cursor={'pointer'}
+                                fontSize={{base: '18px', md: '25px'}} 
+                                textDecoration={'none'}
+                                background={`linear-gradient(to right, transparent, transparent),
+                                linear-gradient(to right, rgba(255, 0, 0, 1), rgba(255, 0, 180, 1), rgba(0, 100, 200, 1))`}
+                                backgroundSize={'100% 0.1em, 0 0.1em'}
+                                backgroundPosition={'100% 100%, 0 100%'}
+                                backgroundRepeat={'no-repeat'}
+                                transition={'background-size 400ms'}
+                                _hover={{
+                                  backgroundSize: '0 0.1em, 100% 0.1em'
+                                }}
+                                _focus={{
+                                  backgroundSize: '0 0.1em, 100% 0.1em'
+                                }}
+                              >
+                                {item?.title || item?.post_title}
+                              </Box>
+                            </Box>
+                            <Box
+                              maxWidth={{base: '', md: '300px'}}
+                              fontSize={{base: '12px', md: '16px'}}
+                              lineHeight={{base: '15px', md: '30px'}}
+                              dangerouslySetInnerHTML={{
+                                __html: item?.excerpt || item?.post_excerpt
+                              }}
+                              css={{
+                                'display': '-webkit-box',
+                                'WebkitLineClamp': '5',
+                                'WebkitBoxOrient': 'vertical',
+                                overflow: 'hidden'
+                              }}
+                            />
+                            <NextLink 
+                              href={`/story/detail?slug=${item?.post_name || item?.slug}`} 
+                              passHref
                             >
-                              WATCH
-                            </Button>
-                          </NextLink>
-                        </VStack>
-                      </Box>
-                    </Flex>
-                  </Box>
+                              <Button
+                                borderRadius='full'
+                                lineHeight='normal'
+                                width={{base: '100px', md: '142px'}}
+                                height={{base: '28px', md: '43px'}}
+                                fontSize={{base: '13px', md: '16px'}}
+                                className='ripple-hover'
+                              >
+                                WATCH
+                              </Button>
+                            </NextLink>
+                          </VStack>
+                        </Box>
+                      </Flex>
+                    </Box>
+                  </NextLink>
                 </Box>
               ))}
             </Box>

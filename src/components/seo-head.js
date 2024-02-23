@@ -1,8 +1,7 @@
 import Head from 'next/head'
 
 export const SeoHead = ({ title, description }) => {
-  const isProd = process.env.NEXT_PUBLIC_WP_ADMIN === 'https://umplex.jp'
- 
+  const isProd = process.env.NEXT_PUBLIC_IS_PROD === 'true'
   return (
     <>
       <Head>
@@ -20,7 +19,7 @@ export const SeoHead = ({ title, description }) => {
         {!isProd && <meta name="robots" content="noindex" />}
         {!isProd && <meta name="googlebot" content="noindex" />}
 
-        <link rel="icon" href="/favico.ico" />
+        <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin='true' />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Noto+Sans+JP&family=Open+Sans:wght@400;500;700&display=swap" rel="stylesheet" />     

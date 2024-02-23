@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Box, Flex, Image, Link, Text } from '@chakra-ui/react'
 import { Header } from '@/components/header'
@@ -13,6 +14,19 @@ import { WP_REST_API } from '@/constants'
 export default function JobBoard() {
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
+
+  useEffect(() => {
+    if(router?.asPath?.includes('#mailer-instruction') && data?.acf) {
+      setTimeout(() => {
+        const section = document.getElementById('mailer-instruction')
+        if(section) {
+          section.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 800)
+      
+    }
+  }, [router?.asPath, data])
 
   useEffect(() => {
     setLoading(true)
